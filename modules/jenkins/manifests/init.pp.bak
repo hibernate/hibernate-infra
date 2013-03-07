@@ -1,0 +1,26 @@
+class jenkins {
+    package {"java-1.6.0-openjdk" : ensure => "installed" }
+    package {"wget" : ensure => "installed" }
+
+    exec { "wget" :
+        command => "wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo",
+        creates =>  "/etc/yum.repos.d/jenkins.repo",
+        path => "/usr/local/bin/:/bin/"
+        require => Package["wget"],
+    }
+
+    exec { "rpm" :
+        command => "rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key", 
+        path => "/usr/local/bin/:/bin/"
+        require => Exec["wget"],
+    }
+
+    package { "jenkins": ensure  => "installed", require => [ Exec["rpm"], Exec["wget"] ]}
+
+    service { "jenkins":
+        enable  => true,
+        ensure  => "running",
+        hasrestart=> true,
+        require => [ Package["jenkins"], Package["java-1.6.0-openjdk"] ],
+    }
+}
