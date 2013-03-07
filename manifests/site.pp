@@ -1,2 +1,2 @@
-import 'nodes.pp'
-$puppetserver = 'puppet.example.com'
+import 'jenkins.pp'
+$puppetserver = 'puppet'
