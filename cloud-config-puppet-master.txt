@@ -1,0 +1,23 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+packages:
+ - git
+ - puppet
+ - puppetmaster
+
+manage_etc_hosts: false
+ 
+runcmd:
+ - [ sh, -xc, "mv /etc/puppet /etc/puppet.bak" ]
+ - [ git, clone, "git://github.com/DavideD/jenkins-servers-config.git", /etc/puppet ]
+ - [ cd, /etc/puppet ]
+ - [ git, submodule, update, --init ]
+ - [ sh, -xc, "echo '127.0.0.1 puppet' >> /etc/hosts" ]
+ - [ puppet, agent, --onetime, --no-daemonize, --waitforcert, 10 ]
+
+disable_root: false
+final_message: "The system is finally up, after $UPTIME seconds"
+output: {all: '| tee -a /var/log/cloud-init-output.log'}
