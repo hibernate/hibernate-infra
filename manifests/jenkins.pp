@@ -1,6 +1,7 @@
 node default {
 
   include jenkins
+  include mongodb
 
   package {
     [ 'wget', 'vim', 'mc', 'htop', 'git', 'maven', 'tree' ] : ensure => latest
