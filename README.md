@@ -9,7 +9,7 @@ Assuming you have set up the ec2-tools-api:
 
 1. Clone the project or download the cloud-config-puppet-master.txt file:
 
-        git clone https://github.com/DavideD/puppet-experiment.git
+        git clone git://github.com/hibernate/jenkins-servers-config.git
 
 2. Launch a machine using EC2 and passing the cloud-config-puppet-master.txt file as parameter:
 
@@ -20,11 +20,11 @@ Assuming puppet is already installed:
 
 1. Clone the project
 
-        git clone https://github.com/DavideD/puppet-experiment.git
+        git clone git://github.com/hibernate/jenkins-servers-config.git
 
 2. Update the submodules
 
-        cd puppet-experiment
+        cd jenkins-servers-config
         git submodule update --init
 
 3. Copy the content of the folder in /etc/puppet
