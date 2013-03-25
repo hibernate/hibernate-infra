@@ -64,6 +64,7 @@ node default {
         "jira" : ;
         "gitlab-hook" : ;
         "ghprb" : ;
+        "monitoring" : ;
   }
 
 }
