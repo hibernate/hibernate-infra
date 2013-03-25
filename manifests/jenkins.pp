@@ -15,15 +15,6 @@ node default {
     package { 'ack-grep' : ensure => installed }
   }
 
-  jenkins::plugin {
-        "git" : ;
-        "git-client" : ;
-        "maven-plugin" : ;
-        "jira" : ;
-        "gitlab-hook" : ;
-        "ghprb" : ;
-  }
-
   File {
     owner => "jenkins",
     group => "jenkins",
@@ -46,6 +37,33 @@ node default {
     source => "puppet:///maven-config/settings.xml",
     ensure => present,
     require => [ Package["maven"], File[".m2"] ],
+  }
+
+  file { "git-jenkins-plugin":
+    path => "/var/lib/jenkins/hudson.plugins.git.GitSCM.xml",
+    source => "puppet:///jenkins-config/hudson.plugins.git.GitSCM.xml",
+    ensure => present,
+  }
+
+  file { "ant-jenkins-plugin":
+    path => "/var/lib/jenkins/hudson.tasks.Ant.xml",
+    source => "puppet:///jenkins-config/hudson.tasks.Ant.xml",
+    ensure => present,
+  }
+
+  file { "maven-jenkins-plugin":
+    path => "/var/lib/jenkins/hudson.tasks.Maven.xml",
+    source => "puppet:///jenkins-config/hudson.tasks.Maven.xml",
+    ensure => present,
+  }
+
+  jenkins::plugin {
+        "git" : ;
+        "git-client" : ;
+        "maven-plugin" : ;
+        "jira" : ;
+        "gitlab-hook" : ;
+        "ghprb" : ;
   }
 
 }
