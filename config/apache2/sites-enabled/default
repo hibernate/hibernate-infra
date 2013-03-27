@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+  ServerName ci.hibernate.org
+  ProxyRequests Off
+
+  # Local reverse proxy authorization override
+  # Most unix distribution deny proxy by default
+  # (ie /etc/apache2/mods-enabled/proxy.conf in Ubuntu)
+  <Proxy http://localhost:8081/*>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+
+  ProxyPreserveHost on
+  ProxyPass / http://localhost:8081/
+  ProxyPassReverse / http://localhost:8081/
+</VirtualHost>

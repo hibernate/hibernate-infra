@@ -2,9 +2,20 @@ node default {
 
   include jenkins
   include mongodb
+  include apache2
 
   package {
     [ 'wget', 'vim', 'mc', 'htop', 'git', 'maven', 'tree' ] : ensure => latest
+  }
+
+  file { "apache2-config":
+    path => "/etc/apache2/sites-enabled/000-default",
+    source => "puppet:///apache2-config/sites-enabled/default",
+    require => Package["apache2"],
+  }
+
+  apache2::module {
+    [ "proxy", "proxy_http" ] : ,
   }
 
   if $operatingsystem == 'Fedora' {
@@ -37,6 +48,13 @@ node default {
     source => "puppet:///maven-config/settings.xml",
     ensure => present,
     require => [ Package["maven"], File[".m2"] ],
+  }
+
+  file { "jenkins-service-conf":
+    path => "/etc/default/jenkins",
+    source => "puppet:///jenkins-config/jenkins-service-conf",
+    ensure => present,
+    notify => Service["jenkins"],
   }
 
   file { "git-jenkins-plugin":
