@@ -83,6 +83,7 @@ node default {
         "gitlab-hook" : ;
         "ghprb" : ;
         "monitoring" : ;
+        "greenballs" : ;
   }
 
 }
