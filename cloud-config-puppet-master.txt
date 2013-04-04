@@ -12,7 +12,7 @@ manage_etc_hosts: false
  
 runcmd:
  - [ sh, -xc, "mv /etc/puppet /etc/puppet.bak" ]
- - [ git, clone, "git://github.com/hibernate/jenkins-servers-config.git", /etc/puppet ]
+ - [ git, clone, "git://github.com/hibernate/ci.hibernate.org", /etc/puppet ]
  - [ cd, /etc/puppet ]
  - [ git, submodule, update, --init ]
  - [ sh, -xc, "echo '127.0.0.1 puppet' >> /etc/hosts" ]
