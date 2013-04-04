@@ -9,22 +9,22 @@ Assuming you have set up the ec2-tools-api:
 
 1. Clone the project or download the cloud-config-puppet-master.txt file:
 
-        git clone git://github.com/hibernate/jenkins-servers-config.git
+        git clone git://github.com/hibernate/ci.hibernate.org.git
 
 2. Launch a machine using EC2 and passing the cloud-config-puppet-master.txt file as parameter:
 
-        ec2-run-instances ami-7539b41c -t t1.micro -k security-key-name -f cloud-config-puppet-master.txt
+        ec2-run-instances ami-7539b41c -t c1.medium -k [security-key-name] -f cloud-config-puppet-master.txt
 
 ## Use puppet without cloudinit
 Assuming puppet is already installed:
 
 1. Clone the project
 
-        git clone git://github.com/hibernate/jenkins-servers-config.git
+        git clone git://github.com/hibernate/ci.hibernate.org.git
 
 2. Update the submodules
 
-        cd jenkins-servers-config
+        cd ci.hibernate.org
         git submodule update --init
 
 3. Copy the content of the folder in /etc/puppet
