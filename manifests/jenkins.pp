@@ -86,6 +86,7 @@ node default {
         "greenballs" : ;
         "envinject" : ;
         "github-oauth" : ;
+        "gradle" : ;
   }
 
 }
