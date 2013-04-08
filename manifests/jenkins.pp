@@ -84,6 +84,7 @@ node default {
         "ghprb" : ;
         "monitoring" : ;
         "greenballs" : ;
+        "envinject" : ;
         "github-oauth" : ;
   }
 
