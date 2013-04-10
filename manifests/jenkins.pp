@@ -83,7 +83,6 @@ node default {
         "gitlab-hook" : ;
         "ghprb" : ;
         "monitoring" : ;
-        "greenballs" : ;
         "envinject" : ;
         "github-oauth" : ;
         "gradle" : ;
