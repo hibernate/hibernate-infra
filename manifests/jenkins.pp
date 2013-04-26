@@ -75,6 +75,24 @@ node default {
     ensure => present,
   }
 
+  file {".ssh":
+    path => "/root/.ssh",
+    owner => "root",
+    group => "root",
+    mode => 700,
+    ensure => directory,
+  }
+
+  file { "ssh-team-keys":
+    path => "/root/.ssh/authorized_keys",
+    require => File[".ssh"],
+    source => "puppet:///ssh-config/root_authorized_keys",
+    ensure => present,
+    owner => "root",
+    group => "root",
+    mode => 600,
+  }
+
   jenkins::plugin {
         "git" : ;
         "git-client" : ;
