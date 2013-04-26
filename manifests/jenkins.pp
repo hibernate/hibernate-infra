@@ -97,13 +97,16 @@ node default {
         "git" : ;
         "git-client" : ;
         "maven-plugin" : ;
-        "jira" : ;
         "gitlab-hook" : ;
         "ghprb" : ;
         "monitoring" : ;
         "envinject" : ;
         "github-oauth" : ;
         "gradle" : ;
+        "credentials" : ;
+        "github-api" : ;
+        "javadoc" : ;
+        "analysis-core" : ;
   }
 
 }
