@@ -4,8 +4,8 @@ It's a set of puppet configurations plus a cloudinit configuration file that can
 
 The jenkins puppet module and relative dependecies are included as submodules of the current project.
 
-## Example using EC2
-Assuming you have set up the ec2-tools-api:
+## Example using AWS
+Only applies to start a CI instance on Amazon Web Services's EC2; assuming you have set up the ec2-tools-api:
 
 1. Clone the project or download the cloud-config-puppet-master.txt file:
 
@@ -13,9 +13,10 @@ Assuming you have set up the ec2-tools-api:
 
 2. Launch a machine using EC2 and passing the cloud-config-puppet-master.txt file as parameter:
 
-        ec2-run-instances ami-7539b41c -t c1.medium -k [security-key-name] -f cloud-config-puppet-master.txt
+        ec2-run-instances ami-7539b41c -t c1.medium -k hibernate-keys -f cloud-config-puppet-master.txt
 
-## Use puppet without cloudinit
+## Use puppet without AWS
+This works in theory on any VM or bare metal Linux server, but is experimental and might not work on all distributions.
 Assuming puppet is already installed:
 
 1. Clone the project
