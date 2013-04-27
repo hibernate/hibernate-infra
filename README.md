@@ -13,7 +13,9 @@ Only applies to start a CI instance on Amazon Web Services's EC2; assuming you h
 
 2. Launch a machine using EC2 and passing the cloud-config-puppet-master.txt file as parameter:
 
-        ec2-run-instances ami-7539b41c -t c1.medium -k hibernate-keys -f cloud-config-puppet-master.txt
+        ec2-run-instances ami-d0f89fb9 -t m1.large -k hibernate-keys -f cloud-config-puppet-master.txt
+
+For information on ami-d0f89fb9 or alternative choices see http://cloud-images.ubuntu.com/locator/ec2/
 
 ## Use puppet without AWS
 This works in theory on any VM or bare metal Linux server, but is experimental and might not work on all distributions.
