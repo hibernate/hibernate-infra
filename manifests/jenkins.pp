@@ -15,7 +15,7 @@ node default {
   }
 
   apache2::module {
-    [ "proxy", "proxy_http" ] : ,
+    [ "proxy", "proxy_http", "expires", "headers" ] : ,
   }
 
   if $operatingsystem == 'Fedora' {
