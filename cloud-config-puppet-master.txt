@@ -6,7 +6,7 @@ package_reboot_if_required: true
 packages:
  - git
  - puppet
- - puppetmaster
+ - puppet-server
  - sendmail
 
 manage_etc_hosts: false
@@ -17,6 +17,7 @@ runcmd:
  - [ cd, /etc/puppet ]
  - [ git, submodule, update, --init ]
  - [ sh, -xc, "echo '127.0.0.1 puppet' >> /etc/hosts" ]
+ - [ service, puppetmaster, start ]
  - [ puppet, agent, --onetime, --no-daemonize, --waitforcert, 10 ]
 
 disable_root: false

@@ -5,7 +5,7 @@ node default {
   include apache2
 
   package {
-    [ 'wget', 'vim', 'mc', 'htop', 'git', 'maven', 'tree', 'openjdk-7-jdk', 'sendmail', 'poxml' ] : ensure => latest
+    [ 'wget', 'sudo', 'vim-minimal', 'mc', 'htop', 'git', 'maven', 'openjdk-7-jdk', 'sendmail', 'poxml' ] : ensure => latest
   }
 
   file { "apache2-config":
