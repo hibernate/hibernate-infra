@@ -33,10 +33,7 @@ NameVirtualHost *:80
     AllowOverride None
   </Directory>
 
-  ErrorLog ${APACHE_LOG_DIR}/error.log
   LogLevel warn
-
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 
 <VirtualHost *:80>
@@ -51,10 +48,7 @@ NameVirtualHost *:80
     AllowOverride None
   </Directory>
 
-  ErrorLog ${APACHE_LOG_DIR}/error.log
   LogLevel warn
-
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 
 <VirtualHost *:80>
@@ -69,10 +63,7 @@ NameVirtualHost *:80
     AllowOverride None
   </Directory>
 
-  ErrorLog ${APACHE_LOG_DIR}/error.log
   LogLevel warn
-
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 
 
