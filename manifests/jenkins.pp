@@ -94,19 +94,37 @@ node default {
   }
 
   jenkins::plugin {
+        "analysis-collector" : ;
+        "analysis-core" : ;
+        "audit-trail" : ;
+        "build-timeout" : ;
+        "checkstyle" : ;
+        "credentials" : ;
+        "embeddable-build-status" : ;
+        "envinject" : ;
+        "findbugs" : ;
+        "ghprb" : ;
         "git" : ;
         "git-client" : ;
-        "maven-plugin" : ;
-        "gitlab-hook" : ;
-        "ghprb" : ;
-        "monitoring" : ;
-        "envinject" : ;
-        "github-oauth" : ;
-        "gradle" : ;
-        "credentials" : ;
+        "github" : ;
         "github-api" : ;
+        "github-oauth" : ;
+        "gitlab-hook" : ;
+        "gradle" : ;
+        "gravatar" : ;
+        "heavy-job" : ;
+        "htmlpublisher" : ;
+        "instant-messaging" : ;
+        "ircbot" : ;
+        "jacoco" : ;
         "javadoc" : ;
-        "analysis-core" : ;
+        "jira" : ;
+        "maven-plugin" : ;
+        "monitoring" : ;
+        "pmd" : ;
+        "simple-theme-plugin" : ;
+        "tasks" : ;
+        "twitter" : ;
   }
 
 }
