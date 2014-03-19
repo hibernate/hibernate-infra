@@ -13,9 +13,7 @@ manage_etc_hosts: false
  
 runcmd:
  - [ sh, -xc, "mv /etc/puppet /etc/puppet.bak" ]
- - [ git, clone, "git://github.com/hibernate/ci.hibernate.org", /etc/puppet ]
- - [ cd, /etc/puppet ]
- - [ git, submodule, update, --init ]
+ - [ git, clone, "git://github.com/hibernate/ci.hibernate.org", /etc/puppet, --depth, 1, --recurse-submodules ]
  - [ sh, -xc, "echo '127.0.0.1 puppet' >> /etc/hosts" ]
  - [ service, puppetmaster, start ]
  - [ puppet, agent, --onetime, --no-daemonize, --waitforcert, 10 ]
