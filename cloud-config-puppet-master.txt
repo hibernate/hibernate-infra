@@ -20,5 +20,5 @@ runcmd:
  - [ puppet, agent, --onetime, --no-daemonize, --waitforcert, 10 ]
 
 disable_root: false
-final_message: "The system is finally up, after $UPTIME seconds"
-output: {all: '| tee -a /var/log/cloud-init-output.log'}
+final_message: "Cloud-init v. ${version} finished setting up the Hibernate CI system! Up after ${uptime} seconds."
+
