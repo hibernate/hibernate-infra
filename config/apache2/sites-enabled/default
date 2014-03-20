@@ -1,6 +1,11 @@
+# Listen for virtual host requests on all IP addresses
+NameVirtualHost *:80
+
 <VirtualHost *:80>
   ServerName ci.hibernate.org
   ProxyRequests Off
+  Header unset Server
+  Header unset X-Powered-By
 
   # Local reverse proxy authorization override
   # Most unix distribution deny proxy by default
@@ -11,6 +16,61 @@
   </Proxy>
 
   ProxyPreserveHost on
+  ProxyPass /extra-static !
   ProxyPass / http://localhost:8081/
   ProxyPassReverse / http://localhost:8081/
 </VirtualHost>
+
+<VirtualHost *:80>
+  ServerName www.hibernate.org
+  ServerAdmin webmaster@localhost
+  ProxyRequests Off
+  Header unset Server
+  Header unset X-Powered-By
+
+  DocumentRoot /var/www
+  <Directory /var/www>
+    AllowOverride None
+  </Directory>
+
+  LogLevel warn
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName hibernate.org.beanvalidation.org
+  ServerAdmin webmaster@localhost
+  ProxyRequests Off
+  Header unset Server
+  Header unset X-Powered-By
+
+  DocumentRoot /var/www
+  <Directory /var/www>
+    AllowOverride None
+  </Directory>
+
+  LogLevel warn
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName staging.hibernate.org
+  ServerAdmin webmaster@localhost
+  ProxyRequests Off
+  Header unset Server
+  Header unset X-Powered-By
+
+  DocumentRoot /var/www
+  <Directory /var/www>
+    AllowOverride None
+  </Directory>
+
+  LogLevel warn
+</VirtualHost>
+
+
+<Location "/favicon.ico">
+  Header set Cache-Control "max-age=31536000, public"
+</Location>
+
+<Location "/static/*>
+  Header set Cache-Control "max-age=31536000, public"
+</Location>

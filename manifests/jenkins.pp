@@ -2,20 +2,18 @@ node default {
 
   include jenkins
   include mongodb
-  include apache2
 
   package {
-    [ 'wget', 'vim', 'mc', 'htop', 'git', 'maven', 'tree', 'openjdk-7-jdk', 'sendmail', 'poxml' ] : ensure => latest
+    [ 'httpd', 'wget', 'sudo', 'vim-minimal', 'mc', 'htop', 'git', 'maven', 'openjdk-7-jdk', 'sendmail', 'poxml', 'docker-io' ] : ensure => latest
   }
 
   file { "apache2-config":
-    path => "/etc/apache2/sites-enabled/000-default",
+    path => "/etc/httpd/conf.d/000-default.conf",
     source => "puppet:///apache2-config/sites-enabled/default",
-    require => Package["apache2"],
-  }
-
-  apache2::module {
-    [ "proxy", "proxy_http", "expires", "headers" ] : ,
+    owner => "root",
+    group => "root",
+    mode => 644,
+    require => Package["httpd"],
   }
 
   if $operatingsystem == 'Fedora' {
@@ -50,11 +48,22 @@ node default {
     require => [ Package["maven"], File[".m2"] ],
   }
 
-  file { "jenkins-service-conf":
-    path => "/etc/default/jenkins",
-    source => "puppet:///jenkins-config/jenkins-service-conf",
-    ensure => present,
-    notify => Service["jenkins"],
+  if $operatingsystem == 'Fedora' {
+    file { "jenkins-service-conf":
+      path => "/etc/sysconfig/jenkins",
+      source => "puppet:///jenkins-config/jenkins-conf-fedora",
+      ensure => present,
+      notify => Service["jenkins"],
+    }
+  }
+
+  if $operatingsystem == 'Ubuntu' {
+    file { "jenkins-service-conf":
+      path => "/etc/default/jenkins",
+      source => "puppet:///jenkins-config/jenkins-conf-ubuntu",
+      ensure => present,
+      notify => Service["jenkins"],
+    }
   }
 
   file { "git-jenkins-plugin":
