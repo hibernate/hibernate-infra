@@ -9,3 +9,11 @@
     - common
     - jenkins-slave
 
+- hosts: cimaster
+  remote_user: fedora
+  sudo: yes
+
+  roles:
+    - common
+    - jenkins
+
