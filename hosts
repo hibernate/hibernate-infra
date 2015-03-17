@@ -1,5 +1,8 @@
 [cislaves]
-ci-[1:3]
+209.132.178.229
+209.132.178.227
+209.132.178.232
 
 [cimaster]
-ci.hibernate.org
+#ci.hibernate.org staging:
+209.132.178.186
