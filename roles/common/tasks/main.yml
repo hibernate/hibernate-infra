@@ -1,0 +1,26 @@
+---
+
+- name: Install all package upgrades
+  yum: name=* state=latest
+  notify:
+     - Restart server
+     - Wait for server to restart
+
+- name: Get OpenJDK 8 and other common dependencies
+  yum: name={{item}} state=present
+  with_items:
+   - unzip
+   - java-1.8.0-openjdk
+   - git
+   - curl
+   - gnupg
+   - mc
+   - htop
+
+# Create the jenkins user
+- user: name=jenkins comment="Jenkins user" state=present
+
+# Not using the Ansible module 'authorized_key' as it's not working as documented
+- name: Create .ssh folder
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins
+

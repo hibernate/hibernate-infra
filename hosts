@@ -1,0 +1,5 @@
+[cislaves]
+ci-[1:3]
+
+[cimaster]
+ci.hibernate.org
