@@ -4,5 +4,5 @@
 
 Then run the playbook, like this:
 
-	ansible-playbook -i hosts site.yml
+	ansible-playbook -i hosts --private-key=~/.ssh/keys/hibernateteam.pem site.yml
 
