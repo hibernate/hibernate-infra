@@ -39,4 +39,6 @@
     copy=no
     creates=/home/jenkins/apache-maven-3.2.5
 
+- name: Add .bashrc for jenkins
+  copy: src=.bashrc dest=/home/jenkins/.bashrc mode=0600 owner=jenkins
 
