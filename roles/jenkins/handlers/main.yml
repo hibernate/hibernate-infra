@@ -1,0 +1,5 @@
+---
+
+- name: Restart Jenkins
+  shell: java -jar /home/jenkins/jenkins-cli.jar -s http://localhost:8080 safe-restart
+
