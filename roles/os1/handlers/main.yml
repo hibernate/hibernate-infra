@@ -1,0 +1,17 @@
+---
+
+- name: Restart Network
+  service: name=network state=restarted args=eth0
+  async: 1
+  poll: 0
+  ignore_errors: yes
+  sudo: yes
+
+- name: Network Restarted
+  local_action:
+    module: wait_for
+         host={{ inventory_hostname }}
+         port=22
+         delay=1
+         timeout=300
+    sudo: false

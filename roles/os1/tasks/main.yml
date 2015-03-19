@@ -1,0 +1,14 @@
+---
+
+# Fixes DNS resolution to contact public Red Hat servers from within OS1
+- name: Configure DHCP client to ignore dynamic DNS configurations
+  copy: src=ifcfg-eth0 dest=/etc/sysconfig/network-scripts/ifcfg-eth0 owner=root group=root
+  notify:
+     - Restart Network
+     - Network Restarted
+
+- name: Configure custom DNS servers
+  copy: src=resolv.conf dest=/etc/resolv.conf owner=root group=root
+  notify:
+     - Restart Network
+     - Network Restarted
