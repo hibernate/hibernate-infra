@@ -12,3 +12,7 @@
   notify:
      - Restart Network
      - Network Restarted
+
+- name: Tune mount point of root
+  mount: name=/ src=/dev/vda1 fstype=ext4 opts=noatime,barrier=0 state=mounted
+
