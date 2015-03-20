@@ -13,11 +13,10 @@
     - jenkins-slave
 
 - hosts: cimaster
-  remote_user: fedora
+  remote_user: ec2-user
   sudo: yes
 
   roles:
     - common
-    - os1
     - jenkins
 

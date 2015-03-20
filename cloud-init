@@ -1,0 +1,16 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+packages:
+ - git
+ - sendmail
+ - curl
+ - unzip
+ - java-1.8.0-openjdk-devel
+ - gnupg
+ - wget
+
+disable_root: false
+final_message: "Cloud-init v. ${version} finished setting up the Hibernate CI system! Up after ${uptime} seconds."

@@ -14,8 +14,8 @@
    - git
    - curl
    - gnupg
-   - mc
-   - htop
+   - wget
+   - sendmail
 
 # Create the jenkins user
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present
