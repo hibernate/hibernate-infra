@@ -27,3 +27,30 @@
 - name: Ensure the MariaDB testing database exists
   mysql_db: name=testingdb state=present login_user=hibernate_user login_password=hibernate_password
 
+# Install PostgreSQL Server, setup testing databases and accounts
+- name: Ensure the latest version of PostgreSQL Server is installed
+  yum: name=postgresql-server state=latest
+
+- name: Python adapters for PostgreSQL is installed
+  yum: name=python-psycopg2 state=latest
+
+- name: Initiate PostgreSQL database if needed
+  command: service postgresql initdb
+    creates=/var/lib/pgsql/data/postgresql.conf
+
+- name: Ensure PostgreSQL Server is started now, and again on startup
+  service: name=postgresql enabled=yes state=started
+
+- name: Create PostgreSQL testingdb
+  postgresql_db: name=testingdb state=present
+  sudo_user: postgres
+
+- name: Create hibernate_user account in PostgreSQL
+  postgresql_user: db=testingdb name=hibernate_user password=hibernate_password priv=ALL
+  sudo_user: postgres
+
+- name: Set privileges for PostgreSQL's hubernate_user account
+  postgresql_user: name=hibernate_user role_attr_flags=NOCREATEDB,NOSUPERUSER
+  sudo_user: postgres
+
+
