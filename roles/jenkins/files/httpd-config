@@ -1,6 +1,7 @@
 <VirtualHost *:80>
   ServerName ci.hibernate.org
   ProxyRequests Off
+  AllowEncodedSlashes NoDecode
 
   # Local reverse proxy authorization override
   # Most unix distribution deny proxy by default
@@ -10,7 +11,7 @@
   </Proxy>
 
   ProxyPreserveHost on
-  ProxyPass / http://localhost:8080/
+  ProxyPass / http://localhost:8080/ nocanon
   ProxyPassReverse / http://localhost:8080/
 </VirtualHost>
 
