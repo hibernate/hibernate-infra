@@ -1,0 +1,4 @@
+---
+
+- name: Enable Tuned profile for low latency
+  command: tuned-adm profile network-latency
