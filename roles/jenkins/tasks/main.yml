@@ -92,6 +92,9 @@
     - userdir.conf
     - welcome.conf
 
+- name: Custom Jenkins configuration
+  copy: src=jenkins-config dest=/etc/sysconfig/jenkins mode=0600 owner=root
+
 - name: Add custom HTTPD configuration
   copy: src=httpd-config dest=/etc/httpd/conf.d/jenkins.conf mode=0600 owner=root
 
