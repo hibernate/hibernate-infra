@@ -1,0 +1,7 @@
+#!! Make sure both source and target Jenkins instances are stopped before transferring their home
+
+rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats root@ci.hibernate.org:/var/lib/jenkins/ /var/lib/jenkins
+rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats root@ci.hibernate.org:/home/jenkins/ /home/jenkins
+
+#!! Next one changes the path, as migrating from Ubuntu to RHEL:
+rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats root@ci.hibernate.org:/var/www/ /var/www/html
