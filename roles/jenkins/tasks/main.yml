@@ -85,6 +85,19 @@
 - name: install the latest version of Apache HTTPD
   yum: name=httpd state=latest
 
+- name: Make sure the example welcome page from HTTPD is removed
+  file: path=/etc/httpd/conf.d/{{ item }} state=absent
+  with_items:
+    - autoindex.conf
+    - userdir.conf
+    - welcome.conf
+
+- name: Add custom HTTPD configuration
+  copy: src=httpd-config dest=/etc/httpd/conf.d/jenkins.conf mode=0600 owner=root
+
+- name: Reconfigure SELinux to allow HTTPD to forward requests to Jenkins
+  command: setsebool -P httpd_can_network_connect 1
+
 - name: Ensure Apache HTTPD is started now, and again on startup
-  service: name=httpd enabled=yes state=started
+  service: name=httpd enabled=yes state=restarted
 
