@@ -1,2 +1,3 @@
 jenkins     ALL=(ALL)   NOPASSWD: /usr/bin/docker_run_couchdb.sh
+jenkins     ALL=(ALL)   NOPASSWD: /usr/bin/docker_run_mongodb.sh
 jenkins     ALL=(ALL)   NOPASSWD: /usr/bin/docker_stop_container.sh

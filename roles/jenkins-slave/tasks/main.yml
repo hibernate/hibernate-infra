@@ -66,5 +66,8 @@
 - name: create docker_run_couchdb.sh
   copy: src=docker_run_couchdb.sh dest=/usr/bin/docker_run_couchdb.sh mode=0700 owner=root
 
+- name: create docker_run_mongodb.sh
+  copy: src=docker_run_mongodb.sh dest=/usr/bin/docker_run_mongodb.sh mode=0700 owner=root
+
 - name: create docker_stop_container.sh
   copy: src=docker_stop_container.sh dest=/usr/bin/docker_stop_container.sh mode=0700 owner=root
