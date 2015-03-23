@@ -49,7 +49,7 @@
   postgresql_user: db=testingdb name=hibernate_user password=hibernate_password priv=ALL
   sudo_user: postgres
 
-- name: Set privileges for PostgreSQL's hubernate_user account
+- name: Set privileges for PostgreSQL's hibernate_user account
   postgresql_user: name=hibernate_user role_attr_flags=NOCREATEDB,NOSUPERUSER
   sudo_user: postgres
 
