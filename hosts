@@ -5,4 +5,4 @@
 209.132.178.186 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem
 
 [cimaster]
-54.173.197.110 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-aws.pem ansible_ssh_user=ec2-user
+54.174.65.136 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-aws.pem ansible_ssh_user=ec2-user
