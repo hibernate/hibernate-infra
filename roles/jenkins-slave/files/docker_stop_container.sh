@@ -9,4 +9,4 @@ die () {
 echo $1 | grep -E -q '^[a-z0-9]+$' || die "Container id required, provided: $1"
 
 docker stop $1
-
+docker rm $1
