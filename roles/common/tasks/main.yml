@@ -21,10 +21,6 @@
 # Create the jenkins user
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes
 
-# Not using the Ansible module 'authorized_key' as it's not working as documented
-- name: Create .ssh folder
-  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins
-
 # Fetch the public key of this node
 - fetch: src=/home/jenkins/.ssh/id_rsa.pub dest=/tmp/publicdeployedkeys/pubkey-{{ ansible_hostname }} flat=yes fail_on_missing=yes
 
