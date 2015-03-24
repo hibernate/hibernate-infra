@@ -16,6 +16,7 @@
    - gnupg
    - wget
    - sendmail
+   - which
 
 # Create the jenkins user
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present

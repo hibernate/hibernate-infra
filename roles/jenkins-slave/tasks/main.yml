@@ -71,3 +71,24 @@
 
 - name: create docker_stop_container.sh
   copy: src=docker_stop_container.sh dest=/usr/bin/docker_stop_container.sh mode=0700 owner=root
+
+# Install packages required for web site build / Ruby environment
+- name: Web site build tool chain (GCC, headers etc.)
+  yum: name={{item}} state=present
+  with_items:
+   - gcc
+   - make
+   - ruby-devel
+   - gcc-c++
+   - libxml2-devel
+   - libxslt-devel
+
+- name: Install Rake
+  sudo: yes
+  sudo_user: jenkins
+  command: bash -lc "gem install rake"
+
+- name: Install Bundler
+  sudo: yes
+  sudo_user: jenkins
+  command: bash -lc "gem install bundler"
