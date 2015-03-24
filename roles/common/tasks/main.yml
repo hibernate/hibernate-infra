@@ -19,7 +19,7 @@
    - which
 
 # Create the jenkins user
-- user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present
+- user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes
 
 # Not using the Ansible module 'authorized_key' as it's not working as documented
 - name: Create .ssh folder
