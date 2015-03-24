@@ -1,5 +1,9 @@
 ---
 
+- name: Deploy all RSA keys generated on the slaves so they can connect to the master
+  authorized_key: user=jenkins key="{{ lookup('file', item) }}"
+  with_fileglob: /tmp/publicdeployedkeys/*
+
 - name: Ensure Jenkins repo is installed.
   get_url:
     url: "http://pkg.jenkins-ci.org/redhat/jenkins.repo"
