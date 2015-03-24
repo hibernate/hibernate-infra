@@ -113,3 +113,6 @@
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
+
+- name: Generate the script to synchronize tools on slaves
+  template: src=transfer-to-slaves-script dest=/home/jenkins/transfer-to-slaves.sh owner=jenkins mode=0744
