@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+  ServerName staging.hibernate.org
+  ServerAdmin webmaster@localhost
+  ProxyRequests Off
+
+  DocumentRoot /var/www/html
+  <Directory /var/www/html>
+    AllowOverride None
+  </Directory>
+
+  LogLevel warn
+</VirtualHost>

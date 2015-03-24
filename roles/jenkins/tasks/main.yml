@@ -95,12 +95,17 @@
 - name: Custom Jenkins configuration
   copy: src=jenkins-config dest=/etc/sysconfig/jenkins mode=0600 owner=root
 
-- name: Add custom HTTPD configuration
-  copy: src=httpd-config dest=/etc/httpd/conf.d/jenkins.conf mode=0600 owner=root
+- name: Add custom HTTPD configuration (common)
+  copy: src=httpd-common-config dest=/etc/httpd/conf.d/common.conf mode=0600 owner=root
+
+- name: Add custom HTTPD configuration (ci.hibernate.org)
+  copy: src=httpd-ci-hibernate-org-config dest=/etc/httpd/conf.d/ci-hibernate-org.conf mode=0600 owner=root
+
+- name: Add custom HTTPD configuration (staging.hibernate.org)
+  copy: src=httpd-staging-hibernate-org-config dest=/etc/httpd/conf.d/staging-hibernate-org.conf mode=0600 owner=root
 
 - name: Reconfigure SELinux to allow HTTPD to forward requests to Jenkins
   command: setsebool -P httpd_can_network_connect 1
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
-

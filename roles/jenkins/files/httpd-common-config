@@ -1,0 +1,7 @@
+<Location "/favicon.ico">
+  Header set Cache-Control "max-age=31536000, public"
+</Location>
+
+<Location "/static/*>
+  Header set Cache-Control "max-age=31536000, public"
+</Location>
