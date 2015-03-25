@@ -8,8 +8,8 @@
   yum: name=jenkins state=absent
 
 # Create Jenkins work directory
-- name: Create /var/jenkins
-  file: path=/var/jenkins state=directory mode=0700 owner=jenkins
+- name: Create /var/lib/jenkins
+  file: path=/var/lib/jenkins state=directory mode=0700 owner=jenkins
 
 - name: Misc. packages':' Web-site build, databases, Docker
   yum: name={{item}} state=latest
