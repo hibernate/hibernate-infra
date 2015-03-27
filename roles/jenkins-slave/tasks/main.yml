@@ -63,14 +63,18 @@
 - name: Start Docker
   service: name=docker enabled=yes state=started
 
-- name: create docker_run_couchdb.sh
-  copy: src=docker_run_couchdb.sh dest=/usr/bin/docker_run_couchdb.sh mode=0700 owner=root
-
 - name: create docker_run_mongodb.sh
   copy: src=docker_run_mongodb.sh dest=/usr/bin/docker_run_mongodb.sh mode=0700 owner=root
 
 - name: create docker_stop_container.sh
   copy: src=docker_stop_container.sh dest=/usr/bin/docker_stop_container.sh mode=0700 owner=root
+
+# Install CouchDB (Avoiding Docker because of issues)
+- name: Get the the latest version of CouchDB
+  yum: name=couchdb state=latest
+
+- name: Start CouchDB
+  service: name=couchdb enabled=yes state=started
 
 # Install packages required for web site build / Ruby environment
 - name: Web site build tool chain (GCC, headers etc.)
@@ -83,6 +87,7 @@
    - libxml2-devel
    - libxslt-devel
 
+# Gems required for web-site build
 - name: Install Rake
   sudo: yes
   sudo_user: jenkins
