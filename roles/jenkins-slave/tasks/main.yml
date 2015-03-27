@@ -31,6 +31,7 @@
    - python-psycopg2
 
    - docker
+   - couchdb
 
 # Configure MariaDB
 - name: Ensure MariaDB is started now, and again on startup
@@ -77,6 +78,10 @@
 
 - name: create docker_stop_container.sh
   copy: src=docker_stop_container.sh dest=/usr/bin/docker_stop_container.sh mode=0700 owner=root
+
+# Using locally installed CouchDB for now due to stability issues with Docker
+- name: Start CouchDB
+  service: name=couchdb enabled=yes state=started
 
 # Gems required for web-site build
 - name: Install Rake
