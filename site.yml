@@ -21,3 +21,11 @@
     - aws
     - jenkins
 
+- hosts: dedicated
+  remote_user: fedora
+  sudo: yes
+
+  roles:
+    - common
+    - os1
+    - jenkins-dedicated
