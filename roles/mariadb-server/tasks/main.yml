@@ -1,0 +1,17 @@
+---
+
+# Now install MariaDB Server and setup a testing database
+- name: install the latest version of MariaDB
+  yum: name=mariadb-server state=latest
+
+- name: install the Python extensions for MariaDB
+  yum: name=MySQL-python state=latest
+
+- name: Ensure MariaDB is started now, and again on startup
+  service: name=mariadb enabled=yes state=started
+
+- name: Create Hibernate testing users for MariaDB
+  mysql_user: name=hibernate_user password=hibernate_password priv=*.*:ALL state=present
+
+- name: Ensure the MariaDB testing database exists
+  mysql_db: name=testingdb state=present login_user=hibernate_user login_password=hibernate_password

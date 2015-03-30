@@ -11,48 +11,6 @@
 - name: Create /var/lib/jenkins
   file: path=/var/lib/jenkins state=directory mode=0700 owner=jenkins
 
-# Now install MariaDB Server and setup a testing database
-- name: install the latest version of MariaDB
-  yum: name=mariadb-server state=latest
-
-- name: install the Python extensions for MariaDB
-  yum: name=MySQL-python state=latest
-
-- name: Ensure MariaDB is started now, and again on startup
-  service: name=mariadb enabled=yes state=started
-
-- name: Create Hibernate testing users for MariaDB
-  mysql_user: name=hibernate_user password=hibernate_password priv=*.*:ALL state=present
-
-- name: Ensure the MariaDB testing database exists
-  mysql_db: name=testingdb state=present login_user=hibernate_user login_password=hibernate_password
-
-# Install PostgreSQL Server, setup testing databases and accounts
-- name: Ensure the latest version of PostgreSQL Server is installed
-  yum: name=postgresql-server state=latest
-
-- name: Python adapters for PostgreSQL is installed
-  yum: name=python-psycopg2 state=latest
-
-- name: Initiate PostgreSQL database if needed
-  command: service postgresql initdb
-    creates=/var/lib/pgsql/data/postgresql.conf
-
-- name: Ensure PostgreSQL Server is started now, and again on startup
-  service: name=postgresql enabled=yes state=started
-
-- name: Create PostgreSQL testingdb
-  postgresql_db: name=testingdb state=present
-  sudo_user: postgres
-
-- name: Create hibernate_user account in PostgreSQL
-  postgresql_user: db=testingdb name=hibernate_user password=hibernate_password priv=ALL
-  sudo_user: postgres
-
-- name: Set privileges for PostgreSQL's hibernate_user account
-  postgresql_user: name=hibernate_user role_attr_flags=NOCREATEDB,NOSUPERUSER
-  sudo_user: postgres
-
 # Install Docker, provide scripts for starting/stopping CouchDB/MongoDB via Docker
 - name: Install Docker
   yum: name=docker state=present

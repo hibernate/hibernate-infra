@@ -11,6 +11,8 @@
     - common
     - os1
     - jenkins-slave
+    - postgres-server
+    - mariadb-server
 
 - hosts: cimaster
   remote_user: ec2-user
@@ -29,3 +31,5 @@
     - common
     - os1
     - jenkins-dedicated
+    - postgres-server
+    - mariadb-server
