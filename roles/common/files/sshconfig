@@ -1,0 +1,16 @@
+Host github.com
+    User git
+    IdentityFile ~/.ssh/github-key
+    PreferredAuthentications publickey
+    Compression yes
+    IdentitiesOnly yes
+    GSSAPIAuthentication no
+    AddressFamily inet
+    PasswordAuthentication no
+    ForwardAgent no
+    ForwardX11 no
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmaster-github-%r@%h:%p
+    StrictHostKeyChecking yes
+    CheckHostIP no
+    UserKnownHostsFile ~/.ssh/github-knownhosts

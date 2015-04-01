@@ -28,6 +28,12 @@
 # Fetch the public key of this node
 - fetch: src=/home/jenkins/.ssh/id_rsa.pub dest=/tmp/publicdeployedkeys/pubkey-{{ ansible_hostname }} flat=yes fail_on_missing=yes
 
+- name: Setup SSH config for Github authentication
+  copy: src=sshconfig dest=/home/jenkins/.ssh/config mode=0600 owner=jenkins group=jenkins
+
+- name: Setup Github as a known host
+  copy: src=github-knownhosts dest=/home/jenkins/.ssh/github-knownhosts mode=0600 owner=jenkins group=jenkins
+
 # Install Maven 3.2.5
 
 - name: Download Maven
