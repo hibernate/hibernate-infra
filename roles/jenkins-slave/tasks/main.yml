@@ -34,6 +34,16 @@
 - name: Start CouchDB
   service: name=couchdb enabled=yes state=started
 
+# Install Cassandra (Avoiding Docker for now due to stability issues)
+- name: Configure Datastax repo
+  copy: src=datastax.repo dest=/etc/yum.repos.d/ owner=root group=root mode=0644
+
+- name: Install Cassandra
+  yum: name=dsc21 enablerepo=datastax state=latest
+
+- name: Start Cassandra
+  service: name=cassandra enabled=yes state=started
+
 # Install packages required for web site build / Ruby environment
 - name: Web site build tool chain (GCC, headers etc.)
   yum: name={{item}} state=present
