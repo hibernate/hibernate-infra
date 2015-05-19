@@ -1,0 +1,15 @@
+#!/bin/bash
+# NOTE: each single whitespace and newline close to the template is important!
+# - the script might stop to request an interactive confirmation of the host signature
+# - it's expected to run this as user 'jenkins' as it will have the right keys setup 
+
+transfer() {
+   rsync --exclude ".ssh/" --exclude "workspace/" --exclude "repository/" --exclude ".gem/" --exclude ".gradle/" --delete-during --archive --compress --progress --human-readable --one-file-system --stats ~/* $DESTINATION:~
+   rsync --exclude ".ssh/" --exclude "workspace/" --exclude "repository/" --exclude ".gem/" --exclude ".gradle/" --delete-during --archive --compress --progress --human-readable --one-file-system --stats ~/.m2/ $DESTINATION:~/.m2
+}
+
+for DESTINATION in {% for host in groups['cislaves'] %}"{{ host }}" {% endfor %}
+
+do
+   transfer
+done
