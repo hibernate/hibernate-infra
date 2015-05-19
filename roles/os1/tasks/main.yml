@@ -15,3 +15,7 @@
 
 - name: Tune mount point of root
   mount: name=/ src=/dev/vda1 fstype=ext4 opts=noatime,barrier=0 state=mounted
+
+# We leave this on /mnt as default as it's hell to move (and default is ext3)
+- name: Mount the ephemeral store drive as /mnt
+  mount: name=/mnt src=/dev/vdb fstype=ext3 opts=noatime,barrier=0 state=mounted
