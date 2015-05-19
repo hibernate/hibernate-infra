@@ -15,22 +15,3 @@
 
 - name: Tune mount point of root
   mount: name=/ src=/dev/vda1 fstype=ext4 opts=noatime,barrier=0 state=mounted
-
-# Make sure Docker is not running before changing its working directory
-- name: Stop Docker if it exists
-  service: name=docker enabled=yes state=stopped
-  ignore_errors: true # Ignore if the service doesn't exist
-
-- name: Umount the Docker /var/lib/docker to do some potential cleanup
-  mount: name=/var/lib/docker src=/dev/vdb fstype=ext3 opts=noatime,barrier=0 state=unmounted
-  ignore_errors: true # Ignore if it's not mounted
-
-- name: Delete all stale files from /var/lib/docker
-  file: path=/var/lib/docker state=absent
-
-- name: Re-create mount point /var/lib/docker
-  file: path=/var/lib/docker state=directory owner=root
-
-- name: Mount the ephemeral store drive as /var/lib/docker
-  mount: name=/var/lib/docker src=/dev/vdb fstype=ext3 opts=noatime,barrier=0 state=mounted
-

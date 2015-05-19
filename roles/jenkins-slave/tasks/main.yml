@@ -11,30 +11,14 @@
 - name: Create /var/lib/jenkins
   file: path=/var/lib/jenkins state=directory mode=0700 owner=jenkins
 
-# Install Docker, provide scripts for starting/stopping CouchDB/MongoDB via Docker
-- name: Install Docker
-  yum: name=docker state=present
-
-- name: Create docker_conf
-  copy: src=docker_conf dest=/etc/sudoers.d/docker_conf mode=0440 owner=root
-
-- name: Start Docker
-  service: name=docker enabled=yes state=started
-
-- name: create docker_run_mongodb.sh
-  copy: src=docker_run_mongodb.sh dest=/usr/bin/docker_run_mongodb.sh mode=0700 owner=root
-
-- name: create docker_stop_container.sh
-  copy: src=docker_stop_container.sh dest=/usr/bin/docker_stop_container.sh mode=0700 owner=root
-
-# Install CouchDB (Avoiding Docker because of issues)
+# Install CouchDB
 - name: Get the the latest version of CouchDB
   yum: name=couchdb state=latest
 
 - name: Start CouchDB
   service: name=couchdb enabled=yes state=started
 
-# Install Cassandra (Avoiding Docker for now due to stability issues)
+# Install Cassandra
 - name: Configure Datastax repo
   copy: src=datastax.repo dest=/etc/yum.repos.d/ owner=root group=root mode=0644
 
