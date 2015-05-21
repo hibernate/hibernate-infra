@@ -18,6 +18,7 @@
    - sendmail
    - which
    - mc
+   - vim
 
 # Create the jenkins user
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes
