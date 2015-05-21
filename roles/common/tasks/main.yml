@@ -19,6 +19,7 @@
    - which
    - mc
    - vim
+   - htop
 
 # Create the jenkins user
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes
