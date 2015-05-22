@@ -1,0 +1,26 @@
+---                                                                                                
+- name: Download CouchBase
+  get_url:                                                                                  
+    url: "http://packages.couchbase.com/releases/3.0.1/couchbase-server-community-3.0.1-centos6.x86_64.rpm"
+    dest: /home/jenkins/couchbase-server-community-3.0.1-centos6.x86_64.rpm                                                                            
+                                                                                                    
+- name: Install Couchbase rpm file                                                                  
+  yum: name=/home/jenkins/couchbase-server-community-3.0.1-centos6.x86_64.rpm state=present         
+                                                                                                    
+- name: Ensure CouchBase server is started now, and again on startup                                
+  service: name=couchbase-server enabled=yes state=started                                          
+                                                                                                    
+- name: Configure main node                                                                         
+  shell: /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 -u Administrator -p password --cluster-init-ramsize=1024
+                                                                                                    
+- name: Check if bucket exists
+  shell: /opt/couchbase/bin/couchbase-cli bucket-edit --bucket=default-bucket -c 127.0.0.1 -u Administrator -p password
+  ignore_errors: yes
+  register: bucket_check
+
+- name: Create default-bucket if it does not exist                                                                    
+  shell: /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=default-bucket --bucket-type=couchbase --bucket-port=11211 --bucket-replica=0 -u Administrator -p password --bucket-ramsize=1024
+  when: bucket_check.rc != 0 
+                                                                                                   
+- name: Connect to CouchBase default-bucket
+  shell: /opt/couchbase/bin/cbworkloadgen --node=127.0.0.1:8091 --bucket=default-bucket  

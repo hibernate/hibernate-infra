@@ -13,6 +13,7 @@
     - jenkins-slave
     - postgres-server
     - mariadb-server
+    - couchbase-server
 
 - hosts: cimaster
   remote_user: ec2-user
