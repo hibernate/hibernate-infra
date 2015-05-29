@@ -65,3 +65,13 @@
   sudo: yes
   sudo_user: jenkins
   command: bash -lc "gem install bundler"
+
+# Some slaves need to run rsync on the master,
+# this will ensure master is added to the known_host
+- name: Ensure cimaster is a known host
+  lineinfile:
+    dest: /home/jenkins/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t ecdsa ' + groups['cimaster'][0]) }}"
+    regexp: "^{{groups['cimaster'][0]}}"
