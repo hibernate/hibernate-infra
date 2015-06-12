@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+  ServerName in.relation.to
+  ServerAdmin webmaster@localhost
+  ProxyRequests Off
+
+  DocumentRoot /var/www/in.relation.to
+  <Directory /var/www/in.relation.to>
+    AllowOverride None
+  </Directory>
+
+  LogLevel warn
+</VirtualHost>

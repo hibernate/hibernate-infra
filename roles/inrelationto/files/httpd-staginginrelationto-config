@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+  ServerName staging.in.relation.to
+  ServerAdmin webmaster@localhost
+  ProxyRequests Off
+
+  DocumentRoot /var/www/staging-in.relation.to
+  <Directory /var/www/staging-in.relation.to>
+    AllowOverride None
+  </Directory>
+
+  LogLevel warn
+</VirtualHost>

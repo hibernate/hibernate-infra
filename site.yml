@@ -22,6 +22,7 @@
     - common
     - aws
     - jenkins
+    - inrelationto
 
 - hosts: dedicated
   remote_user: fedora
