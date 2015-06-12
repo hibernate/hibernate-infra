@@ -14,3 +14,37 @@ Host github.com
     StrictHostKeyChecking yes
     CheckHostIP no
     UserKnownHostsFile ~/.ssh/github-knownhosts
+
+Host ci.hibernate.org
+    User jenkins
+    IdentityFile ~/.ssh/id_rsa
+    PreferredAuthentications publickey
+    Compression yes
+    IdentitiesOnly yes
+    GSSAPIAuthentication no
+    AddressFamily inet
+    PasswordAuthentication no
+    ForwardAgent no
+    ForwardX11 no
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmaster-cihibernate-%r@%h:%p
+    StrictHostKeyChecking yes
+    CheckHostIP no
+    UserKnownHostsFile ~/.ssh/cihibernate-knownhosts
+
+Host in.relation.to
+    User jenkins
+    IdentityFile ~/.ssh/id_rsa
+    PreferredAuthentications publickey
+    Compression yes
+    IdentitiesOnly yes
+    GSSAPIAuthentication no
+    AddressFamily inet
+    PasswordAuthentication no
+    ForwardAgent no
+    ForwardX11 no
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmaster-inrelationto-%r@%h:%p
+    StrictHostKeyChecking yes
+    CheckHostIP no
+    UserKnownHostsFile ~/.ssh/inrelationto-knownhosts
