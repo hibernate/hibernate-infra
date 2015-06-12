@@ -52,8 +52,11 @@
    - make
    - ruby-devel
    - gcc-c++
+   - libxml2
    - libxml2-devel
+   - libxslt
    - libxslt-devel
+   - rubygem-nokogiri
 
 # Gems required for web-site build
 - name: Install Rake
