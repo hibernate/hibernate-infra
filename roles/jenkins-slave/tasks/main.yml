@@ -63,14 +63,10 @@
 
 # Gems required for web-site build
 - name: Install Rake
-  sudo: yes
-  sudo_user: jenkins
-  command: bash -lc "gem install rake"
+  gem: name=rake state=latest
 
 - name: Install Bundler
-  sudo: yes
-  sudo_user: jenkins
-  command: bash -lc "gem install bundler"
+  gem: name=bundler state=latest
 
 # Some slaves need to run rsync on the master,
 # this will ensure master is added to the known_host
