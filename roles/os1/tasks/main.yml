@@ -19,3 +19,23 @@
 # We leave this on /mnt as default as it's hell to move (and default is ext3)
 - name: Mount the ephemeral store drive as /mnt
   mount: name=/mnt src=/dev/vdb fstype=ext3 opts=noatime,barrier=0 state=mounted
+
+# Add 16GB swap space!
+# Important to use generous tmpfs sizes during builds
+
+- name: Ensure we have some swap space
+  shell: "dd if=/dev/zero of=/mnt/swapfile bs=1024 count=16777216 && mkswap /mnt/swapfile && swapon /mnt/swapfile"
+  args:
+    creates: /mnt/swapfile
+
+- name: Make the swap file secure
+  file: path=/mnt/swapfile state=touch mode="0600" owner="root" group="root"
+
+- name: Update fstab to use the swapfile on reboot
+  mount: name=none
+         src=/mnt/swapfile
+         fstype=swap
+         opts=sw
+         passno=0
+         dump=0
+         state=present
