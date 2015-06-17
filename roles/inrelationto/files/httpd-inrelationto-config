@@ -2,6 +2,7 @@
   ServerName in.relation.to
   ServerAdmin webmaster@localhost
   ProxyRequests Off
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml application/x-javascript text/css
 
   DocumentRoot /var/www/in.relation.to
   <Directory /var/www/in.relation.to>
