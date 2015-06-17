@@ -2,6 +2,7 @@
   ServerName staging.in.relation.to
   ServerAdmin webmaster@localhost
   ProxyRequests Off
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml application/x-javascript text/css
 
   DocumentRoot /var/www/staging-in.relation.to
   <Directory /var/www/staging-in.relation.to>
