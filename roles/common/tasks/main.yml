@@ -20,8 +20,9 @@
    - mc
    - vim
 
-# Create the jenkins user
-- user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes
+# Create the jenkins user and explicitly set gid and uid
+- group: name=jenkins state=present gid=1001
+- user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes uid=1001
 
 # Fetch the public key of this node
 - fetch: src=/home/jenkins/.ssh/id_rsa.pub dest=/tmp/publicdeployedkeys/pubkey-{{ ansible_hostname }} flat=yes fail_on_missing=yes

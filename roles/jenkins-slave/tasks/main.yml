@@ -14,6 +14,9 @@
 - name: Create /mnt/jenkins-workdir
   file: path=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=directory
 
+- name: Make /mnt/jenkins-workdir a fast tmpfs drive
+  mount: name=/mnt/jenkins-workdir src=tmpfs fstype=tmpfs opts="rw,nosuid,nodev,relatime,seclabel,size=4g,uid=1001,gid=1001,mode=1700" state=mounted
+
 - name: Remove directory /var/lib/jenkins
   file: path=/var/lib/jenkins state=absent
 
@@ -60,14 +63,10 @@
 
 # Gems required for web-site build
 - name: Install Rake
-  sudo: yes
-  sudo_user: jenkins
-  command: bash -lc "gem install rake"
+  gem: name=rake state=latest
 
 - name: Install Bundler
-  sudo: yes
-  sudo_user: jenkins
-  command: bash -lc "gem install bundler"
+  gem: name=bundler state=latest
 
 # Some slaves need to run rsync on the master,
 # this will ensure master is added to the known_host
