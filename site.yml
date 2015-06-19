@@ -23,6 +23,7 @@
     - aws
     - jenkins
     - inrelationto
+    - temporary-inrelationto-staging
 
 - hosts: dedicated
   remote_user: fedora
