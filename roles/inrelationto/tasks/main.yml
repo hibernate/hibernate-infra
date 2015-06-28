@@ -28,6 +28,9 @@
 - name: Add custom HTTPD configuration (staging.in.relation.to)
   copy: src=httpd-staginginrelationto-config dest=/etc/httpd/conf.d/staginginrelationto.conf mode=0600 owner=root
 
+- name: Add custom HTTPD configuration (blog.hibernate.org)
+  copy: src=httpd-bloghibernateorg-config dest=/etc/httpd/conf.d/hibernateblog.conf mode=0600 owner=root
+
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
 
