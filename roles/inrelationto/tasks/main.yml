@@ -17,10 +17,10 @@
   file: path=/var/www/staging-in.relation.to owner=jenkins group=jenkins mode=0755 state=directory
 
 - name: Add a minimal, default index.html (in.relation.to)
-  copy: src=inrelationto-basic-index.html dest=/var/www/in.relation.to/index.html owner=jenkins group=jenkins mode=0666
+  copy: src=inrelationto-basic-index.html dest=/var/www/in.relation.to/index.html owner=jenkins group=jenkins mode=0666 force=no
 
 - name: Add a minimal, default index.html (staging.in.relation.to)
-  copy: src=staging-inrelationto-basic-index.html dest=/var/www/staging-in.relation.to/index.html owner=jenkins group=jenkins mode=0666
+  copy: src=staging-inrelationto-basic-index.html dest=/var/www/staging-in.relation.to/index.html owner=jenkins group=jenkins mode=0666 force=no
 
 - name: Add custom HTTPD configuration (in.relation.to)
   copy: src=httpd-inrelationto-config dest=/etc/httpd/conf.d/inrelationto.conf mode=0600 owner=root
