@@ -3,8 +3,10 @@
 # Install PostgreSQL Server, setup testing databases and accounts
 - name: Ensure the latest version of PostgreSQL Server is installed
   yum: name=postgresql-server state=latest
+  notify:
+     - Restart PostgreSQL
 
-- name: Python adapters for PostgreSQL is installed
+- name: Python adapters for PostgreSQL are installed
   yum: name=python-psycopg2 state=latest
 
 - name: Initiate PostgreSQL database if needed
@@ -26,3 +28,7 @@
   postgresql_user: name=hibernate_user role_attr_flags=NOCREATEDB,NOSUPERUSER
   sudo_user: postgres
 
+- name: Setup authentication methods
+  copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600 
+  notify:
+     - Restart PostgreSQL
