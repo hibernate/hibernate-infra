@@ -15,3 +15,8 @@
 
 - name: Ensure the MariaDB testing database exists
   mysql_db: name=testingdb state=present login_user=hibernate_user login_password=hibernate_password
+
+- name: Apply MariaDB tuning suited for unit tests
+  copy: src=my.cnf dest=/etc/my.cnf owner=root group=root mode=0644
+  notify:
+     - Restart MariaDB
