@@ -41,6 +41,14 @@ Now install Ansible, then run the Ansible playbook like this:
 
 When only updating the slave nodes (which run on Fedora), it is recommended to enable SSH pipelining which will make things go quite a bit faster. To do so, specify pipelining = True in ansible.cfg.
 
+You can also run the playbook on a subset of the hosts in the file using the parameter "--limit":
+
+    ansible-playbook -i hosts site.yml --limit cislaves
+
+If you want to have the list of IP affected without running the playbook you can use the option "--list-hosts":
+
+    ansible-playbook -i hosts site.yml --limit cislaves --list-hosts
+
 ## Finishing touches
 
 The Jenkins master node is now running, updates installed. The slaves are ready to receive build jobs, and have all databases running locally.
