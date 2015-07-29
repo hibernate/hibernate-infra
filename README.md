@@ -40,6 +40,9 @@ Now install Ansible, then run the Ansible playbook like this:
 ### Performance Tip
 
 When only updating the slave nodes (which run on Fedora), it is recommended to enable SSH pipelining which will make things go quite a bit faster. To do so, specify pipelining = True in ansible.cfg.
+You can execute operations only on the slave nodes via the --limit parameter:
+
+    ansible-playbook -i hosts site.yml --limit cislaves
 
 ## Finishing touches
 
