@@ -31,6 +31,10 @@
 - name: Get the the latest version of CouchDB
   yum: name=couchdb state=latest
 
+# If the hostname is too long, CouchDB might not work
+- name: Set the hostname
+  hostname: name={{ hostname }}
+
 - name: Start CouchDB
   service: name=couchdb enabled=yes state=started
 
