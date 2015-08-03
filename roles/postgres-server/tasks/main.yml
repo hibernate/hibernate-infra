@@ -16,16 +16,28 @@
 - name: Ensure PostgreSQL Server is started now, and again on startup
   service: name=postgresql enabled=yes state=started
 
-- name: Create PostgreSQL testingdb
+- name: Create PostgreSQL database testingdb
   postgresql_db: name=testingdb state=present
+  sudo_user: postgres
+
+- name: Create PostgreSQL database hibernate_orm_test
+  postgresql_db: name=hibernate_orm_test state=present
   sudo_user: postgres
 
 - name: Create hibernate_user account in PostgreSQL
   postgresql_user: db=testingdb name=hibernate_user password=hibernate_password priv=ALL
   sudo_user: postgres
 
+- name: Create hibernate_orm_test account in PostgreSQL
+  postgresql_user: db=hibernate_orm_test name=hibernate_orm_test password=hibernate_orm_test priv=ALL
+  sudo_user: postgres
+
 - name: Set privileges for PostgreSQL's hibernate_user account
   postgresql_user: name=hibernate_user role_attr_flags=NOCREATEDB,NOSUPERUSER
+  sudo_user: postgres
+
+- name: Set privileges for PostgreSQL's hibernate_orm_test account
+  postgresql_user: name=hibernate_orm_test role_attr_flags=SUPERUSER
   sudo_user: postgres
 
 - name: Setup authentication methods
