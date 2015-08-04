@@ -31,6 +31,9 @@
 - name: Get the the latest version of CouchDB
   yum: name=couchdb state=latest
 
+- name: Apply CoudDB tuning suited for unit tests
+  copy: src=couchdb/default.ini dest=/etc/couchdb/default.ini owner=root group=root mode=0644
+
 # If the hostname is too long, CouchDB might not work
 - name: Set the hostname
   hostname: name={{ hostname }}
