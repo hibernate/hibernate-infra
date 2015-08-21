@@ -36,6 +36,9 @@
 - name: Setup SourceForge as a known host
   copy: src=sourceforge-knownhosts dest=/home/jenkins/.ssh/sourceforge-knownhosts mode=0600 owner=jenkins group=jenkins
 
+- name: Setup filemgmt.boss.org as a known host
+  copy: src=filemgmt-knownhosts dest=/home/jenkins/.ssh/filemgmt-knownhosts mode=0600 owner=jenkins group=jenkins
+
 # Install Maven 3.2.5
 
 - name: Download Maven
