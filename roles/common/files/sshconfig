@@ -48,3 +48,20 @@ Host in.relation.to
     StrictHostKeyChecking yes
     CheckHostIP no
     UserKnownHostsFile ~/.ssh/inrelationto-knownhosts
+
+Host frs.sourceforge.net
+    User hibernate-ci
+    IdentityFile ~/.ssh/id_dsa_sf_ci
+    PreferredAuthentications publickey
+    Compression yes
+    IdentitiesOnly yes
+    GSSAPIAuthentication no
+    AddressFamily inet
+    PasswordAuthentication no
+    ForwardAgent no
+    ForwardX11 no
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmaster-frssourceforgenet-%r@%h:%p
+    StrictHostKeyChecking yes
+    CheckHostIP no
+    UserKnownHostsFile ~/.ssh/sourceforge-knownhosts
