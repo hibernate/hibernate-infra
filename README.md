@@ -54,6 +54,10 @@ If you want to have the list of IP affected without running the playbook you can
 The Jenkins master node is now running, updates installed. The slaves are ready to receive build jobs, and have all databases running locally.
 Jenkins is not configured however, you'll need to manually transfer a copy of the configuration from a previous master machine or reconfigure it using the web UI.
 
+You will also likely need to copy some private keys (to upload releases and docs) and install JDK versions or other tools which are not freely available.
+Copy these to the master node into /home/jenkins/{something}, make them owned by the `jenkins` user, and then invoke the ~/transfer-to-slaves.sh script as `jenkins`
+to synchronize the tools to each slave. N.B. the script might need changes to include new tools.
+
 ## Making changes to the slaves
 
 The Ansible playbook is designed so it can be re-run on your existing infrastructure without undoing configuration you did on the previous step.
