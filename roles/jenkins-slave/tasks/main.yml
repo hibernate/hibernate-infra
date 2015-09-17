@@ -4,24 +4,38 @@
 
 - name: Create /mnt/.m2
   file: path=/mnt/.m2 owner=jenkins group=jenkins mode=0755 state=directory
+  tags:
+    - jenkins
 
 - name: Remove directory /home/jenkins/.m2
   file: path=/home/jenkins/.m2 state=absent
+  tags:
+    - jenkins
 
 - name: Create link /home/jenkins/.m2 to /mnt/.m2
   file: path=/home/jenkins/.m2 src=/mnt/.m2 owner=jenkins group=jenkins mode=0755 state=link
+  tags:
+    - jenkins
 
 - name: Create /mnt/jenkins-workdir
   file: path=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=directory
+  tags:
+    - jenkins
 
 - name: Remove directory /var/lib/jenkins
   file: path=/var/lib/jenkins state=absent
+  tags:
+    - jenkins
 
 - name: Create link /var/lib/jenkins to /mnt/jenkins-workdir
   file: path=/var/lib/jenkins src=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=link
+  tags:
+    - jenkins
 
 - name: Add passwordless connection for jenkins
   copy: src=authorized_keys dest=/home/jenkins/.ssh/authorized_keys mode=0600 owner=jenkins group=jenkins
+  tags:
+    - jenkins
 
 # Ensure Jenkins is NOT installed: the master auto-installs it!
 - name: Ensure Jenkins is NOT installed
