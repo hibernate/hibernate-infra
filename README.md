@@ -49,6 +49,12 @@ If you want to have the list of IP affected without running the playbook you can
 
     ansible-playbook -i hosts site.yml --limit cislaves --list-hosts
 
+It is also possible to execute specific tasks using tags:
+
+    ansible-playbook -i hosts site.yml --limit cislaves --tags "generate-script"
+
+More details about tags can be found the ansible documentation.
+
 ## Finishing touches
 
 The Jenkins master node is now running, updates installed. The slaves are ready to receive build jobs, and have all databases running locally.
