@@ -116,3 +116,6 @@
 
 - name: Generate the script to synchronize tools on slaves
   template: src=transfer-to-slaves-script dest=/home/jenkins/transfer-to-slaves.sh owner=jenkins mode=0744
+  tags:
+  - generate-script
+
