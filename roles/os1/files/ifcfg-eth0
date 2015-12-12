@@ -6,4 +6,5 @@ PERSISTENT_DHCLIENT="yes"
 
 # Prevent the DNS to be modified by the DHCP server (Or we can't resolve Red Hat services from OS1):
 PEERDNS=no
-DNS1=209.132.186.218
+# DNS1=209.132.186.218
+DNS1=8.8.8.8
