@@ -68,7 +68,7 @@
   copy: src=datastax.repo dest=/etc/yum.repos.d/ owner=root group=root mode=0644
 
 - name: Install Cassandra
-  yum: name=dsc21 enablerepo=datastax state=latest
+  yum: name=dsc22 enablerepo=datastax state=latest
 
 - name: Start Cassandra
   service: name=cassandra enabled=yes state=started
