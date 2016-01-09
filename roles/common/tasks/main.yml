@@ -19,6 +19,7 @@
    - which
    - mc
    - vim
+   - libselinux-python
 
 # Create the jenkins user and explicitly set gid and uid
 - group: name=jenkins state=present gid=1001
