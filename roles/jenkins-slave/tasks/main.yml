@@ -17,6 +17,21 @@
   tags:
     - jenkins
 
+- name: Create /mnt/.gradle
+  file: path=/mnt/.gradle owner=jenkins group=jenkins mode=0755 state=directory
+  tags:
+    - jenkins
+
+- name: Remove directory /home/jenkins/.gradle
+  file: path=/home/jenkins/.gradle state=absent
+  tags:
+    - jenkins
+
+- name: Create link /home/jenkins/.gradle to /mnt/.gradle
+  file: path=/home/jenkins/.gradle src=/mnt/.gradle owner=jenkins group=jenkins mode=0755 state=link
+  tags:
+    - jenkins
+
 - name: Create /mnt/jenkins-workdir
   file: path=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=directory
   tags:
