@@ -29,7 +29,7 @@
     creates: /mnt/swapfile
 
 - name: Make the swap file secure
-  file: path=/mnt/swapfile state=touch mode="0600" owner="root" group="root"
+  file: path=/mnt/swapfile state=file mode="0600" owner="root" group="root"
 
 - name: Update fstab to use the swapfile on reboot
   mount: name=none
