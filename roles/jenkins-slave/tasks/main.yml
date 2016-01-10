@@ -37,10 +37,6 @@
   tags:
     - jenkins
 
-# Ensure Jenkins is NOT installed: the master auto-installs it!
-- name: Ensure Jenkins is NOT installed
-  yum: name=jenkins state=absent
-
 # Install CouchDB
 - name: Get the the latest version of CouchDB
   yum: name=couchdb state=latest
