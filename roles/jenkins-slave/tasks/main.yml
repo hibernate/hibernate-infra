@@ -7,13 +7,8 @@
   tags:
     - jenkins
 
-- name: Remove directory /home/jenkins/.m2
-  file: path=/home/jenkins/.m2 state=absent
-  tags:
-    - jenkins
-
 - name: Create link /home/jenkins/.m2 to /mnt/.m2
-  file: path=/home/jenkins/.m2 src=/mnt/.m2 owner=jenkins group=jenkins mode=0755 state=link
+  file: path=/home/jenkins/.m2 src=/mnt/.m2 owner=jenkins group=jenkins mode=0755 state=link force=yes
   tags:
     - jenkins
 
@@ -22,13 +17,8 @@
   tags:
     - jenkins
 
-- name: Remove directory /home/jenkins/.gradle
-  file: path=/home/jenkins/.gradle state=absent
-  tags:
-    - jenkins
-
 - name: Create link /home/jenkins/.gradle to /mnt/.gradle
-  file: path=/home/jenkins/.gradle src=/mnt/.gradle owner=jenkins group=jenkins mode=0755 state=link
+  file: path=/home/jenkins/.gradle src=/mnt/.gradle owner=jenkins group=jenkins mode=0755 state=link force=yes
   tags:
     - jenkins
 
@@ -37,13 +27,8 @@
   tags:
     - jenkins
 
-- name: Remove directory /var/lib/jenkins
-  file: path=/var/lib/jenkins state=absent
-  tags:
-    - jenkins
-
 - name: Create link /var/lib/jenkins to /mnt/jenkins-workdir
-  file: path=/var/lib/jenkins src=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=link
+  file: path=/var/lib/jenkins src=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=link force=yes
   tags:
     - jenkins
 
