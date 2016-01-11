@@ -21,8 +21,18 @@
   tags:
     - mariadb
 
+- name: Create Hibernate ORM testing users for MariaDB
+  mysql_user: name=hibernate_orm_test password=hibernate_orm_test priv=*.*:ALL state=present
+  tags:
+    - mariadb
+
 - name: Ensure the MariaDB testing database exists
   mysql_db: name=testingdb state=present login_user=hibernate_user login_password=hibernate_password
+  tags:
+    - mariadb
+
+- name: Ensure the MariaDB second testing database exists
+  mysql_db: name=hibernate_orm_test state=present login_user=hibernate_orm_test login_password=hibernate_orm_test
   tags:
     - mariadb
 
