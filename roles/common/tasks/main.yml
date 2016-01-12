@@ -7,6 +7,11 @@
   tags:
     - journald
 
+- name: Remove old journald stored logs from disk
+  file: path=/var/log/journal state=absent
+  tags:
+    - journald
+
 # Update and install packages
 - name: Install all package upgrades
   yum: name=* state=latest
