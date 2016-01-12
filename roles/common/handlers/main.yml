@@ -14,3 +14,6 @@
          delay=1
          timeout=300
     sudo: false
+
+- name: Restart journald
+  service: name=systemd-journald enabled=yes state=restarted
