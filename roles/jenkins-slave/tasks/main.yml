@@ -109,6 +109,8 @@
     mode: 0600
     line: "{{ lookup('pipe', 'ssh-keyscan -t ecdsa ' + groups['cimaster'][0]) }}"
     regexp: "^{{groups['cimaster'][0]}}"
+  tags:
+    - crosskeyauthentication
 
 - name: Ensure ci.hibernate.org is a known host
   lineinfile:
@@ -120,6 +122,8 @@
     mode: 0600
     line: "{{ lookup('pipe', 'ssh-keyscan -t ecdsa ci.hibernate.org') }}"
     regexp: "^ci.hibernate.org"
+  tags:
+    - crosskeyauthentication
 
 - name: Ensure in.relation.to is a known host
   lineinfile:
@@ -131,4 +135,6 @@
     mode: 0600
     line: "{{ lookup('pipe', 'ssh-keyscan -t ecdsa in.relation.to') }}"
     regexp: "^in.relation.to"
+  tags:
+    - crosskeyauthentication
 
