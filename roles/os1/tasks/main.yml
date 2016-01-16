@@ -20,11 +20,11 @@
 - name: Mount the ephemeral store drive as /mnt
   mount: name=/mnt src=/dev/vdb fstype=ext3 opts=noatime,barrier=0 state=mounted
 
-# Add 16GB swap space!
+# Add 8GB swap space!
 # Important to use generous tmpfs sizes during builds
 
 - name: Ensure we have some swap space
-  shell: "dd if=/dev/zero of=/mnt/swapfile bs=1024 count=16777216 && mkswap /mnt/swapfile && swapon /mnt/swapfile"
+  shell: "dd if=/dev/zero of=/mnt/swapfile bs=1024 count=8388608 && mkswap /mnt/swapfile && swapon /mnt/swapfile"
   args:
     creates: /mnt/swapfile
 
