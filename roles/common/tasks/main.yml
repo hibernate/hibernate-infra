@@ -19,21 +19,6 @@
      - Restart server
      - Wait for server to restart
 
-- name: Get OpenJDK 8 and other common dependencies
-  yum: name={{item}} state=present
-  with_items:
-   - unzip
-   - java-1.8.0-openjdk-devel
-   - git
-   - curl
-   - gnupg
-   - wget
-   - sendmail
-   - which
-   - mc
-   - vim
-   - libselinux-python
-
 # Create the jenkins user and explicitly set gid and uid
 - group: name=jenkins state=present gid=1001
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes uid=1001

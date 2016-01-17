@@ -13,6 +13,8 @@ packages:
  - wget
  - python
  - python-dnf
+ - libselinux-python
+ - which
 
 ssh_authorized_keys:
  - ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAxGBVg+Of675UxdAcTj+z6KA/WvNPC38rSYJh0Olns/yzfzekv5HGFcjjNn8ktnumfn8ZY37r6NaIaaHl3OYV4BT8DLra4RcMmIacEEou8g2M+8E9Tl1GP5oVrHR5iItNsbHAbtKKLzPdYZL9KU64hoH4hZx6WwrJ64cJNzoZ6p7NijclrLZIXAlYSqiRZwEfMP47+ljVTj10Ex9rgLokN5Rm5SQJKN2DZF0t3pQTuSxRs87iuiarmCC13NfdDFwbeGmxpc4USf6Pzhzr8Jt9hL17jkZcvTU6MUaexF3Pb+ymYQha3Bf852Aqo8BcrAf+T2aeKkUUqdqaLPj/4XbGQQ== sanne@redhat.com
