@@ -9,7 +9,7 @@
       ignore_errors: yes
 
     - name: Uninstall Cassandra
-      yum: name={{item}} enablerepo=datastax state=absent
+      dnf: name={{item}} enablerepo=datastax state=absent
       with_items:
         - cassandra22
         - dsc22
