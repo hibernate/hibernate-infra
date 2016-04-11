@@ -39,7 +39,7 @@
 
 # Install CouchDB
 - name: Get the the latest version of CouchDB
-  yum: name=couchdb state=latest
+  dnf: name=couchdb state=latest
   tags:
     - couchdb
 
@@ -66,7 +66,7 @@
     - cassandra
 
 - name: Install Cassandra
-  yum: name=dsc22 enablerepo=datastax state=latest
+  dnf: name=dsc22 enablerepo=datastax state=latest
   tags:
     - cassandra
 
@@ -77,7 +77,7 @@
 
 # Install packages required for web site build / Ruby environment
 - name: Web site build tool chain (GCC, headers etc.)
-  yum: name={{item}} state=present
+  dnf: name={{item}} state=present
   with_items:
    - gcc
    - make

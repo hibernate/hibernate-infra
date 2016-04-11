@@ -1,7 +1,7 @@
 ---
 
 - name: install the latest version of Redis
-  yum: name=redis state=latest
+  dnf: name=redis state=latest
 
 - name: Deploy our Redis Configuration
   copy: src=redis.conf dest=/etc/redis.conf owner=root group=root mode=0644
