@@ -1,8 +1,6 @@
 ---
 - name: Install lsof for Neo4j server
-  dnf: name={{item}} state=present
-  with_items:
-    - lsof
+  dnf: name=lsof state=present
   tags:
     - packages
     - neo4j
