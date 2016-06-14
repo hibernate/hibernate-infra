@@ -1,0 +1,16 @@
+---
+- hosts: cislaves
+  remote_user: fedora
+  become: yes
+  tasks:
+    - include_vars: ../defaults/main.yml
+    - name: Stop Neo4j
+      command: "nohup {{neo4j_path}}/neo4j-community-{{neo4j_version}}/bin/neo4j stop"
+      become: yes
+      become_user: jenkins
+      ignore_errors: yes
+
+    - name: Delete Neo4j folders
+      file: path={{item}} state=absent
+      with_items:
+        - "{{neo4j_path}}"
