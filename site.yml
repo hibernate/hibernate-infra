@@ -14,6 +14,7 @@
     - postgres-server
     - mariadb-server
     - redis-server
+    - neo4j-server
 
 - hosts: cimaster
   remote_user: ec2-user
