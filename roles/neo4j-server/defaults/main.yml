@@ -1,5 +1,5 @@
 ---
-neo4j_version: 2.3.4
+neo4j_version: 3.0.3
 neo4j_path: /home/jenkins/neo4j
 neo4j_password: jenkins
 neo4j_port: 7777

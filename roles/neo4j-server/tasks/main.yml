@@ -33,9 +33,9 @@
 
 - name: "Change Neo4j default port (7474) to {{neo4j_port}}"
   lineinfile:
-    dest: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}/conf/neo4j-server.properties"
-    regexp: "port=7474"
-    line: "org.neo4j.server.webserver.port={{neo4j_port}}"
+    dest: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}/conf/neo4j.conf"
+    regexp: "address=0.0.0.0:7474"
+    line: "dbms.connector.http.address=0.0.0.0:{{neo4j_port}}"
     state: present
   become: yes
   become_user: jenkins
@@ -54,6 +54,8 @@
     - neo4j
 
 - name: Start neo4j server
+  environment:
+    NEO4J_HOME: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}"
   command: "nohup {{neo4j_path}}/neo4j-community-{{neo4j_version}}/bin/neo4j start"
   become: yes
   become_user: jenkins
