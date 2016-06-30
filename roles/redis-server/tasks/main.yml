@@ -2,12 +2,18 @@
 
 - name: install the latest version of Redis
   dnf: name=redis state=latest
+  tags:
+    - redis
 
 - name: Deploy our Redis Configuration
   copy: src=redis.conf dest=/etc/redis.conf owner=root group=root mode=0644
   notify:
      - Restart Redis
+  tags:
+    - redis
 
 - name: Ensure Redis started now, and again on reboot
   service: name=redis enabled=yes state=started
+  tags:
+    - redis
 
