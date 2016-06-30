@@ -98,13 +98,13 @@
 # Gems required for web-site build
 - name: Install Rake
   gem: name=rake state=latest user_install=yes
-  sudo_user: jenkins
+  become_user: jenkins
   tags:
     - websitegems
 
 - name: Install Bundler
   gem: name=bundler state=latest user_install=yes
-  sudo_user: jenkins
+  become_user: jenkins
   tags:
     - websitegems
 

@@ -5,7 +5,7 @@
 
 - hosts: cislaves
   remote_user: fedora
-  sudo: yes
+  become: yes
 
   roles:
     - common
@@ -18,7 +18,7 @@
 
 - hosts: cimaster
   remote_user: ec2-user
-  sudo: yes
+  become: yes
 
   roles:
     - common
@@ -29,7 +29,7 @@
 
 - hosts: dedicated
   remote_user: fedora
-  sudo: yes
+  become: yes
 
   roles:
     - common

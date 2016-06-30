@@ -5,7 +5,7 @@
   async: 1
   poll: 0
   ignore_errors: yes
-  sudo: yes
+  become: yes
 
 - name: Network Restarted
   local_action:
@@ -14,4 +14,4 @@
          port=22
          delay=1
          timeout=300
-    sudo: false
+    become: no

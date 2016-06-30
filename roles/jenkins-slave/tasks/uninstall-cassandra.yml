@@ -2,7 +2,7 @@
 
 - hosts: cislaves
   remote_user: fedora
-  sudo: yes
+  become: yes
   tasks:
     - name: Stop Cassandra
       command: pkill -9 -u cassandra
