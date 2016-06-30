@@ -3,7 +3,7 @@
 This is a set of scripts to setup the Continuous Integration infrastructure for Hibernate.
 The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to setup a CI environment.
 
-We prefer to make some assumptions and keep this simple; among others, we expect to run the public facing services on Red Hat Enterprise Linux 7.1, and run some more slaves on Fedora 21 Cloud.
+We prefer to make some assumptions and keep this simple; among others, we expect to run the public facing services on Red Hat Enterprise Linux 7.1, and run some more slaves on Fedora 23 Cloud.
 
 The primary site will run on Amazon AWS; slaves are run on an highly experimental OpenStack cluster within Red Hat called OS1, kindly sponsored by Red Hat, to keep our build and test costs minimal.
 OS1 is regularly reinstalled and runs bleeding edge cloud software on experimental operating system builds, so the initialization and configuration of the slave nodes is automated with more care than the master node running on AWS.
@@ -21,7 +21,7 @@ You can use different keys of course, but we won't pay your AWS bills.
 
 You should run:
  - 1 Server to host the master Jenkins node, start it on AWS and use a RHEL 7.1 image
- - N Servers to host the various Jenkins slaves; start these on OS1 public, use a Fedora 21 Cloud image
+ - N Servers to host the various Jenkins slaves; start these on OS1 public, use a Fedora 23 Cloud image
 
 Boot them using the provided 'cloud-init' script.
 When booting machines from the UI, you can paste the content of 'cloud-init' into the "Customisation Script" section on the OpenStack console.
