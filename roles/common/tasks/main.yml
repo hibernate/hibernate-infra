@@ -21,7 +21,7 @@
   when: (ansible_distribution == "Fedora" and ansible_distribution_major_version < "23")
 
 # Update and install packages  on Fedora 23
-- name: Install all package uprgrades using dnf
+- name: Install all package upgrades using dnf
   dnf: name=* state=latest
   notify:
      - Restart server
