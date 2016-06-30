@@ -2,12 +2,12 @@
 
 # Now install MariaDB Server and setup a testing database
 - name: install the latest version of MariaDB
-  yum: name=mariadb-server state=latest
+  dnf: name=mariadb-server state=latest
   tags:
     - mariadb
 
 - name: install the Python extensions for MariaDB
-  yum: name=MySQL-python state=latest
+  dnf: name=MySQL-python state=latest
   tags:
     - mariadb
 
