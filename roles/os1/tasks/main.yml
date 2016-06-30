@@ -6,12 +6,16 @@
   notify:
      - Restart Network
      - Network Restarted
+  tags:
+     - network
 
 - name: Configure custom DNS servers
   copy: src=resolv.conf dest=/etc/resolv.conf owner=root group=root
   notify:
      - Restart Network
      - Network Restarted
+  tags:
+     - network
 
 - name: Tune mount point of root
   mount: name=/ src=/dev/vda1 fstype=ext4 opts=noatime,barrier=0 state=mounted
