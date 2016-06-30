@@ -2,50 +2,80 @@
 
 # Install PostgreSQL Server, setup testing databases and accounts
 - name: Ensure the latest version of PostgreSQL Server is installed
-  yum: name=postgresql-server state=latest
+  dnf: name=postgresql-server state=latest
   notify:
-     - Restart PostgreSQL
+    - Restart PostgreSQL
+  tags:
+    - postgres
 
 - name: Python adapters for PostgreSQL are installed
-  yum: name=python-psycopg2 state=latest
+  dnf: name=python-psycopg2 state=latest
+  tags:
+    - postgres
 
 - name: Initiate PostgreSQL database if needed
   command: service postgresql initdb
     creates=/var/lib/pgsql/data/postgresql.conf
+  tags:
+    - postgres
 
 - name: Ensure PostgreSQL Server is started now, and again on startup
   service: name=postgresql enabled=yes state=started
+  tags:
+    - postgres
 
 - name: Create PostgreSQL database testingdb
   postgresql_db: name=testingdb state=present
-  sudo_user: postgres
+  become: yes
+  become_user: postgres 
+  tags:
+    - postgres
 
 - name: Create PostgreSQL database hibernate_orm_test
   postgresql_db: name=hibernate_orm_test state=present
-  sudo_user: postgres
+  become: yes
+  become_user: postgres 
+  tags:
+    - postgres
 
 - name: Create hibernate_user account in PostgreSQL
   postgresql_user: db=testingdb name=hibernate_user password=hibernate_password priv=ALL
-  sudo_user: postgres
+  become: yes
+  become_user: postgres 
+  tags:
+    - postgres
 
 - name: Create hibernate_orm_test account in PostgreSQL
   postgresql_user: db=hibernate_orm_test name=hibernate_orm_test password=hibernate_orm_test priv=ALL
-  sudo_user: postgres
+  become: yes
+  become_user: postgres 
+  tags:
+    - postgres
 
 - name: Set privileges for PostgreSQL's hibernate_user account
   postgresql_user: name=hibernate_user role_attr_flags=NOCREATEDB,NOSUPERUSER
-  sudo_user: postgres
+  become: yes
+  become_user: postgres 
+  tags:
+    - postgres
 
 - name: Set privileges for PostgreSQL's hibernate_orm_test account
   postgresql_user: name=hibernate_orm_test role_attr_flags=SUPERUSER
-  sudo_user: postgres
+  become: yes
+  become_user: postgres 
+  tags:
+    - postgres
 
 - name: Setup authentication methods
   copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600
   notify:
      - Restart PostgreSQL
+  tags:
+    - postgres
 
 - name: Apply some tuning suited for unit tests
   copy: src=postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf owner=postgres group=postgres mode=0600
   notify:
-     - Restart PostgreSQL
+    - Restart PostgreSQL
+  tags:
+    - postgres
