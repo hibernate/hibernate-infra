@@ -54,7 +54,7 @@ Host in.relation.to
 
 Host frs.sourceforge.net
     User hibernate-ci
-    IdentityFile ~/.ssh/id_dsa_sf_ci
+    IdentityFile ~/.ssh/id_dsa_sourceforge
     PreferredAuthentications publickey
     Compression yes
     IdentitiesOnly yes
