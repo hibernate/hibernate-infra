@@ -9,10 +9,7 @@
       ignore_errors: yes
 
     - name: Uninstall Cassandra
-      dnf: name={{item}} enablerepo=datastax state=absent
-      with_items:
-        - cassandra22
-        - dsc22
+      dnf: name=cassandra30 state=absent
       tags:
         - packages
 

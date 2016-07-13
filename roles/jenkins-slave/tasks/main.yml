@@ -66,7 +66,9 @@
     - cassandra
 
 - name: Install Cassandra
-  dnf: name=dsc22 enablerepo=datastax state=latest
+  dnf: name=dsc30 enablerepo=datastax state=latest
+  with_items:
+    - dsc30
   tags:
     - cassandra
 
