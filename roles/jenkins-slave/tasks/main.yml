@@ -97,6 +97,17 @@
   tags:
     - websitegems
 
+# Additional packages required for some build
+- name: Extra packages required on slaves
+  dnf: name={{item}} state=present
+  with_items:
+   - wget
+   - jq
+   - sed
+  tags:
+    - extra-packages
+
+
 # Gems required for web-site build
 - name: Install Rake
   gem: name=rake state=latest user_install=yes
