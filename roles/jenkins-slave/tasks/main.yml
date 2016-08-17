@@ -104,6 +104,7 @@
    - wget
    - jq
    - sed
+   - ant
   tags:
     - extra-packages
 
