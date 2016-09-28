@@ -4,10 +4,10 @@
 # - it's expected to run this as user 'jenkins' as it will have the right keys setup 
 
 transfer() {
-   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats ~/jboss-releases.txt $DESTINATION:~
-   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats ~/jdk* $DESTINATION:~
-   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats ~/.m2/settings* $DESTINATION:~/.m2
-   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats ~/apache-maven-* $DESTINATION:~
+   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/jboss-releases.txt $DESTINATION:~
+   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/jdk* $DESTINATION:~
+   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/.m2/settings* $DESTINATION:~/.m2
+   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/apache-maven-* $DESTINATION:~
 }
 
 for DESTINATION in {% for host in groups['cislaves'] %}"{{ host }}" {% endfor %}
