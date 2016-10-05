@@ -122,7 +122,7 @@
     - generate-script
 
 - name: Generate the script to copy ssh keys
-  template: src=transfer-ssh-keys-scripts dest=/home/jenkins/transfer-ssh-to-slaves.sh owner=jenkins mode=0744
+  template: src=transfer-ssh-keys-script dest=/home/jenkins/transfer-ssh-to-slaves.sh owner=jenkins mode=0744
   tags:
     - generate-script
 
