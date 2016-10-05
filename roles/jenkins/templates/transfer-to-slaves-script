@@ -5,7 +5,8 @@
 
 transfer() {
    rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/jboss-releases.txt $DESTINATION:~
-   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/jdk* $DESTINATION:~
+   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links --exclude 'jdk-1.6' ~/jdk* $DESTINATION:~
+   rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --copy-links ~/jdk-1.6 $DESTINATION:~
    rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/.m2/settings* $DESTINATION:~/.m2
    rsync --delete-during --archive --compress --progress --human-readable --one-file-system --stats --links ~/apache-maven-* $DESTINATION:~
 }
