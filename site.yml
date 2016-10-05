@@ -16,6 +16,19 @@
     - redis-server
     - neo4j-server
 
+- hosts: awscislaves
+  remote_user: fedora
+  become: yes
+
+  roles:
+    - common
+    - jenkins-slave
+    - postgres-server
+    - mariadb-server
+    - redis-server
+    - neo4j-server
+
+
 - hosts: cimaster
   remote_user: ec2-user
   become: yes
