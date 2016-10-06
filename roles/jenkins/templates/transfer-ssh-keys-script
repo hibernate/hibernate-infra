@@ -14,3 +14,9 @@ for DESTINATION in {% for host in groups['cislaves'] %}"{{ host }}" {% endfor %}
 do
    transfer
 done
+
+for DESTINATION in {% for host in groups['awscislaves'] %}"{{ host }}" {% endfor %}
+
+do
+   transfer
+done
