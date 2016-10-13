@@ -37,6 +37,13 @@
   tags:
     - jenkins
 
+# Configure journald
+- name: Apply journald configuration
+  copy: src=journald.conf dest=/etc/systemd/journald.conf owner=root group=root mode=0644
+  notify: Restart journald
+  tags:
+    - journald
+
 # Install CouchDB
 - name: Get the the latest version of CouchDB
   dnf: name=couchdb state=latest
