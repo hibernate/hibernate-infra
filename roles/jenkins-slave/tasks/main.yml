@@ -78,26 +78,6 @@
   tags:
     - cassandra
 
-# Install packages required for web site build / Ruby environment
-- name: Web site build tool chain (GCC, headers etc.)
-  dnf: name={{item}} state=present
-  with_items:
-   - gcc
-   - make
-   - ruby-devel
-   - gcc-c++
-   - libxml2
-   - libxml2-devel
-   - libxslt
-   - libxslt-devel
-   - rubygem-nokogiri
-   - findutils
-   - git
-   - ruby
-   - rpm-build
-  tags:
-    - websitegems
-
 # Additional packages required for some build
 - name: Extra packages required on slaves
   dnf: name={{item}} state=present
@@ -108,20 +88,6 @@
    - ant
   tags:
     - extra-packages
-
-
-# Gems required for web-site build
-- name: Install Rake
-  gem: name=rake state=latest user_install=yes
-  become_user: jenkins
-  tags:
-    - websitegems
-
-- name: Install Bundler
-  gem: name=bundler state=latest user_install=yes
-  become_user: jenkins
-  tags:
-    - websitegems
 
 # Some slaves need to run rsync on the master,
 # this will ensure master is added to the known_host
