@@ -43,6 +43,18 @@
   tags:
     - neo4j
 
+- name: "Enable BOLT protocol"
+  lineinfile:
+    dest: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}/conf/neo4j.conf"
+    regexp: "address=0.0.0.0:7687"
+    line: "dbms.connector.bolt.address=0.0.0.0:7687"
+    state: present
+  become: yes
+  become_user: jenkins
+  register: neo4j_config_port
+  tags:
+    - neo4j
+
 - name: Check neo4j server status
   command: "nohup ./neo4j status"
   args:
