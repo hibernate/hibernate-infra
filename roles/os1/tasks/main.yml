@@ -43,3 +43,13 @@
          passno=0
          dump=0
          state=present
+
+- name: "Disable password authentication"
+  replace:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^PasswordAuthentication yes"
+    replace: "PasswordAuthentication no"
+  notify:
+    - Restart sshd
+  tags:
+    - password-auth

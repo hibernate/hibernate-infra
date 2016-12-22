@@ -19,3 +19,8 @@
     become: no
   tags:
     - network
+
+- name: Restart sshd
+  service: name=sshd enabled=yes state=restarted
+  tags:
+    - password-auth
