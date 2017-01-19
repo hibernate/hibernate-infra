@@ -86,6 +86,8 @@
     - name: windows-slaves
   shell: java -jar /home/jenkins/jenkins-cli.jar -s http://localhost:8080 install-plugin {{ item.name }}
   notify: Restart Jenkins
+  tags:
+    - jenkins
 
 # Now install Apache HTTPD
 - name: install the latest version of Apache HTTPD
