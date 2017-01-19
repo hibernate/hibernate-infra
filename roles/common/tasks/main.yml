@@ -37,6 +37,7 @@
 - fetch: src=/home/jenkins/.ssh/id_rsa.pub dest=/tmp/publicdeployedkeys/pubkey-{{ ansible_hostname }} flat=yes fail_on_missing=yes
   tags:
     - crosskeyauthentication
+    - fetch-keys
 
 - name: Setup SSH config
   copy: src=sshconfig dest=/home/jenkins/.ssh/config mode=0600 owner=jenkins group=jenkins
