@@ -60,24 +60,6 @@
   tags:
     - couchdb
 
-# Install Cassandra
-- name: Configure Datastax repo
-  copy: src=datastax.repo dest=/etc/yum.repos.d/ owner=root group=root mode=0644
-  tags:
-    - cassandra
-
-- name: Install Cassandra
-  dnf: name=dsc30 enablerepo=datastax state=latest
-  with_items:
-    - dsc30
-  tags:
-    - cassandra
-
-- name: Start Cassandra
-  service: name=cassandra enabled=yes state=started
-  tags:
-    - cassandra
-
 # Additional packages required for some build
 - name: Extra packages required on slaves
   dnf: name={{item}} state=present
@@ -130,4 +112,23 @@
     regexp: "^in.relation.to"
   tags:
     - crosskeyauthentication
+
+# Install Cassandra
+- name: Configure Datastax repo
+  copy: src=datastax.repo dest=/etc/yum.repos.d/ owner=root group=root mode=0644
+  tags:
+    - cassandra
+
+- name: Install Cassandra
+  dnf: name=dsc30 enablerepo=datastax state=latest
+  with_items:
+    - dsc30
+  tags:
+    - cassandra
+
+- name: Start Cassandra
+  service: name=cassandra enabled=yes state=started
+  ignore_errors: True
+  tags:
+    - cassandra
 
