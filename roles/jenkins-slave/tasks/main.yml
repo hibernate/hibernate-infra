@@ -1,5 +1,15 @@
 ---
 
+# Additional packages required for some build
+- name: Extra packages required on slaves
+  dnf: name={{item}} state=present
+  with_items:
+    - wget
+    - jq
+    - sed
+  tags:
+    - extra-packages
+
 # Use the extra space on /mnt
 
 - name: Create /mnt/.m2
@@ -60,25 +70,14 @@
   tags:
     - couchdb
 
-# Additional packages required for some build
-- name: Extra packages required on slaves
-  dnf: name={{item}} state=present
-  with_items:
-   - wget
-   - jq
-   - sed
-   - ant
-  tags:
-    - extra-packages
-
 # Some slaves need to run rsync on the master,
 # this will ensure master is added to the known_host
 # The ssh-keyscan approach (controversial!) is inspired from: http://hakunin.com/six-ansible-practices
 - name: Ensure cimaster is a known host
   lineinfile:
     dest: /home/jenkins/.ssh/known_hosts
-    create: yes
     state: present
+    create: yes
     owner: jenkins
     group: jenkins
     mode: 0600
@@ -86,12 +85,13 @@
     regexp: "^{{groups['cimaster'][0]}}"
   tags:
     - crosskeyauthentication
+    - create-known-hosts
 
 - name: Ensure ci.hibernate.org is a known host
   lineinfile:
     dest: /home/jenkins/.ssh/cihibernate-knownhosts
-    create: yes
     state: present
+    create: yes
     owner: jenkins
     group: jenkins
     mode: 0600
