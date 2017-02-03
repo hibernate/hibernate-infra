@@ -89,6 +89,12 @@
   tags:
     - jenkins
 
+# Copy custom css 
+- name: Copy custom CSS for CI
+  copy: src=ci-hibernate-v0007.css dest=/var/lib/jenkins/userContent-test/ mode=0700 owner=jenkins group=jenkins
+  tags:
+    - copy-css
+
 # Now install Apache HTTPD
 - name: install the latest version of Apache HTTPD
   yum: name=httpd state=latest
