@@ -10,6 +10,19 @@
   tags:
     - extra-packages
 
+- name: Docker engine
+  dnf: name={{item}} state=latest
+  with_items:
+    - python-docker-py
+    - docker-engine
+  tags:
+    - docker
+
+- name: Start Docker
+  service: name=docker enabled=yes state=started
+  tags:
+    - docker
+
 # Use the extra space on /mnt
 
 - name: Create /mnt/.m2
