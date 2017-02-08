@@ -60,6 +60,11 @@
   tags:
     - jenkins
 
+# It's nice to have it and sometimes a hostname too long can cause problems
+- name: Set the hostname
+  hostname: name={{ hostname }}
+
+
 - name: Run Cassandra docker image
   docker_container:
     name: cassandra
@@ -72,12 +77,6 @@
       CASSANDRA_LISTEN_ADDRESS: 127.0.0.1
   tags:
     - cassandra
-
-# If the hostname is too long, CouchDB might not work
-- name: Set the hostname
-  hostname: name={{ hostname }}
-  tags:
-    - couchdb
 
 - name: Run CouchDB docker image
   docker_container:
