@@ -79,3 +79,20 @@
     - Restart PostgreSQL
   tags:
     - postgres
+
+- name: Check credentials for hibernate_orm_test
+  shell: psql -d hibernate_orm_test -U hibernate_orm_test -h 127.0.0.1 -c 'SELECT 1';
+  environment:
+    PGPASSWORD: 'hibernate_orm_test'
+  tags:
+    - postgres-validation
+    - postgres
+
+- name: Check credentials for hibernate_user
+  shell: psql -d testingdb -U hibernate_user -h 127.0.0.1 -c 'SELECT 1';
+  environment:
+    PGPASSWORD: 'hibernate_password'
+  tags:
+    - postgres-validation
+    - postgres
+
