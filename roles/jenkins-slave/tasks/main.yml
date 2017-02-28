@@ -60,11 +60,6 @@
   tags:
     - jenkins
 
-# It's nice to have it and sometimes a hostname too long can cause problems
-- name: Set the hostname
-  hostname: name={{ hostname }}
-
-
 - name: Run Cassandra docker image
   docker_container:
     name: cassandra

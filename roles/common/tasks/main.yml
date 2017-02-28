@@ -27,6 +27,17 @@
      - Wait for server to restart
   when: (ansible_distribution == "Fedora" and ansible_distribution_major_version >= "23")
 
+# Hostname and hosts file
+- name: Set the hostname
+  hostname: name={{ hostname }}
+  tags:
+    - hostname
+
+- name: Setup the hosts file to workaround Java RMI limitations
+  template: src=hosts dest=/etc/hosts
+  tags:
+    - hostname
+
 # Create the jenkins user and explicitly set gid and uid
 - group: name=jenkins state=present gid=1001
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes uid=1001
