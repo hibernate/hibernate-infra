@@ -96,3 +96,12 @@
   tags:
     - neo4j
     - neo4j-authentication
+
+- name: Generate base64 string for new password
+  command: "curl --user neo4j:jenkins http://localhost:{{neo4j_port}}/db/data/"
+  register: neo4j_new_password
+  failed_when: "'Unauthorized' in neo4j_new_password.stdout" 
+  tags:
+    - neo4j
+    - neo4j-authentication
+
