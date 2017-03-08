@@ -1,15 +1,18 @@
 ---
 
 # Install PostgreSQL Server, setup testing databases and accounts
-- name: Ensure the latest version of PostgreSQL Server is installed
-  dnf: name=postgresql-server state=latest
-  notify:
-    - Restart PostgreSQL
+- name: Setup authentication methods
+  copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600
   tags:
     - postgres
 
 - name: Python adapters for PostgreSQL are installed
   dnf: name=python-psycopg2 state=latest
+  tags:
+    - postgres
+
+- name: Ensure the latest version of PostgreSQL Server is installed
+  dnf: name=postgresql-server state=latest
   tags:
     - postgres
 
@@ -19,17 +22,8 @@
   tags:
     - postgres
 
-- name: Setup authentication methods
-  copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600
-  notify:
-     - Restart PostgreSQL
-  tags:
-    - postgres
-
 - name: Apply some tuning suited for unit tests
   copy: src=postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf owner=postgres group=postgres mode=0600
-  notify:
-    - Restart PostgreSQL
   tags:
     - postgres
 
