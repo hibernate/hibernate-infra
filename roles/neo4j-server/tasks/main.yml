@@ -75,12 +75,6 @@
   tags:
     - neo4j
 
-# Neo4j seems to take abit too much time to start.
-# This is an hack until I have a better solution
-- pause: seconds=10
-  tags:
-    - neo4j
-
 - name: Generate base64 string for default password
   shell: echo -n "neo4j:neo4j" | base64
   register: neo4j_default_password
@@ -92,7 +86,9 @@
 - name: Change password the first time neo4j is started
   command: "curl -H \"Authorization: Basic {{neo4j_default_password.stdout}}\" -H \"Accept: application/json; charset=UTF-8\" -H \"Content-Type: application/json\" -X POST -d '{\"password\":\"jenkins\" }' http://localhost:{{neo4j_port}}/user/neo4j/password"
   register: neo4j_change_password
-  changed_when: neo4j_change_password.stdout.find('Invalid username or password') == -1
+  until: neo4j_change_password.stdout.find('Invalid username or password') == -1
+  retries: 5
+  delay: 10
   tags:
     - neo4j
     - neo4j-authentication
