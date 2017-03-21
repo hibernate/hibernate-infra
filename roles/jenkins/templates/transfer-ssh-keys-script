@@ -15,7 +15,7 @@ do
    transfer
 done
 
-for DESTINATION in {% for host in groups['awscislaves'] %}"{{ host }}" {% endfor %}
+for DESTINATION in {% for host in groups['awscislaves'] %}"{{ hostvars[host]['private_ip'] }}" {% endfor %}
 
 do
    transfer
