@@ -5,6 +5,7 @@
 209.132.178.123 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave4
 
 [awscislaves]
+#ec2-54-227-177-135.compute-1.amazonaws.com ansible_ssh_private_key_file=~/.ssh/keys/ForJenkinsUse.pem ansible_ssh_user=root hostname=awscislave0 private_ip=172.30.0.81
 
 [cimaster]
 54.174.65.136 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-aws.pem ansible_ssh_user=ec2-user hostname=ci
