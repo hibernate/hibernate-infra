@@ -86,9 +86,10 @@
 - name: Change password the first time neo4j is started
   command: "curl -H \"Authorization: Basic {{neo4j_default_password.stdout}}\" -H \"Accept: application/json; charset=UTF-8\" -H \"Content-Type: application/json\" -X POST -d '{\"password\":\"jenkins\" }' http://localhost:{{neo4j_port}}/user/neo4j/password"
   register: neo4j_change_password
-  until: neo4j_change_password.stdout.find('Invalid username or password') == -1
-  retries: 5
-  delay: 10
+  changed_when: neo4j_change_password.stdout.find('Invalid username or password') == -1
+  until: neo4j_change_password.stderr.find('Connection refused') == -1
+  retries: 4
+  delay: 5
   tags:
     - neo4j
     - neo4j-authentication
