@@ -69,3 +69,18 @@ to synchronize the tools to each slave. N.B. the script might need changes to in
 The Ansible playbook is designed so it can be re-run on your existing infrastructure without undoing configuration you did on the previous step.
 To make changes to the configuration of a slave, update the playbook and run the ansible-playbook command again.
 When done, commit the changes here again so next time you'll rebuild identical slaves.
+
+
+## TL;DR Running ansible on the slaves
+
+ansible-playbook -i hosts site.yml --limit cislaves
+ansible-playbook -i hosts site.yml --limit awscislaves
+ansible-playbook -i hosts site.yml --tags "crosskeyauthentication"
+ansible-playbook -i hosts site.yml --tags generate-script
+
+ssh ci.hibernate.org
+su jenkins
+cd /home/jenkins
+sh transfer-ssh-to-slaves.sh
+sh transfer-to-slaves.sh
+
