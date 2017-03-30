@@ -1,0 +1,12 @@
+---
+
+- name: Authorize AWS key for user jenkins
+  lineinfile:
+    dest: /home/jenkins/.ssh/authorized_keys
+    line: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChE2FxT1i/f91WyVlKC38bSYyuHxCGNUltOuhb53JPrmCuIg2j28FUVtFmpsyctioQFR4VKSrDJCUNYEKwb7UZ3RoWcYhQjSEVcncM/RsnhElPOpKacPiJ3sL4lCtINiaZUSGxq+skB0MTZiANdEDDnb1lZ08bmGvyGZBApn0LcROztn1vi4lrrsTge6+Mu8v9ogJdn0Sqx2mElalV4QR6/M4IexazyUmjjNXYuA9rSdRJMFlevqruC8vlpK//1X0XUtDu1wYM/+T6qLHxgW2ePGtz2+Ej7Rsl+p0s5TuCN/Jl/9fsJwfMNqUZeEqx5GZd9zM13gjAiBL7nZyw8h3P ForJenkinsUse"
+    owner: jenkins
+    state: present
+    insertafter: EOF
+    create: True
+  become: yes
+

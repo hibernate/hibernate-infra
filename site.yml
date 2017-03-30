@@ -23,6 +23,7 @@
   roles:
     - common
     - jenkins-slave
+    - awsslave
     - postgres-server
     - mariadb-server
     - redis-server
