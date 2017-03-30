@@ -60,29 +60,47 @@
   tags:
     - jenkins
 
-- name: Run Cassandra docker image
-  docker_container:
-    name: cassandra
+- name: Add Couchdb service 
+  copy: src=couchdb/docker-couchdb.service dest=/etc/systemd/system/ mode=0600 owner=root group=root
+  tags:
+    - couchdb
+
+- name: Start CouchDB
+  service:
+    name: docker-couchdb
+    enabled: yes
     state: started
-    image: cassandra:3.7
-    detach: True
-    ports:
-      - "9042:9042"
-    env:
-      CASSANDRA_LISTEN_ADDRESS: 127.0.0.1
+    daemon_reload: yes
+  tags:
+    - couchdb
+
+- name: Add Cassandra service 
+  copy: src=cassandra/docker-cassandra.service dest=/etc/systemd/system/ mode=0600 owner=root group=root
   tags:
     - cassandra
 
-- name: Run CouchDB docker image
-  docker_container:
-    name: couchdb
+- name: Start Cassandra
+  service:
+    name: docker-cassandra
+    enabled: yes
     state: started
-    image: couchdb
-    detach: True
-    ports:
-      - "55555:5984"
+    daemon_reload: yes
+  tags:
+    - cassandra
+
+- name: Wait for CouchDB to start
+  wait_for:
+    port: 55555
+    delay: 5
   tags:
     - couchdb
+
+- name: Wait for Cassandra to start
+  wait_for:
+    port: 9042
+    delay: 5
+  tags:
+    - cassandra
 
 # Some slaves need to run rsync on the master,
 # this will ensure master is added to the known_host

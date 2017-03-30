@@ -1,0 +1,14 @@
+[Unit]
+Description=CouchDB container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run -p "55555:5984" --name CouchDB couchdb
+ExecStop=/usr/bin/docker stop -t 2 CouchDB
+ExecStopPost=/usr/bin/docker rm -f CouchDB
+
+[Install]
+WantedBy=default.target
+

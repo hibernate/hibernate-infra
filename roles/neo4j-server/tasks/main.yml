@@ -1,103 +1,54 @@
 ---
-- name: Install lsof for Neo4j server
-  dnf: name=lsof state=present
-  tags:
-    - packages
-    - neo4j
 
-- name: Create Neo4j folder
-  file: path="{{neo4j_path}}" state=directory mode=0755
-  become: yes
-  become_user: jenkins
+- name: Add Neo4j service
+  template:
+    src: docker-neo4j.service
+    dest: /etc/systemd/system/
+    mode: 600
+    owner: root
+    group: root
   tags:
     - neo4j
 
-- name: Download Neo4j community server
-  get_url:
-    url: "http://dist.neo4j.org/neo4j-community-{{neo4j_version}}-unix.tar.gz"
-    dest: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}-unix.tar.gz"
-  become: yes
-  become_user: jenkins
+- name: Start Neo4j
+  service:
+    name: docker-neo4j
+    enabled: yes
+    state: started
+    daemon_reload: yes
   tags:
     - neo4j
-
-- name: Unarchive the server
-  unarchive:
-    src: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}-unix.tar.gz"
-    dest: "{{neo4j_path}}"
-    copy: no
-  become: yes
-  become_user: jenkins
-  tags:
-    - neo4j
-
-- name: "Change Neo4j default port (7474) to {{neo4j_port}}"
-  lineinfile:
-    dest: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}/conf/neo4j.conf"
-    regexp: "address=0.0.0.0:7474"
-    line: "dbms.connector.http.address=0.0.0.0:{{neo4j_port}}"
-    state: present
-  become: yes
-  become_user: jenkins
-  register: neo4j_config_port
-  tags:
-    - neo4j
-
-- name: "Enable BOLT protocol"
-  lineinfile:
-    dest: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}/conf/neo4j.conf"
-    regexp: "address=0.0.0.0:7687"
-    line: "dbms.connector.bolt.address=0.0.0.0:7687"
-    state: present
-  become: yes
-  become_user: jenkins
-  register: neo4j_config_port
-  tags:
-    - neo4j
-
-- name: Check neo4j server status
-  command: "nohup ./neo4j status"
-  args:
-    chdir: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}/bin"
-  register: neo4j_server_status
-  changed_when: neo4j_server_status.stdout.find('Neo4j Server is not running') != -1
-  ignore_errors: True
-  tags:
-    - neo4j
-
-- name: Start neo4j server
-  environment:
-    NEO4J_HOME: "{{neo4j_path}}/neo4j-community-{{neo4j_version}}"
-  command: "nohup {{neo4j_path}}/neo4j-community-{{neo4j_version}}/bin/neo4j start"
-  become: yes
-  become_user: jenkins
-  when: neo4j_server_status.changed or neo4j_config_port.changed
-  tags:
-    - neo4j
-
-- name: Generate base64 string for default password
-  shell: echo -n "neo4j:neo4j" | base64
-  register: neo4j_default_password
-  changed_when: False
-  tags:
-    - neo4j
-    - neo4j-authentication
 
 - name: Change password the first time neo4j is started
-  command: "curl -H \"Authorization: Basic {{neo4j_default_password.stdout}}\" -H \"Accept: application/json; charset=UTF-8\" -H \"Content-Type: application/json\" -X POST -d '{\"password\":\"jenkins\" }' http://localhost:{{neo4j_port}}/user/neo4j/password"
-  register: neo4j_change_password
-  changed_when: neo4j_change_password.stdout.find('Invalid username or password') == -1
-  until: neo4j_change_password.stderr.find('Connection refused') == -1
+  uri:
+    url: http://localhost:{{neo4j_port}}/user/neo4j/password
+    method: POST
+    user: neo4j
+    password: neo4j
+    status_code: 200
+    force_basic_auth: yes   
+    body:
+      password: "jenkins"
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json; charset=UTF-8"
+    return_content: yes
+  register: result
+  until: result.msg.find( "OK") != -1
+  delay: 5 
   retries: 4
-  delay: 5
   tags:
     - neo4j
     - neo4j-authentication
 
-- name: Generate base64 string for new password
-  command: "curl --user neo4j:jenkins http://localhost:{{neo4j_port}}/db/data/"
-  register: neo4j_new_password
-  failed_when: "'Unauthorized' in neo4j_new_password.stdout" 
+- name: Validate password
+  uri:
+    url: http://localhost:{{neo4j_port}}/db/data/
+    user: neo4j
+    password: jenkins
+    force_basic_auth: yes
+    status_code: 200
   tags:
     - neo4j
     - neo4j-authentication
