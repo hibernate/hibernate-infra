@@ -13,43 +13,9 @@
 - name: Start Neo4j
   service:
     name: docker-neo4j
-    enabled: yes
-    state: started
+    enabled: no
+    state: stopped
     daemon_reload: yes
   tags:
     - neo4j
-
-- name: Change password the first time neo4j is started
-  uri:
-    url: http://localhost:{{neo4j_port}}/user/neo4j/password
-    method: POST
-    user: neo4j
-    password: neo4j
-    status_code: 200
-    force_basic_auth: yes   
-    body:
-      password: "jenkins"
-    body_format: json
-    headers:
-      Content-Type: "application/json"
-      Accept: "application/json; charset=UTF-8"
-    return_content: yes
-  register: result
-  until: result.msg.find( "OK") != -1
-  delay: 5 
-  retries: 4
-  tags:
-    - neo4j
-    - neo4j-authentication
-
-- name: Validate password
-  uri:
-    url: http://localhost:{{neo4j_port}}/db/data/
-    user: neo4j
-    password: jenkins
-    force_basic_auth: yes
-    status_code: 200
-  tags:
-    - neo4j
-    - neo4j-authentication
 

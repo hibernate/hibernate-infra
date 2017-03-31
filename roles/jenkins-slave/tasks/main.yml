@@ -23,6 +23,36 @@
   tags:
     - docker
 
+- name: Enable SERVICES Cmnd_Alias
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: 'Cmnd_Alias SERVICES'
+    line: 'Cmnd_Alias SERVICES = /sbin/service, /sbin/chkconfig'
+    validate: 'visudo -cf %s'
+  tags:
+    - services
+
+- name: Give jenkins permission to run services
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^jenkins ALL='
+    line: 'jenkins ALL=(ALL) NOPASSWD: SERVICES'
+    validate: 'visudo -cf %s'
+  tags:
+    - services
+
+- name: Give jenkins permission to run docker
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^jenkins ALL='
+    line: 'jenkins ALL=(ALL) NOPASSWD: SERVICES'
+    validate: 'visudo -cf %s'
+  tags:
+    - services
+
 # Use the extra space on /mnt
 
 - name: Create /mnt/.m2
@@ -68,8 +98,8 @@
 - name: Start CouchDB
   service:
     name: docker-couchdb
-    enabled: yes
-    state: started
+    enabled: no
+    state: stopped
     daemon_reload: yes
   tags:
     - couchdb
@@ -82,23 +112,9 @@
 - name: Start Cassandra
   service:
     name: docker-cassandra
-    enabled: yes
-    state: started
+    enabled: no
+    state: stopped
     daemon_reload: yes
-  tags:
-    - cassandra
-
-- name: Wait for CouchDB to start
-  wait_for:
-    port: 55555
-    delay: 5
-  tags:
-    - couchdb
-
-- name: Wait for Cassandra to start
-  wait_for:
-    port: 9042
-    delay: 5
   tags:
     - cassandra
 
