@@ -9,4 +9,6 @@
     insertafter: EOF
     create: True
   become: yes
+  tags:
+    - awscislaves
 
