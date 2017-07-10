@@ -16,6 +16,16 @@
   tags:
     - mariadb
 
+- name: Apply MariaDB tuning suited for unit tests
+  copy: src=my.cnf dest=/etc/my.cnf owner=root group=root mode=0644 force=yes
+  tags:
+    - mariadb
+
+- name: Ensure MariaDB is started now, and again on startup
+  service: name=mariadb enabled=yes state=restarted
+  tags:
+    - mariadb
+
 - name: Create Hibernate testing users for MariaDB
   mysql_user: name=hibernate_user password=hibernate_password priv=*.*:ALL state=present
   tags:
@@ -36,9 +46,3 @@
   tags:
     - mariadb
 
-- name: Apply MariaDB tuning suited for unit tests
-  copy: src=my.cnf dest=/etc/my.cnf owner=root group=root mode=0644
-  tags:
-    - mariadb
-  notify:
-     - Restart MariaDB
