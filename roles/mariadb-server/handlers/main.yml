@@ -1,4 +1,0 @@
----
-
-- name: Restart MariaDB
-  service: name=mariadb enabled=yes state=restarted
