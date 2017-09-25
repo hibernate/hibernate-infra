@@ -1,0 +1,21 @@
+---
+
+- name: install the latest version of Apache HTTPD
+  yum: name=httpd state=latest
+
+- name: Make sure the example welcome page from HTTPD is removed
+  file: path=/etc/httpd/conf.d/{{ item }} state=absent
+  with_items:
+    - autoindex.conf
+    - userdir.conf
+    - welcome.conf
+
+- name: Create httpd home for new.hibernate.org
+  file: path=/var/www/new.hibernate.org owner=jenkins group=jenkins mode=0755 state=directory
+
+- name: Add a minimal, default index.html (in.relation.to)
+  copy: src=new-hibernate-org-basic-index.html dest=/var/www/new.hibernate.org/index.html owner=jenkins group=jenkins mode=0666 force=no
+
+- name: Ensure Apache HTTPD is started now, and again on startup
+  service: name=httpd enabled=yes state=restarted
+

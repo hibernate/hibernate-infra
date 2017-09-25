@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+  ServerName new.hibernate.org
+  ServerAdmin webmaster@localhost
+  ProxyRequests Off
+
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml application/x-javascript text/css
+
+  ErrorDocument 404 /404.html
+
+  DocumentRoot /var/www/new.hibernate.org
+  <Directory /var/www/new.hibernate.org>
+    AllowOverride None
+  </Directory>
+
+  LogLevel warn
+</VirtualHost>
