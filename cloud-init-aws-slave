@@ -1,0 +1,30 @@
+#cloud-config
+# This one is specific for Slaves booting *after* the image is already built.
+# Therefore it's no longer needed to install packages, keys, etc as they are already saved.
+# We need to re-create the EXT4 format on the instance-specific NVMe drive though,
+# otherwise the machine will fail to boot.
+# Additionally, re-create the directories (and permissions) on this drive which we'll need
+# to run jobs.
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+fs_setup:
+   - label: nvme0n1
+     filesystem: ext4
+     device: /dev/nvme0n1
+     partition: auto
+
+mounts:
+ - [ nvme0n1, /mnt, ext4, "rw,noatime,data=writeback,nouser_xattr" ]
+
+bootcmd:
+ - [ mkdir, -p, /mnt/.m2 ]
+ - [ chown, jenkins:jenkins, -R, /mnt/.m2 ]
+ - [ mkdir, -p, /mnt/jenkins-workdir ]
+ - [ chown, jenkins:jenkins, -R, /mnt/jenkins-workdir ]
+ - [ mkdir, -p, /mnt/.gradle ]
+ - [ chown, jenkins:jenkins, -R, /mnt/.gradle ]
+
+final_message: "Cloud-init v. ${version} Hibernate CI Slave booted! Up after ${uptime} seconds."
