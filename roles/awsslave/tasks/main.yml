@@ -12,3 +12,21 @@
   tags:
     - awscislaves
 
+- name: Format NVMe Drive
+  filesystem:
+    fstype: ext4
+    dev: /dev/nvme0n1
+    force: no
+  tags:
+    - nvme
+
+- name: Mount NVMe Drive
+  mount:
+    path: /mnt
+    src: /dev/nvme0n1
+    fstype: ext4
+    opts: rw,noatime,data=writeback,nouser_xattr
+    state: mounted
+  tags:
+    - nvme
+
