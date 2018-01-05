@@ -2,3 +2,8 @@
 
 - name: Enable Tuned profile for low latency
   command: tuned-adm profile network-latency
+
+- sysctl:
+    name: vm.swappiness
+    value: 10
+    state: present
