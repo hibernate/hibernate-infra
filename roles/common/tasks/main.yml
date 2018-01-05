@@ -100,6 +100,7 @@
    - git
    - ruby
    - rpm-build
+   - tuned
   when: (ansible_distribution == "Fedora" and ansible_distribution_major_version >= "23")
   tags:
     - websitegems
@@ -119,6 +120,7 @@
    - git
    - ruby
    - rpm-build
+   - tuned
   when: ansible_distribution == "RedHat"
   tags:
     - websitegems
