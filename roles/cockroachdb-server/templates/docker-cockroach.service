@@ -1,0 +1,16 @@
+[Unit]
+Description=Cockroach v1.0.1 container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=no
+ExecStart=/usr/bin/docker-compose -f /usr/local/bin/cockroaches-docker-compose.yml up
+ExecStop=/usr/bin/docker-compose -f /usr/local/bin/cockroaches-docker-compose.yml down
+ExecStop=/usr/bin/docker rm -f roach1
+ExecStop=/usr/bin/docker rm -f roach2
+ExecStop=/usr/bin/docker rm -f roach3
+
+[Install]
+WantedBy=default.target
+

@@ -1,0 +1,42 @@
+---
+
+- name: Install docker compose
+  dnf: name=docker-compose state=present
+  tags:
+    - cockroach
+
+- name: Create network
+  docker_network:
+    name: roachnet
+  tags:
+    - cockroach
+
+- name: Copy Cockroach cluster bash files
+  template:
+    src: cockroaches-docker-compose.yml
+    dest: /usr/local/bin
+    mode: 755
+    owner: root
+    group: root
+  tags:
+    - cockroach
+
+- name: Add Cockroach service
+  template:
+    src: docker-cockroach.service
+    dest: /etc/systemd/system/
+    mode: 755
+    owner: root
+    group: root
+  tags:
+    - cockroach
+
+- name: Stop Cockroach
+  service:
+    name: docker-cockroach
+    enabled: no
+    state: stopped
+    daemon_reload: yes
+  tags:
+    - cockroach
+

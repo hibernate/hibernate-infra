@@ -1,0 +1,23 @@
+version: "2"
+services:
+  roach1:
+    container_name: roach1
+    image: cockroachdb/cockroach:v1.0.1
+    command: start --insecure
+    ports:
+      - 8078:8080
+      - 26257:26257
+  roach2:
+    container_name: roach2
+    image: cockroachdb/cockroach:v1.0.1
+    command: start --insecure --join=roach1
+  roach3:
+    container_name: roach3
+    image: cockroachdb/cockroach:v1.0.1
+    command: start --insecure --join=roach1
+    
+networks:
+  default:
+    external:
+      name: roachnet
+

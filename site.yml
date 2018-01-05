@@ -15,6 +15,7 @@
     - mariadb-server
     - redis-server
     - neo4j-server
+    - cockroachdb-server
 
 - hosts: awscislaves
   remote_user: fedora
@@ -28,6 +29,7 @@
     - mariadb-server
     - redis-server
     - neo4j-server
+    - cockroachdb-server
 
 
 - hosts: cimaster
