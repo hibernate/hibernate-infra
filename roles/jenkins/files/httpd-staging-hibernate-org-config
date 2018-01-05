@@ -3,8 +3,8 @@
   ServerAdmin webmaster@localhost
   ProxyRequests Off
 
-  DocumentRoot /var/www/html
-  <Directory /var/www/html>
+  DocumentRoot /var/www/staging-hibernate.org
+  <Directory /var/www/staging-hibernate.org>
     AllowOverride None
   </Directory>
 
