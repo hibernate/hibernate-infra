@@ -12,3 +12,52 @@
   tags:
     - awscislaves
 
+# Some performance tuning; we have absolutely nothing important
+# to save on a slave in case of job crash so allow aggressive caching.
+# See also: https://www.kernel.org/doc/Documentation/sysctl/vm.txt
+
+# Target size of block storage buffers
+- name: Set dirty_background_ratio to 25% system memory
+  sysctl:
+    name: vm.dirty_background_ratio
+    value: 25
+    state: present
+  tags:
+    - sysctl-tuning
+
+# Absolute limit before a stall & flush is forced
+- name: Set dirty_ratio to 35% system memory
+  sysctl:
+    name: vm.dirty_ratio
+    value: 35
+    state: present
+  tags:
+    - sysctl-tuning
+
+# How old can a page become before it's taken in consideration for write
+- name: Set dirty_expire_centisecs to 10 minutes
+  sysctl:
+    name: vm.dirty_expire_centisecs
+    value: 60000
+    state: present
+  tags:
+    - sysctl-tuning
+
+# How often to wakeup to check for flush needs
+- name: Set dirty_writeback_centisecs to 1 minute
+  sysctl:
+    name: vm.dirty_writeback_centisecs
+    value: 6000
+    state: present
+  tags:
+    - sysctl-tuning
+
+# Now some network tuning
+# https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+- name: Enable TCP fast-optional
+  sysctl:
+    name: net.ipv4.tcp_fastopen
+    value: 3
+    state: present
+  tags:
+    - sysctl-tuning
