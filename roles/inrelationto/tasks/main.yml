@@ -1,7 +1,12 @@
 ---
 
-- name: install the latest version of Apache HTTPD
+- name: install the latest version of Apache HTTPD, using yum
   yum: name=httpd state=latest
+  when: ansible_pkg_mgr == 'yum'
+
+- name: install the latest version of Apache HTTPD, using dnf
+  dnf: name=httpd state=latest
+  when: ansible_pkg_mgr == 'dnf'
 
 - name: Make sure the example welcome page from HTTPD is removed
   file: path=/etc/httpd/conf.d/{{ item }} state=absent
@@ -33,4 +38,3 @@
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
-
