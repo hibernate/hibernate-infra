@@ -24,11 +24,12 @@
     - docker
     - groups
 
-- name: Docker engine
+- name: Docker engine and Docker Compose
   dnf: name={{item}} state=latest
   with_items:
     - python-docker-py
     - docker-engine
+    - docker-compose
   tags:
     - docker
 
