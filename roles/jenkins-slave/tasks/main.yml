@@ -10,6 +10,20 @@
   tags:
     - extra-packages
 
+- name: Create Docker group
+  group:
+    name: docker
+    state: present
+  tags:
+    - docker
+    - groups
+
+- name: Assign docker groups to jenkins
+  user: name=jenkins groups=docker append=yes
+  tags:
+    - docker
+    - groups
+
 - name: Docker engine
   dnf: name={{item}} state=latest
   with_items:
