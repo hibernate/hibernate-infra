@@ -22,10 +22,12 @@
    - sendmail
    - which
    - jenkins
+  when: ansible_pkg_mgr == 'yum'
 
 # Now install Apache HTTPD
 - name: install the latest version of Apache HTTPD
   yum: name=httpd state=latest
+  when: ansible_pkg_mgr == 'yum'
 
 - name: Make sure the example welcome page from HTTPD is removed
   file: path=/etc/httpd/conf.d/{{ item }} state=absent
