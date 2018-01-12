@@ -33,22 +33,12 @@
   tags:
     - services
 
-- name: Give jenkins permission to run services
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: '^jenkins ALL='
-    line: 'jenkins ALL=(ALL) NOPASSWD: SERVICES'
-    validate: 'visudo -cf %s'
-  tags:
-    - services
-
 - name: Give jenkins permission to run docker
   lineinfile:
     dest: /etc/sudoers
     state: present
     regexp: '^jenkins ALL='
-    line: 'jenkins ALL=(ALL) NOPASSWD: /usr/bin/docker'
+    line: 'jenkins ALL=(ALL) NOPASSWD: SERVICES, /usr/bin/docker'
     validate: 'visudo -cf %s'
   tags:
     - services
