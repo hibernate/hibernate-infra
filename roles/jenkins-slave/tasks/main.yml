@@ -38,7 +38,7 @@
     dest: /etc/sudoers
     state: present
     regexp: '^jenkins ALL='
-    line: 'jenkins ALL=(ALL) NOPASSWD: SERVICES, /usr/bin/docker'
+    line: 'jenkins ALL=(ALL) NOPASSWD: SERVICES, /usr/bin/docker, /usr/bin/docker-compose'
     validate: 'visudo -cf %s'
   tags:
     - services
