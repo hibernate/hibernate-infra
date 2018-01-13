@@ -60,23 +60,23 @@
 
 # Use the extra space on /mnt
 
-- name: Create /mnt/.m2
-  file: path=/mnt/.m2 owner=jenkins group=jenkins mode=0755 state=directory
+- name: Create /efs-maven-artifacts/.m2
+  file: path=/efs-maven-artifacts/.m2 owner=jenkins group=jenkins mode=0755 state=directory
   tags:
     - jenkins
 
-- name: Create link /home/jenkins/.m2 to /mnt/.m2
-  file: path=/home/jenkins/.m2 src=/mnt/.m2 owner=jenkins group=jenkins mode=0755 state=link force=yes
+- name: Create link /home/jenkins/.m2 to /efs-maven-artifacts/.m2
+  file: path=/home/jenkins/.m2 src=/efs-maven-artifacts/.m2 owner=jenkins group=jenkins mode=0755 state=link force=yes
   tags:
     - jenkins
 
-- name: Create /mnt/.gradle
-  file: path=/mnt/.gradle owner=jenkins group=jenkins mode=0755 state=directory
+- name: Create /efs-maven-artifacts/.gradle
+  file: path=/efs-maven-artifacts/.gradle owner=jenkins group=jenkins mode=0755 state=directory
   tags:
     - jenkins
 
-- name: Create link /home/jenkins/.gradle to /mnt/.gradle
-  file: path=/home/jenkins/.gradle src=/mnt/.gradle owner=jenkins group=jenkins mode=0755 state=link force=yes
+- name: Create link /home/jenkins/.gradle to /efs-maven-artifacts/.gradle
+  file: path=/home/jenkins/.gradle src=/efs-maven-artifacts/.gradle owner=jenkins group=jenkins mode=0755 state=link force=yes
   tags:
     - jenkins
 
