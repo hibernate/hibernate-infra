@@ -61,15 +61,3 @@
     state: present
   tags:
     - sysctl-tuning
-
-# Shared file systems
-- name: install NFS client tools
-  dnf: name=nfs-utils state=latest
-  when: ansible_pkg_mgr == 'dnf'
-  tags:
-    - nfs
-
-- name: Mount the Maven shared cache EFS drive as /efs-maven-artifacts
-  mount: name=/efs-maven-artifacts src=fs-566a611f.efs.us-east-1.amazonaws.com:/ fstype=nfs4 opts=nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 state=mounted
-  tags:
-    - nfs
