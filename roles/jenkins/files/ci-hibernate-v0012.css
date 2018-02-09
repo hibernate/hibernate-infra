@@ -32,6 +32,10 @@ footer {
  position: fixed;
 }
 
+#main-panel {
+   padding-top: 40px;
+}
+
 #page-body.fixedGridLayout {
    top: 130px
 }
@@ -45,9 +49,8 @@ footer {
   z-index: 1002;
 }
 
-.dashboard {
-  position: absolute;
-  top: 180px;
+#description {
+  display: inline-block;
 }
 
 #description a {

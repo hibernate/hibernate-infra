@@ -91,7 +91,7 @@
 
 # Copy custom css 
 - name: Copy custom CSS for CI
-  copy: src=ci-hibernate-v0007.css dest=/var/lib/jenkins/userContent-test/ mode=0700 owner=jenkins group=jenkins
+  copy: src=ci-hibernate-v0012.css dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
   tags:
     - copy-css
 
