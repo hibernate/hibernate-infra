@@ -8,13 +8,7 @@ packages:
  - sendmail
  - curl
  - unzip
- - java-11-openjdk-devel
- - gnupg
  - wget
- - python
- - python-dnf
- - libselinux-python
- - which
  - vim
 
 ssh_authorized_keys:
