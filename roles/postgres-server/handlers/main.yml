@@ -1,6 +1,6 @@
 ---
 
-- name: Restart PostgreSQL
-  service: name=postgresql enabled=yes state=restarted
+- name: Reload PostgreSQL
+  service: name=postgresql state=reloaded
   tags:
     - postgres

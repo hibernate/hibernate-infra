@@ -3,13 +3,23 @@
 # Install PostgreSQL Server, setup testing databases and accounts
 - name: Ensure PostgreSQL Server is installed
   dnf: name=postgresql-server state=present
-  notify:
-    - Restart PostgreSQL
   tags:
     - postgres
 
 - name: Python adapters for PostgreSQL are installed
   dnf: name=python3-psycopg2 state=present
+  tags:
+    - postgres
+
+- name: Setup authentication methods
+  copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600
+  notify: Reload PostgreSQL
+  tags:
+    - postgres
+
+- name: Apply some tuning suited for unit tests
+  copy: src=postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf owner=postgres group=postgres mode=0600
+  notify: Reload PostgreSQL
   tags:
     - postgres
 
@@ -65,25 +75,6 @@
   become_user: postgres 
   tags:
     - postgres
-
-- name: Setup authentication methods
-  copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600
-  tags:
-    - postgres
-
-- name: Apply some tuning suited for unit tests
-  copy: src=postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf owner=postgres group=postgres mode=0600
-  tags:
-    - postgres
-
-- name: Restart PostgreSQL                                                                          
-  service: name=postgresql enabled=yes state=restarted                                              
-  tags:                                                                                             
-    - postgres                                                                                      
-
-- name: Wait until restarted
-  pause:
-    seconds: 10
 
 - name: Check credentials for hibernate_orm_test
   shell: psql -d hibernate_orm_test -U hibernate_orm_test -h 127.0.0.1 -c 'SELECT 1';
