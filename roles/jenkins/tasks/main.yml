@@ -1,10 +1,10 @@
 ---
 
-- name: Deploy all RSA keys generated on the slaves so they can connect to the master
-  authorized_key: user=jenkins key="{{ lookup('file', item) }}"
-  with_fileglob: /tmp/publicdeployedkeys/*
+# Fetch the public key of this node
+- fetch: src=/home/jenkins/.ssh/hostkey.pub dest=/tmp/publicdeployedkeys/pubkey-ci-master.pub flat=yes fail_on_missing=yes
   tags:
     - crosskeyauthentication
+    - fetch-keys
 
 - name: Ensure Jenkins repo is installed.
   get_url:

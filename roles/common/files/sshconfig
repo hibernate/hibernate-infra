@@ -20,7 +20,7 @@ Host github.com
 
 Host ci.hibernate.org
     User jenkins
-    IdentityFile ~/.ssh/id_rsa
+    IdentityFile ~/.ssh/hostkey
     PreferredAuthentications publickey
     Compression yes
     IdentitiesOnly yes
@@ -37,7 +37,7 @@ Host ci.hibernate.org
 
 Host in.relation.to
     User jenkins
-    IdentityFile ~/.ssh/id_rsa
+    IdentityFile ~/.ssh/hostkey
     PreferredAuthentications publickey
     Compression yes
     IdentitiesOnly yes
