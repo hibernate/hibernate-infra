@@ -13,7 +13,9 @@
 
 # Update and install packages, using dnf
 - name: Install all package upgrades using dnf
-  dnf: name=* state=latest
+  dnf:
+    name: "*"
+    state: latest
   notify:
      - Restart server
      - Wait for server to restart
