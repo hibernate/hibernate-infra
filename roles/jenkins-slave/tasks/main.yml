@@ -2,11 +2,8 @@
 
 # Additional packages required for some build
 - name: Extra packages required on slaves
-  dnf: name={{item}} state=present
-  with_items:
-    - wget
-    - jq
-    - sed
+  dnf:
+    name: ['wget', 'jq', 'sed']
   tags:
     - extra-packages
 
@@ -25,11 +22,8 @@
     - groups
 
 - name: Docker engine and Docker Compose
-  dnf: name={{item}} state=latest
-  with_items:
-    - python-docker-py
-    - docker-engine
-    - docker-compose
+  dnf:
+    name: ['docker-engine', 'docker-compose']
   tags:
     - docker
 
