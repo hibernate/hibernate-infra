@@ -11,18 +11,13 @@
   tags:
     - mariadb
 
-- name: Ensure MariaDB is started now, and again on startup
-  service: name=mariadb enabled=yes state=started
-  tags:
-    - mariadb
-
 - name: Apply MariaDB tuning suited for unit tests
   copy: src=my.cnf dest=/etc/my.cnf owner=root group=root mode=0644 force=yes
   tags:
     - mariadb
 
 - name: Ensure MariaDB is started now, and again on startup
-  service: name=mariadb enabled=yes state=restarted
+  service: name=mariadb enabled=yes state=started
   tags:
     - mariadb
 
