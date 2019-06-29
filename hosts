@@ -15,3 +15,7 @@ cinew.hibernate.org ansible_ssh_private_key_file=~/.ssh/keys/ci-hibernate-org-20
 
 [dedicated]
 #209.132.179.20 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cidedicated
+
+
+[awscislaves:vars]
+ansible_python_interpreter=/usr/bin/python3
