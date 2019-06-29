@@ -1,20 +1,20 @@
 ---
 
 # Install PostgreSQL Server, setup testing databases and accounts
-- name: Ensure the latest version of PostgreSQL Server is installed
-  dnf: name=postgresql-server state=latest
+- name: Ensure PostgreSQL Server is installed
+  dnf: name=postgresql-server state=present
   notify:
     - Restart PostgreSQL
   tags:
     - postgres
 
 - name: Python adapters for PostgreSQL are installed
-  dnf: name=python-psycopg2 state=latest
+  dnf: name=python3-psycopg2 state=present
   tags:
     - postgres
 
 - name: Initiate PostgreSQL database if needed
-  command: service postgresql initdb
+  command: /usr/bin/postgresql-setup --initdb
     creates=/var/lib/pgsql/data/postgresql.conf
   tags:
     - postgres
