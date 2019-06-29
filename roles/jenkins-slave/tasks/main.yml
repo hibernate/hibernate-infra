@@ -3,7 +3,7 @@
 # Additional packages required for some build
 - name: Extra packages required on slaves
   dnf:
-    name: ['wget', 'jq', 'sed']
+    name: ['wget', 'jq', 'sed', 'java-11-openjdk-devel']
     state: present
   tags:
     - extra-packages
