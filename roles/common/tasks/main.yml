@@ -1,6 +1,6 @@
 ---
 # Configure journald
-- name: Apply journald configuration for minumum overhead and storage costs
+- name: Apply journald configuration for minimum overhead and storage costs
   copy: src=journald.conf dest=/etc/systemd/journald.conf owner=root group=root mode=0644
   notify: Restart journald
   tags:
