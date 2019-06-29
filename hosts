@@ -1,14 +1,17 @@
 [cislaves]
-209.132.178.229 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave1
-209.132.178.28 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave2
-209.132.178.41 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave3
-209.132.178.2 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave4
+#209.132.178.229 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave1
+#209.132.178.28 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave2
+#209.132.178.41 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave3
+#209.132.178.2 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cislave4
 
 [awscislaves]
 #ec2-54-227-177-135.compute-1.amazonaws.com ansible_ssh_private_key_file=~/.ssh/keys/ForJenkinsUse.pem ansible_ssh_user=root hostname=awscislave0 private_ip=172.30.0.81
+newslave ansible_ssh_private_key_file=~/.ssh/keys/ci-hibernate-org-2019 ansible_ssh_user=fedora hostname=ci-slave
 
 [cimaster]
-54.174.65.136 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-aws.pem ansible_ssh_user=ec2-user hostname=ci
+#54.174.65.136 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-aws.pem ansible_ssh_user=ec2-user hostname=ci
+ci.hibernate.org ansible_ssh_private_key_file=~/.ssh/keys/ci-hibernate-org-2019 ansible_ssh_user=ec2-user hostname=ci
+
 
 [dedicated]
 #209.132.179.20 ansible_ssh_private_key_file=~/.ssh/keys/hibernate-keys-os1.pem hostname=cidedicated
