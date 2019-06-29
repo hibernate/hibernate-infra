@@ -41,6 +41,14 @@
     - common
     - aws
     - jenkins
+
+- hosts: websites
+  remote_user: ec2-user
+  become: yes
+
+  roles:
+    - common
+    - aws
     - inrelationto
     - temporary-inrelationto-staging
 
