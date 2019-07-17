@@ -11,8 +11,16 @@
     state: started
     enabled: true
 
+- name: Get current tuned profile
+  command: /usr/sbin/tuned-adm active
+  register: tuned_active
+  changed_when: false
+  ignore_errors: true
+
 - name: Enable Tuned profile for low latency
   command: tuned-adm profile virtual-guest
+  when:
+    - tuned_active.stdout.find('virtual-guest') == -1
 
 - sysctl:
     name: vm.swappiness
