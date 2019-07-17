@@ -55,13 +55,3 @@
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
 
-- name: Generate the script to synchronize tools on slaves
-  template: src=transfer-to-slaves-script dest=/home/jenkins/transfer-to-slaves.sh owner=jenkins group=jenkins mode=0700
-  tags:
-    - generate-script
-
-- name: Generate the script to copy ssh keys
-  template: src=transfer-ssh-keys-script dest=/home/jenkins/transfer-ssh-to-slaves.sh owner=root group=root mode=0705
-  tags:
-    - generate-script
-
