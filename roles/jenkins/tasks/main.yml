@@ -50,7 +50,10 @@
   copy: src=httpd-staging-hibernate-org-config dest=/etc/httpd/conf.d/staging-hibernate-org.conf mode=0600 owner=root
 
 - name: Reconfigure SELinux to allow HTTPD to forward requests to Jenkins
-  command: setsebool -P httpd_can_network_connect 1
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
