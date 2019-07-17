@@ -1,9 +1,21 @@
 ---
 
+- name: Install tuned
+  yum:
+    name: tuned
+    state: present
+
+- name: Start tuned and enable at boottime.
+  service:
+    name: tuned
+    state: started
+    enabled: true
+
 - name: Enable Tuned profile for low latency
   command: tuned-adm profile virtual-guest
 
 - sysctl:
     name: vm.swappiness
-    value: 0
+    value: "0"
     state: present
+    sysctl_set: yes
