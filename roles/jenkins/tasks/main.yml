@@ -18,7 +18,7 @@
 
 - name: Install Jenkins, HTTPD, OpenJDK
   dnf:
-    name: ['java-11-openjdk-devel', 'jenkins', 'httpd']
+    name: ['java-11-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl']
     state: present
 
 # Copy custom stylesheet for ci.hibernate.org
