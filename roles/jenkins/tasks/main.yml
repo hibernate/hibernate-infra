@@ -8,13 +8,13 @@
 
 - name: Ensure Jenkins repo is installed.
   get_url:
-    url: "http://pkg.jenkins-ci.org/redhat/jenkins.repo"
+    url: "https://pkg.jenkins.io/redhat-stable/jenkins.repo"
     dest: /etc/yum.repos.d/jenkins.repo
 
 - name: Add Jenkins repo GPG key.
   rpm_key:
     state: present
-    key: "https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+    key: "https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
 
 - name: Install Jenkins, HTTPD, OpenJDK
   dnf:
