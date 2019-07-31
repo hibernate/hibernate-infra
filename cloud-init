@@ -17,4 +17,4 @@ ssh_authorized_keys:
  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPw8oOLebaQuy9yNH0s2vbOTQgH10HNXXrLJffh+70BU yrodiere@yrodiere.redhat
 
 disable_root: false
-final_message: "Cloud-init v. ${version} finished setting up the Hibernate CI system! Up after ${uptime} seconds."
+final_message: "Cloud-init v. ${version} finished setting up the AWS EC2 instance. Up after ${uptime} seconds. Ready to accept ansible commands."
