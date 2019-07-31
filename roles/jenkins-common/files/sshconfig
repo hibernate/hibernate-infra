@@ -3,9 +3,10 @@ Host *
 
 Host github.com
     User git
-    IdentityFile ~/.ssh/github-key
     PreferredAuthentications publickey
     Compression yes
+    # Allow ssh-agent (useful for Jenkins jobs)
+    IdentitiesOnly no
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no
@@ -21,6 +22,8 @@ Host in.relation.to
     User jenkins
     PreferredAuthentications publickey
     Compression yes
+    # Allow ssh-agent (useful for Jenkins jobs)
+    IdentitiesOnly no
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no
@@ -34,9 +37,10 @@ Host in.relation.to
 
 Host frs.sourceforge.net
     User hibernate-ci
-    IdentityFile ~/.ssh/id_dsa_sourceforge
     PreferredAuthentications publickey
     Compression yes
+    # Allow ssh-agent (useful for Jenkins jobs)
+    IdentitiesOnly no
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no
@@ -50,9 +54,10 @@ Host frs.sourceforge.net
 
 Host filemgmt.jboss.org
     User hibernate
-    IdentityFile ~/.ssh/id_dsa_filemgmt_jboss_org
     PreferredAuthentications publickey
     Compression yes
+    # Allow ssh-agent (useful for Jenkins jobs)
+    IdentitiesOnly no
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no

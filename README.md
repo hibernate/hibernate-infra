@@ -84,10 +84,6 @@ The Jenkins coordinator node is now running, updates installed.
 Jenkins is not configured however: you'll need to manually transfer a copy of the configuration
 from a previous master machine or reconfigure it using the web UI.
 
-You will also likely need to copy some private keys (to upload releases and docs) and install JDK versions or other tools which are not freely available.
-Copy these to the primary node into /home/jenkins/{something}, make them owned by the `jenkins` user, and then invoke the ~/transfer-to-slaves.sh script as `jenkins`
-to synchronize the tools to each slave. N.B. the script might need changes to include new tools.
-
 The Jenkins slave is also running and up to date, but needs to be turned into an AMI
 so that Jenkins can spin up slaves dynamically.
 Create an image from the `Instances` panel of the AWS EC2 console:
@@ -105,10 +101,4 @@ When done, commit the changes here again so that next time we'll need to rebuild
 
 ansible-playbook -i hosts site.yml --limit awscislaves
 ansible-playbook -i hosts site.yml --tags generate-script
-
-ssh ci.hibernate.org
-su jenkins
-cd /home/jenkins
-sh transfer-ssh-to-slaves.sh
-sh transfer-to-slaves.sh
 
