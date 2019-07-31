@@ -110,7 +110,7 @@
 
 - name: Web site build tool chain (GCC, headers etc.)
   dnf:
-    name: ['gcc', 'make', 'ruby-devel', 'gcc-c++', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'rubygem-nokogiri', 'findutils', 'git', 'ruby', 'rpm-build', 'tuned']
+    name: ['gcc', 'make', 'ruby-devel', 'gcc-c++', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'findutils', 'git', 'ruby', 'rpm-build', 'tuned']
     enablerepo: rhui-REGION-rhel-server-optional
     state: present
   tags:
@@ -118,6 +118,12 @@
 
 - name: Install Rake for website build
   gem: name=rake state=latest user_install=yes
+  become_user: jenkins
+  tags:
+    - websitegems
+
+- name: Install Nokogiri for website build
+  gem: name=nokogiri state=latest user_install=yes
   become_user: jenkins
   tags:
     - websitegems
