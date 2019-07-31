@@ -69,7 +69,7 @@
 - name: Ensure /home/jenkins/.ssh exists
   file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
 
-- name: Add Couchdb service 
+- name: Add Couchdb service
   copy: src=couchdb/docker-couchdb.service dest=/etc/systemd/system/ mode=0600 owner=root group=root
   tags:
     - couchdb
@@ -115,7 +115,7 @@
 
 - name: Web site build tool chain (GCC, headers etc.)
   dnf:
-    name: ['gcc', 'make', 'ruby-devel', 'gcc-c++', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'rubygem-nokogiri', 'findutils', 'git', 'ruby', 'rubygem-bundler', 'rpm-build', 'tuned']
+    name: ['gcc', 'make', 'ruby-devel', 'gcc-c++', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'findutils', 'git', 'ruby', 'rubygem-bundler', 'rpm-build', 'tuned']
     enablerepo: rhui-REGION-rhel-server-optional
     state: present
   tags:
@@ -123,6 +123,12 @@
 
 - name: Install Rake for website build
   gem: name=rake state=latest user_install=yes
+  become_user: jenkins
+  tags:
+    - websitegems
+
+- name: Install Nokogiri for website build
+  gem: name=nokogiri state=latest user_install=yes
   become_user: jenkins
   tags:
     - websitegems
