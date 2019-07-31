@@ -8,6 +8,9 @@
   tags:
     - extra-packages
 
+- name: Create jenkins user
+  user: name=jenkins
+
 - name: Create Docker group
   group:
     name: docker
