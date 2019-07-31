@@ -1,7 +1,8 @@
 ---
-# This playbook deploys a set of Jenkins slaves to test various Hibernate projects
-# It also deploys the basic setup for the Jenkins master node, but most
-# configuration of this node is not automated.
+# This playbook can set up:
+# - A Jenkins coordinator node, though most of the Jenkins configuration is still manual.
+# - A Jenkins worker node, though most of the Jenkins configuration is still manual.
+# - A hibernate.org/in.relation.to website node.
 
 - hosts: awscislaves
   remote_user: fedora
