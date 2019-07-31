@@ -11,6 +11,13 @@
   tags:
     - postgres
 
+- name: Setup PostgreSQL if needed
+  command: /usr/bin/postgresql-setup --initdb
+    creates=/var/lib/pgsql/data/
+  notify: Reload PostgreSQL
+  tags:
+    - postgres
+
 - name: Setup authentication methods
   copy: src=pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf owner=postgres group=postgres mode=0600
   notify: Reload PostgreSQL
@@ -20,12 +27,6 @@
 - name: Apply some tuning suited for unit tests
   copy: src=postgresql.conf dest=/var/lib/pgsql/data/postgresql.conf owner=postgres group=postgres mode=0600
   notify: Reload PostgreSQL
-  tags:
-    - postgres
-
-- name: Initiate PostgreSQL database if needed
-  command: /usr/bin/postgresql-setup --initdb
-    creates=/var/lib/pgsql/data/postgresql.conf
   tags:
     - postgres
 
