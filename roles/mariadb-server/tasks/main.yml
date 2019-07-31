@@ -7,7 +7,7 @@
     - mariadb
 
 - name: install the Python extensions for MariaDB
-  dnf: name=MySQL-python state=latest
+  dnf: name=python3-mysql state=latest
   tags:
     - mariadb
 
