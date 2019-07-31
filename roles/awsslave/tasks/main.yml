@@ -1,16 +1,9 @@
 ---
 
-- name: Ensure /home/jenkins/.ssh exists
-  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
-- name: Authorize AWS key hibernate-ci-jenkins-ec2-plugin-20200917 for user jenkins
-  lineinfile:
-    dest: /home/jenkins/.ssh/authorized_keys
-    line: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHKvOxaDLVVxfLilmu6ZSvnHv603DFfyQQO5JtbgBQIZRe1Fyv21nSF2+qQboIa9zSz+es3HroNRZ6Cpb2D5qfxIkh/HxXtE0ON/eP3oyS5wYfQEjdnADWWw+e6pk0fHvLqL6qY/cKbhZjVxxb+oaCwhqmNrdFRy1CVG2tI7aywdbMW70r5H4I4rQvTQT4Ox63Y4qzksBc13S4hN2YlUI6mbTECR4ltFlD0utrt3VPy7hYvIZM2dbtaPbi2ZurbzagsKIWBHqIhHXXbHNu2BC/TjV1ugOp6wyfDLxaYEsRDgbxwcpuVf6TWIVlBAoVZKjzrkKq6a+F1FOSVcPNVh/B hibernate-ci-jenkins-ec2-plugin-20200917"
-    owner: jenkins
-    state: present
-    insertafter: EOF
-    create: True
-  become: yes
+# Make sure jenkins is the default user,
+# meaning the private key selected when launching the instance will be authorized for this user instead of "fedora".
+- name: Make jenkins the default AWS user
+  copy: src=cloud/01-default-user.cfg dest=/etc/cloud/cloud.cfg.d/ mode=0600 owner=root group=root
   tags:
     - awscislaves
 
