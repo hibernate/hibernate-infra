@@ -1,6 +1,5 @@
 ---
 
-# Additional packages required for some build
 - name: Extra packages required on slaves
   dnf:
     name: ['wget', 'jq', 'sed', 'java-11-openjdk-devel']
@@ -143,7 +142,6 @@
   tags:
     - crosskeyauthentication
 
-# Install packages required for web site build / Ruby environment
 - name: Web site build tool chain (GCC, headers etc.)
   dnf:
     name: ['gcc', 'make', 'ruby-devel', 'gcc-c++', 'libxml2', 'libxml2-devel', 'libxslt', 'libxslt-devel', 'rubygem-nokogiri', 'findutils', 'git', 'ruby', 'rpm-build', 'tuned']
@@ -152,14 +150,13 @@
   tags:
     - websitegems
 
-# Gems required for web-site build
-- name: Install Rake
+- name: Install Rake for website build
   gem: name=rake state=latest user_install=yes
   become_user: jenkins
   tags:
     - websitegems
 
-- name: Install Bundler
+- name: Install Bundler for website build
   gem: name=bundler state=latest user_install=yes
   become_user: jenkins
   tags:
