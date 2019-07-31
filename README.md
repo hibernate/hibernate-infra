@@ -3,33 +3,49 @@
 This is a set of scripts to setup the Continuous Integration infrastructure for Hibernate.
 The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to setup a CI environment.
 
-We prefer to make some assumptions and keep this simple; among others, we expect to run the public facing services on Red Hat Enterprise Linux 7.1, and run some more slaves on Fedora 23 Cloud.
+We prefer to make some assumptions and keep this simple;
+among others, we expect to run the public facing services on Red Hat Enterprise Linux,
+and run some more slaves on Fedora Cloud.
 
-The primary site will run on Amazon AWS; slaves are run on an highly experimental OpenStack cluster within Red Hat called OS1, kindly sponsored by Red Hat, to keep our build and test costs minimal.
-OS1 is regularly reinstalled and runs bleeding edge cloud software on experimental operating system builds, so the initialization and configuration of the slave nodes is automated with more care than the master node running on AWS.
+The websites and CI master will run on permanent instances on Amazon AWS;
+CI slaves will run on AWS EC2 Spot instances launched by the Jenkins AWS EC2 plugin. 
 
-## Preparations: security
+## Preparations: AWS launch templates
 
-You'll need the following two private keys:
- - ~/.ssh/keys/hibernate-keys-aws.pem
- - ~/.ssh/keys/hibernate-keys-os1.pem
+If your SSH key was never used to build the servers,
+you will need to add the public key to the `cloud-init` file at the root of this git repository.
+Then update the following launch templates owned by the `hibernate` organization on AWS accordingly,
+by setting the "user data" to the content of the `cloud-init` file:
 
-They are expected to be found at that path, no options given to override.
-You can use different keys of course, but we won't pay your AWS bills.
+ - `CI-MASTERv1`
+ - `jenkins-slave-ami-building`
+
+You can use a different organization and launch templates of course, but we won't pay your AWS bills.
 
 ## Boot the servers
 
 You should run:
- - 1 Server to host the master Jenkins node, start it on AWS and use a RHEL 7.1 image
- - N Servers to host the various Jenkins slaves; start these on OS1 public, use a Fedora 23 Cloud image
+ - 1 instance to host the master Jenkins node.
+   Start it on AWS and use the `CI-MASTERv1` launch template.
+ - 1 instance to create an AMI for the various Jenkins slaves,
+   which will then be used by the Jenkins AWS EC2 plugin to spawn slaves on demand.
+   Start it on AWS and use the `jenkins-slave-ami-building` launch template.
 
 Boot them using the provided 'cloud-init' script.
 When booting machines from the UI, you can paste the content of 'cloud-init' into the "Customisation Script" section on the OpenStack console.
 
-## Set the IP addresses
+## Update the inventory file (server addresses and keys)
 
-You might need to assign public IP addressed to the machines running on OpenStack.
-Then gather all IP addresses, and paste them in the 'hosts' file in the respective sections: OpenStack addresses in 'cislaves', and the AWS master address in 'cimaster'.
+You will need to update the inventory file `hosts` to point to the servers you just launched.
+Gather the public IP address or public DNS for each server,
+and paste it in the 'hosts' file in the appropriate section:
+
+- AWS CI master address in `cimaster`
+- AWS CI slaves in `awscislaves`
+
+Make sure to update the paths to the private keys as necessary.
+
+Do not commit these changes unless your changes may be useful to other users.
 
 ## Let it configure your servers
 
@@ -57,12 +73,20 @@ More details about tags can be found the ansible documentation.
 
 ## Finishing touches
 
-The Jenkins master node is now running, updates installed. The slaves are ready to receive build jobs, and have all databases running locally.
-Jenkins is not configured however, you'll need to manually transfer a copy of the configuration from a previous master machine or reconfigure it using the web UI.
+The Jenkins master node is now running, updates installed.
+
+Jenkins is not configured however: you'll need to manually transfer a copy of the configuration
+from a previous master machine or reconfigure it using the web UI.
 
 You will also likely need to copy some private keys (to upload releases and docs) and install JDK versions or other tools which are not freely available.
 Copy these to the master node into /home/jenkins/{something}, make them owned by the `jenkins` user, and then invoke the ~/transfer-to-slaves.sh script as `jenkins`
 to synchronize the tools to each slave. N.B. the script might need changes to include new tools.
+
+The Jenkins slave is also running and up to date, but needs to be turned into an AMI
+so that Jenkins can spin up slaves dynamically.
+Create an image from the `Instances` panel of the AWS EC2 console:
+select the instance, then click `Actions > Image > Create Image`.
+Do not forget to update the AMI in the Jenkins AWS EC2 plugin configuration.
 
 ## Making changes to the slaves
 
