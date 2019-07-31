@@ -74,7 +74,6 @@ When done, commit the changes here again so next time you'll rebuild identical s
 ## TL;DR Running ansible on the slaves
 
 ansible-playbook -i hosts site.yml --limit awscislaves
-ansible-playbook -i hosts site.yml --tags "crosskeyauthentication"
 ansible-playbook -i hosts site.yml --tags generate-script
 
 ssh ci.hibernate.org
