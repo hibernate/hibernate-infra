@@ -31,6 +31,18 @@
   tags:
     - hostname
 
+- name: Install Postfix
+  dnf:
+    name: "postfix"
+    state: latest
+  tags:
+    - postfix
+
+- name: Ensure Postfix Server is started now, and again on startup
+  service: name=postfix enabled=yes state=started
+  tags:
+    - postfix
+
 # Create the jenkins user and explicitly set gid and uid
 - group: name=jenkins state=present gid=1001
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes uid=1001 ssh_key_type=ecdsa ssh_key_bits=521 ssh_key_file=.ssh/hostkey ssh_key_comment="cimaster-hostkey" password_lock=true
