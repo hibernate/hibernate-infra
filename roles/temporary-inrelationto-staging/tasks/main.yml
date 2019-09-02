@@ -1,8 +1,0 @@
----
-
-- name: Add custom HTTPD configuration
-  copy: src=httpd-beanvalidation.org-staging-config dest=/etc/httpd/conf.d/beanvalidation-staging.conf mode=0600 owner=root
-
-- name: Ensure Apache HTTPD is started now, and again on startup
-  service: name=httpd enabled=yes state=restarted
-

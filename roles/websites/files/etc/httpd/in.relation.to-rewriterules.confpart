@@ -1,26 +1,9 @@
-<VirtualHost *:80>
-  ServerName staging.in.relation.to
-  ServerAdmin admin+inrelationto@hibernate.org
-  ProxyRequests Off
-
-  AddOutputFilterByType DEFLATE text/html text/plain text/xml application/x-javascript text/css
-
-  ErrorDocument 404 /404.html
-
-  DocumentRoot /var/www/staging-in.relation.to
-  <Directory /var/www/staging-in.relation.to>
-    AllowOverride None
-  </Directory>
-
-  LogLevel warn
-
-RewriteEngine On
-
 RewriteRule ^/Bloggers$ / [R=301,L,E=nocache:1]
 RewriteRule ^/Bloggers/Everyone$ / [R=301,L,E=nocache:1]
 
 # Main feed
 RewriteRule ^/service/Feed/atom/Area/Bloggers(/Comments/.*)?$ /blog.atom [R=301,L,E=nocache:1]
+RewriteRule ^/service/Feed/atom(/)?$ /blog.atom [R=301,L,E=nocache:1]
 
 # Jay's categories
 
@@ -4317,6 +4300,3 @@ RewriteRule ^/tag/Weld$ /weld/ [R=301,L,E=nocache:1]
 RewriteRule ^/tag/Weld\+Extensions$ /weld/ [R=301,L,E=nocache:1]
 RewriteRule ^/tag/WildFly$ /wildfly/ [R=301,L,E=nocache:1]
 RewriteRule ^/tag/.* / [R=301,L,E=nocache:1]
-
-
-</VirtualHost>

@@ -1,8 +1,0 @@
-<VirtualHost *:80>
-  ServerName blog.hibernate.org
-  ServerAdmin admin+inrelationto@hibernate.org
-  ProxyRequests Off
-
-  Redirect permanent / http://in.relation.to/
-
-</VirtualHost>

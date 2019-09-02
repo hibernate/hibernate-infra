@@ -49,8 +49,7 @@
   roles:
     - common
     - aws
-    - inrelationto
-    - temporary-inrelationto-staging
+    - websites
 
 - hosts: dedicated
   remote_user: fedora
