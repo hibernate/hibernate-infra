@@ -10,6 +10,7 @@
   roles:
     - common
     - os1
+    - jenkins-common
     - jenkins-slave
     - postgres-server
     - mariadb-server
@@ -24,6 +25,7 @@
   roles:
     - common
     - aws
+    - jenkins-common
     - jenkins-slave
     - awsslave
     - postgres-server
@@ -40,7 +42,8 @@
   roles:
     - common
     - aws
-    - jenkins
+    - jenkins-common
+    - jenkins-master
 
 - hosts: websites
   remote_user: ec2-user
@@ -58,6 +61,7 @@
   roles:
     - common
     - os1
+    - jenkins-common
     - jenkins-dedicated
     - postgres-server
     - mariadb-server
