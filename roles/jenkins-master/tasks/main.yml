@@ -46,12 +46,6 @@
 - name: Add custom HTTPD configuration (ci.hibernate.org)
   copy: src=httpd-ci-hibernate-org-config dest=/etc/httpd/conf.d/ci-hibernate-org.conf mode=0600 owner=root
 
-- name: Create staging.hibernate.org folders
-  file: path=/var/www/staging-hibernate.org state=directory
-
-- name: Add custom HTTPD configuration (staging.hibernate.org)
-  copy: src=httpd-staging-hibernate-org-config dest=/etc/httpd/conf.d/staging-hibernate-org.conf mode=0600 owner=root
-
 - name: Reconfigure SELinux to allow HTTPD to forward requests to Jenkins
   seboolean:
     name: httpd_can_network_connect
