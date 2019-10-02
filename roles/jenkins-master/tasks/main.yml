@@ -23,7 +23,7 @@
 
 # Copy custom stylesheet for ci.hibernate.org
 - name: Copy custom CSS for CI
-  copy: src=ci-hibernate-v0012.css dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
+  copy: src=jenkins/userContent/ci-hibernate-v0012.css dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
   tags:
     - copy-css
 
@@ -38,13 +38,13 @@
     - welcome.conf
 
 - name: Custom Jenkins configuration
-  copy: src=jenkins-config dest=/etc/sysconfig/jenkins mode=0600 owner=root
+  copy: src=etc/sysconfig/jenkins dest=/etc/sysconfig/jenkins mode=0600 owner=root
 
 - name: Add custom HTTPD configuration (common)
-  copy: src=httpd-common-config dest=/etc/httpd/conf.d/common.conf mode=0600 owner=root
+  copy: src=etc/httpd/common.conf dest=/etc/httpd/conf.d/common.conf mode=0600 owner=root
 
 - name: Add custom HTTPD configuration (ci.hibernate.org)
-  copy: src=httpd-ci-hibernate-org-config dest=/etc/httpd/conf.d/ci-hibernate-org.conf mode=0600 owner=root
+  copy: src=etc/httpd/ci.hibernate.org.conf dest=/etc/httpd/conf.d/ci.hibernate.org.conf mode=0600 owner=root
 
 - name: Reconfigure SELinux to allow HTTPD to forward requests to Jenkins
   seboolean:
