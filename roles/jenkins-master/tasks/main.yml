@@ -21,9 +21,13 @@
     name: ['java-11-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl']
     state: present
 
-# Copy custom stylesheet for ci.hibernate.org
 - name: Copy custom CSS for CI
-  copy: src=jenkins/userContent/ci-hibernate-v0012.css dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
+  copy: src=jenkins/userContent/ci-hibernate.css dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
+  tags:
+    - copy-css
+
+- name: Copy Hibernate logo for CI
+  copy: src=jenkins/userContent/hibernate-logo.svg dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
   tags:
     - copy-css
 
