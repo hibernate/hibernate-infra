@@ -44,9 +44,6 @@
 - name: Custom Jenkins configuration
   copy: src=etc/sysconfig/jenkins dest=/etc/sysconfig/jenkins mode=0600 owner=root
 
-- name: Add custom HTTPD configuration (common)
-  copy: src=etc/httpd/common.conf dest=/etc/httpd/conf.d/common.conf mode=0600 owner=root
-
 - name: Add custom HTTPD configuration (ci.hibernate.org)
   copy: src=etc/httpd/ci.hibernate.org.conf dest=/etc/httpd/conf.d/ci.hibernate.org.conf mode=0600 owner=root
 
