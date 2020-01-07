@@ -15,24 +15,29 @@
 
 - name: Create httpd home for staging.in.relation.to
   file: path=/var/www/staging-in.relation.to owner=jenkins group=jenkins mode=0755 state=directory
+  tags: staging
 
 - name: Create httpd home for staging.hibernate.org
   file: path=/var/www/staging-hibernate.org owner=jenkins group=jenkins mode=0755 state=directory
+  tags: staging
 
 - name: Create httpd home for staging.beanvalidation.org
   file: path=/var/www/staging-beanvalidation.org owner=jenkins group=jenkins mode=0755 state=directory
+  tags: staging
 
 - name: Add a minimal, default index.html (in.relation.to)
   copy: src=var/www/in.relation.to/basic-index.html dest=/var/www/in.relation.to/index.html owner=jenkins group=jenkins mode=0666 force=no
 
 - name: Add a minimal, default index.html (staging.in.relation.to)
   copy: src=var/www/staging-in.relation.to/basic-index.html dest=/var/www/staging-in.relation.to/index.html owner=jenkins group=jenkins mode=0666 force=no
+  tags: staging
 
 - name: Add a minimal, default index.html (staging.hibernate.org)
   copy: src=var/www/staging-hibernate.org/basic-index.html dest=/var/www/staging-hibernate.org/index.html owner=jenkins group=jenkins mode=0666 force=no
 
 - name: Add a minimal, default index.html (staging.beanvalidation.org)
   copy: src=var/www/staging-beanvalidation.org/basic-index.html dest=/var/www/staging-hibernate.org/index.html owner=jenkins group=jenkins mode=0666 force=no
+  tags: staging
 
 - name: Add custom HTTPD configuration (in.relation.to rewrite rules)
   copy: src=etc/httpd/in.relation.to-rewriterules.confpart dest=/etc/httpd/conf.d/in.relation.to-rewriterules.confpart mode=0600 owner=root
@@ -42,12 +47,15 @@
 
 - name: Add custom HTTPD configuration (staging.in.relation.to)
   copy: src=etc/httpd/staging-in.relation.to.conf dest=/etc/httpd/conf.d/staging-in.relation.to.conf mode=0600 owner=root
+  tags: staging
 
 - name: Add custom HTTPD configuration (staging.hibernate.org)
   copy: src=etc/httpd/staging-hibernate.org.conf dest=/etc/httpd/conf.d/staging-hibernate.org.conf mode=0600 owner=root
+  tags: staging
 
 - name: Add custom HTTPD configuration (staging.beanvalidation.org)
   copy: src=etc/httpd/staging-beanvalidation.org.conf dest=/etc/httpd/conf.d/staging-beanvalidation.org.conf mode=0600 owner=root
+  tags: staging
 
 - name: Add custom HTTPD configuration (blog.hibernate.org)
   copy: src=etc/httpd/blog.hibernate.org.conf dest=/etc/httpd/conf.d/blog.hibernate.org.conf mode=0600 owner=root
@@ -88,3 +96,5 @@
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
+  tags:
+    - staging
