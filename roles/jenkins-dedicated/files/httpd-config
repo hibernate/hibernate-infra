@@ -1,7 +1,0 @@
-ProxyRequests Off
-AllowEncodedSlashes NoDecode
-
-ProxyPreserveHost on
-ProxyPass / http://localhost:8080/ nocanon
-ProxyPassReverse / http://localhost:8080/
-

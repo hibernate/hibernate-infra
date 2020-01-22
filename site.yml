@@ -3,21 +3,6 @@
 # It also deploys the basic setup for the Jenkins master node, but most
 # configuration of this node is not automated.
 
-- hosts: cislaves
-  remote_user: fedora
-  become: yes
-
-  roles:
-    - common
-    - os1
-    - jenkins-common
-    - jenkins-slave
-    - postgres-server
-    - mariadb-server
-    - redis-server
-    - neo4j-server
-    - cockroachdb-server
-
 - hosts: awscislaves
   remote_user: fedora
   become: yes
@@ -53,15 +38,3 @@
     - common
     - aws
     - websites
-
-- hosts: dedicated
-  remote_user: fedora
-  become: yes
-
-  roles:
-    - common
-    - os1
-    - jenkins-common
-    - jenkins-dedicated
-    - postgres-server
-    - mariadb-server

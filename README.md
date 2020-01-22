@@ -46,15 +46,15 @@ When only updating the build nodes (which run on Fedora), it is recommended to e
 
 You can also run the playbook on a subset of the hosts in the file using the parameter "--limit":
 
-    ansible-playbook -i hosts site.yml --limit cislaves
+    ansible-playbook -i hosts site.yml --limit awscislaves
 
 If you want to have the list of IP affected without running the playbook you can use the option "--list-hosts":
 
-    ansible-playbook -i hosts site.yml --limit cislaves --list-hosts
+    ansible-playbook -i hosts site.yml --limit awscislaves --list-hosts
 
 It is also possible to execute specific tasks using tags:
 
-    ansible-playbook -i hosts site.yml --limit cislaves --tags "generate-script"
+    ansible-playbook -i hosts site.yml --limit awscislaves --tags "generate-script"
 
 More details about tags can be found the ansible documentation.
 
@@ -76,7 +76,6 @@ When done, commit the changes here again so that next time we'll need to rebuild
 
 ## TL;DR Running ansible on the build nodes
 
-ansible-playbook -i hosts site.yml --limit cislaves
 ansible-playbook -i hosts site.yml --limit awscislaves
 ansible-playbook -i hosts site.yml --tags generate-script
 
