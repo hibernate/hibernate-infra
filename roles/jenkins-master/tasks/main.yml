@@ -70,7 +70,7 @@
     name: "Renew let's encrypt certificates"
     minute: "0"
     hour: "0,12"
-    job: "python -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot-auto renew"
+    job: "python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot-auto renew"
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
