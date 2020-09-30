@@ -6,7 +6,6 @@ Host github.com
     IdentityFile ~/.ssh/github-key
     PreferredAuthentications publickey
     Compression yes
-    IdentitiesOnly yes
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no
@@ -40,7 +39,6 @@ Host in.relation.to
     IdentityFile ~/.ssh/hostkey
     PreferredAuthentications publickey
     Compression yes
-    IdentitiesOnly yes
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no
@@ -57,7 +55,6 @@ Host frs.sourceforge.net
     IdentityFile ~/.ssh/id_dsa_sourceforge
     PreferredAuthentications publickey
     Compression yes
-    IdentitiesOnly yes
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no
@@ -74,7 +71,6 @@ Host filemgmt.jboss.org
     IdentityFile ~/.ssh/id_dsa_filemgmt_jboss_org
     PreferredAuthentications publickey
     Compression yes
-    IdentitiesOnly yes
     GSSAPIAuthentication no
     AddressFamily inet
     PasswordAuthentication no
