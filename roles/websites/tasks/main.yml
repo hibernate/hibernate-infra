@@ -1,5 +1,10 @@
 ---
 
+- name: Authorize an SSH keys for CI jobs to publish the website
+  copy: src=authorized_keys dest=/home/jenkins/.ssh/authorized_keys mode=0600 owner=jenkins group=jenkins
+  tags:
+    - jenkins
+
 - name: Install the latest version of Apache HTTPD, using dnf
   dnf: name=httpd state=latest
 
