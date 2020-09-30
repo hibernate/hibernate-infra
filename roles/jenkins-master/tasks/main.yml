@@ -1,11 +1,5 @@
 ---
 
-# Fetch the public key of this node
-- fetch: src=/home/jenkins/.ssh/hostkey.pub dest=/tmp/publicdeployedkeys/pubkey-ci-master.pub flat=yes fail_on_missing=yes
-  tags:
-    - crosskeyauthentication
-    - fetch-keys
-
 - name: Ensure Jenkins repo is installed.
   get_url:
     url: "https://pkg.jenkins.io/redhat-stable/jenkins.repo"

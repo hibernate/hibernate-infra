@@ -19,7 +19,6 @@ Host github.com
 
 Host in.relation.to
     User jenkins
-    IdentityFile ~/.ssh/hostkey
     PreferredAuthentications publickey
     Compression yes
     GSSAPIAuthentication no

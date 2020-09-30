@@ -13,9 +13,7 @@
 
 # Create the jenkins user and explicitly set gid and uid
 - group: name=jenkins state=present gid=1001
-- user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present generate_ssh_key=yes uid=1001 ssh_key_type=ecdsa ssh_key_bits=521 ssh_key_file=.ssh/hostkey ssh_key_comment="cimaster-hostkey" password_lock=true
-  tags:
-    - crosskeyauthentication
+- user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present uid=1001 password_lock=true
 
 - name: Setup SSH config
   copy: src=sshconfig dest=/home/jenkins/.ssh/config mode=0600 owner=jenkins group=jenkins
