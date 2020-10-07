@@ -15,6 +15,13 @@
     name: ['java-11-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl']
     state: present
 
+- name: Override Java security config to enable RSA 1024bits (used by the Jenkins update site)
+  lineinfile:
+    dest: /etc/crypto-policies/back-ends/java.config
+    state: present
+    regexp: '^jdk.certpath.disabledAlgorithms='
+    line: 'jdk.certpath.disabledAlgorithms=MD2, MD5, DSA, RSA keySize < 1024'
+
 - name: Copy custom CSS for CI
   copy: src=jenkins/userContent/ci-hibernate.css dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
   tags:
