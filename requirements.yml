@@ -1,2 +1,4 @@
 collections:
   - name: community.general
+  - name: containers.podman
+  - name: ansible.posix
