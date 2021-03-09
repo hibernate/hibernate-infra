@@ -64,6 +64,8 @@
   tags:
     - jenkins
 
+- name: Ensure /home/jenkins/.ssh exists
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
 - name: Add passwordless connection for jenkins
   copy: src=authorized_keys dest=/home/jenkins/.ssh/authorized_keys mode=0600 owner=jenkins group=jenkins
   tags:

@@ -1,5 +1,7 @@
 ---
 
+- name: Ensure /home/jenkins/.ssh exists
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
 - name: Authorize AWS key hibernate-ci-jenkins-ec2-plugin-20200917 for user jenkins
   lineinfile:
     dest: /home/jenkins/.ssh/authorized_keys

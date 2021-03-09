@@ -1,12 +1,40 @@
 ---
 
+- name: Create jenkins group for CI jobs to publish the website
+  group: name=jenkins state=present gid=1001
+- name: Create jenkins user for CI jobs to publish the website
+  user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present uid=1001 password_lock=true
+- name: Ensure /home/jenkins/.ssh exists
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
 - name: Authorize an SSH keys for CI jobs to publish the website
   copy: src=authorized_keys dest=/home/jenkins/.ssh/authorized_keys mode=0600 owner=jenkins group=jenkins
   tags:
     - jenkins
 
-- name: Install the latest version of Apache HTTPD, using dnf
-  dnf: name=httpd state=latest
+# https://certbot.eff.org/lets-encrypt/centosrhel8-apache.html
+# https://snapcraft.io/docs/installing-snap-on-red-hat
+# https://fedoraproject.org/wiki/EPEL
+- name: Enable Extra Packages for Enterprise Linux
+  dnf:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    state: latest
+    # We're installing the package that contains the keys, so obviously we don't have them yet.
+    # We're using HTTPS to retrieve the package, so this should be safe anyway.
+    disable_gpg_check: true
+
+- name: Install the latest version of Apache HTTPD and snapd, using dnf
+  dnf:
+    name: ['httpd', 'mod_ssl', 'snapd']
+    state: latest
+
+- name: Enable snapd's socket
+  systemd:
+    name: snapd.socket
+    state: started
+    enabled: yes
+
+- name: Enable classic snap support
+  file: src='/var/lib/snapd/snap' dest='/snap' state=link
 
 - name: Make sure the example welcome page from HTTPD is removed
   file: path=/etc/httpd/conf.d/{{ item }} state=absent
@@ -65,30 +93,32 @@
 - name: Add custom HTTPD configuration (blog.hibernate.org)
   copy: src=etc/httpd/blog.hibernate.org.conf dest=/etc/httpd/conf.d/blog.hibernate.org.conf mode=0600 owner=root
 
-# Doesn't currently work because we're using an unregistered RHEL for some reason,
-# and repos containing necessary dependencies are disabled
-#- name: Install the latest version of Let's Encrypt's "certbot", using dnf
-#  dnf:
-#    name: ['certbot', 'certbot-apache']
-#    state: latest
+- name: Install the latest version of Let's Encrypt's "certbot", using snapd
+  community.general.snap:
+    name: certbot
+    # No sandboxing in certbox.
+    classic: yes
+
+- name: Put the certbot command into the path
+  file: src='/snap/bin/certbot' dest='/usr/bin/certbot' state=link
 
 - name: Obtain certificates for in.relation.to using Let's Encrypt
-  shell: sudo certbot certonly --apache -d in.relation.to
+  shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d in.relation.to
   args:
     creates: /etc/letsencrypt/live/in.relation.to
 
 - name: Obtain certificates for staging.in.relation.to using Let's Encrypt
-  shell: sudo certbot certonly --apache -d staging.in.relation.to
+  shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d staging.in.relation.to
   args:
     creates: /etc/letsencrypt/live/staging.in.relation.to
 
 - name: Obtain certificates for staging.hibernate.org using Let's Encrypt
-  shell: sudo certbot certonly --apache -d staging.hibernate.org
+  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d staging.hibernate.org
   args:
     creates: /etc/letsencrypt/live/staging.hibernate.org
 
 - name: Obtain certificates for blog.hibernate.org using Let's Encrypt
-  shell: sudo certbot certonly --apache -d blog.hibernate.org
+  shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d blog.hibernate.org
   args:
     creates: /etc/letsencrypt/live/blog.hibernate.org
 

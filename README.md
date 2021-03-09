@@ -33,7 +33,11 @@ Then gather all IP addresses, and paste them in the 'hosts' file in the respecti
 
 ## Let it configure your servers
 
-Now install Ansible, then run the Ansible playbook like this:
+Now install Ansible, then the required collections:
+
+	ansible-galaxy collection install -r requirements.yml
+
+Then run the Ansible playbook like this:
 
 	ansible-playbook -i hosts site.yml
 
