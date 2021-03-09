@@ -18,6 +18,9 @@
 - name: Setup SSH config
   copy: src=sshconfig dest=/home/jenkins/.ssh/config mode=0600 owner=jenkins group=jenkins
 
+- name: Setup in.relation.to as a known host
+  copy: src=inrelationto-knownhosts dest=/home/jenkins/.ssh/inrelationto-knownhosts mode=0600 owner=jenkins group=jenkins
+
 - name: Setup Github as a known host
   copy: src=github-knownhosts dest=/home/jenkins/.ssh/github-knownhosts mode=0600 owner=jenkins group=jenkins
 
