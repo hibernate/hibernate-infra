@@ -32,6 +32,9 @@
   tags:
     - copy-css
 
+- name: Custom Jenkins configuration
+  copy: src=etc/sysconfig/jenkins dest=/etc/sysconfig/jenkins mode=0600 owner=root
+
 - name: Ensure Jenkins is started now, and again on startup
   service: name=jenkins enabled=yes state=started
 
@@ -41,9 +44,6 @@
     - autoindex.conf
     - userdir.conf
     - welcome.conf
-
-- name: Custom Jenkins configuration
-  copy: src=etc/sysconfig/jenkins dest=/etc/sysconfig/jenkins mode=0600 owner=root
 
 - name: Add custom HTTPD configuration (ci.hibernate.org)
   copy: src=etc/httpd/ci.hibernate.org.conf dest=/etc/httpd/conf.d/ci.hibernate.org.conf mode=0600 owner=root
@@ -75,4 +75,3 @@
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
-

@@ -148,4 +148,9 @@ JENKINS_HANDLER_IDLE="20"
 # Pass arbitrary arguments to Jenkins.
 # Full option list: java -jar jenkins.war --help
 #
-JENKINS_ARGS=""
+# 2020-06-07: session timeouts
+# Sessions last for 24 hours, or 12 hours if inactive
+# sessionTimeout = hard timeout (even if active) in minutes
+# sessionEviction = inactive timeout in seconds
+# See https://stackoverflow.com/a/50937846/6692043 and https://stackoverflow.com/a/55789428/6692043
+JENKINS_ARGS="--sessionTimeout=1440 --sessionEviction=43200"
