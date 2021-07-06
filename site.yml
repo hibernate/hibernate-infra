@@ -4,7 +4,7 @@
 # - A Jenkins worker node, though most of the Jenkins configuration is still manual.
 # - A hibernate.org/in.relation.to website node.
 
-- hosts: awscislaves
+- hosts: jenkins-worker
   remote_user: fedora
   become: yes
 
@@ -12,11 +12,11 @@
     - common
     - aws
     - jenkins-common
-    - jenkins-slave
-    - awsslave
+    - jenkins-worker
+    - jenkins-worker-aws
 
 
-- hosts: cimaster
+- hosts: jenkins-coordinator
   remote_user: ec2-user
   become: yes
 
@@ -24,7 +24,7 @@
     - common
     - aws
     - jenkins-common
-    - jenkins-master
+    - jenkins-coordinator
 
 - hosts: websites
   remote_user: ec2-user

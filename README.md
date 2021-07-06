@@ -30,7 +30,7 @@ You should run:
  - 1 instance to host the Jenkins coordinator node.
    Start it on AWS and use the `jenkins-ci-coordinator` launch template (a RHEL 8 image).
  - 1 instance to create an AMI for the various Jenkins worker nodes,
-   which will then be used by the Jenkins AWS EC2 plugin to spawn slaves on demand.
+   which will then be used by the Jenkins AWS EC2 plugin to spawn workers on demand.
    Start it on AWS and use the `jenkins-ci-worker-ami-building` launch template.
 
 Boot them using the provided 'cloud-init' script.
@@ -42,8 +42,8 @@ You will need to update the inventory file `hosts` to point to the servers you j
 Gather the public IP address or public DNS for each server,
 and paste it in the 'hosts' file in the appropriate section:
 
-- The address of the AWS Jenkins CI coordinator node in `cimaster`
-- The address of the AWS Jenkins CI worker node in `awscislaves`
+- The address of the AWS Jenkins CI coordinator node in `jenkins-coordinator`
+- The address of the AWS Jenkins CI worker node in `jenkins-worker`
 
 Make sure to update the paths to the private keys as necessary.
 
@@ -61,19 +61,19 @@ Then run the Ansible playbook like this:
 
 ### Performance Tip
 
-When only updating the build nodes (which run on Fedora), it is recommended to enable SSH pipelining which will make things go quite a bit faster. To do so, specify pipelining = True in ansible.cfg. (This couldn't work on RHEL 7 for security reasons, it might work on RHEL 8)
+When only updating the worker nodes (which run on Fedora), it is recommended to enable SSH pipelining which will make things go quite a bit faster. To do so, specify pipelining = True in ansible.cfg. (This couldn't work on RHEL 7 for security reasons, it might work on RHEL 8)
 
 You can also run the playbook on a subset of the hosts in the file using the parameter "--limit":
 
-    ansible-playbook -i hosts site.yml --limit awscislaves
+    ansible-playbook -i hosts site.yml --limit jenkins-worker
 
 If you want to have the list of IP affected without running the playbook you can use the option "--list-hosts":
 
-    ansible-playbook -i hosts site.yml --limit awscislaves --list-hosts
+    ansible-playbook -i hosts site.yml --limit jenkins-worker --list-hosts
 
 It is also possible to execute specific tasks using tags:
 
-    ansible-playbook -i hosts site.yml --limit awscislaves --tags "generate-script"
+    ansible-playbook -i hosts site.yml --limit jenkins-worker --tags "generate-script"
 
 More details about tags can be found the ansible documentation.
 
@@ -82,23 +82,23 @@ More details about tags can be found the ansible documentation.
 The Jenkins coordinator node is now running, updates installed.
 
 Jenkins is not configured however: you'll need to manually transfer a copy of the configuration
-from a previous master machine or reconfigure it using the web UI.
+from a previous coordinator node or reconfigure it using the web UI.
 
-The Jenkins slave is also running and up to date, but needs to be turned into an AMI
-so that Jenkins can spin up slaves dynamically.
+The Jenkins worker node is also running and up to date, but needs to be turned into an AMI
+so that Jenkins can spin up worker nodes dynamically.
 Create an image from the `Instances` panel of the AWS EC2 console:
 select the instance, then click `Actions > Image > Create Image`.
 Do not forget to update the AMI in the Jenkins AWS EC2 plugin configuration.
 
-## Making changes to the build nodes
+## Making changes to the Jenkins worker nodes
 
 The Ansible playbook is designed so it can be re-run on your existing infrastructure without undoing configuration you did on the previous step.
-To make changes to the configuration of a build node, update the playbook and run the ansible-playbook command again.
+To make changes to the configuration of a Jenkins worker nodes, update the playbook and run the ansible-playbook command again.
 When done, commit the changes here again so that next time we'll need to rebuild nodes they will include your changes.
 
 
-## TL;DR Running ansible on the build nodes
+## TL;DR Running ansible on the Jenkins worker nodes
 
-ansible-playbook -i hosts site.yml --limit awscislaves
+ansible-playbook -i hosts site.yml --limit jenkins-worker
 ansible-playbook -i hosts site.yml --tags generate-script
 

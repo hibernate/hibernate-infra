@@ -4,11 +4,9 @@
 # meaning the private key selected when launching the instance will be authorized for this user instead of "fedora".
 - name: Make jenkins the default AWS user
   copy: src=cloud/01-default-user.cfg dest=/etc/cloud/cloud.cfg.d/ mode=0600 owner=root group=root
-  tags:
-    - awscislaves
 
 # Some performance tuning; we have absolutely nothing important
-# to save on a slave in case of job crash so allow aggressive caching.
+# to save on a Jenkins worker node in case of job crash so allow aggressive caching.
 # See also: https://www.kernel.org/doc/Documentation/sysctl/vm.txt
 
 # Target size of block storage buffers
