@@ -2,13 +2,10 @@
 
 - name: Extra packages required on slaves
   dnf:
-    name: ['wget', 'jq', 'sed', 'java-11-openjdk-devel']
+    name: ['java-11-openjdk-devel', 'git']
     state: present
   tags:
     - extra-packages
-
-- name: Create jenkins user
-  user: name=jenkins
 
 - name: Create Docker group
   group:
@@ -65,9 +62,6 @@
   file: path=/var/lib/jenkins src=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=link force=yes
   tags:
     - jenkins
-
-- name: Ensure /home/jenkins/.ssh exists
-  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
 
 # Some slaves need to run rsync on in.relation.to,
 # this will ensure in.relation.to is added to the known_host

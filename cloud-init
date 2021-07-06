@@ -3,14 +3,6 @@ package_update: true
 package_upgrade: true
 package_reboot_if_required: true
 
-packages:
- - git
- - sendmail
- - curl
- - unzip
- - wget
- - vim
-
 ssh_authorized_keys:
  - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBADW5NcGyFWG8eMUV0R7VuPuey/K/X1nZEQLZmtK+FXZK/WIUzJyp5Duwv8/utUOG6u3Dce3CiRxVad4g7ZFi6TS7AAOX/qauYFpIvu/mJ8r5h0FAeOpaWaMcOIW4u4w+KMo6pUP75MoP9XbssT0lgGKLWtPlfkMVlUGS5SyDReJHr8XTQ== sanne@venti
  - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBACmF2wIwA52v4LWXjDwnwjAtgTacSEEzzylpcT+BlmKIhnNDbMFebcP4O8USISvxJ3nBlPyGFsDUeaA2rsjV7CW5wDM8Rw/LcknzEaee1+1FaIO1mXfucI9fx2aK2FCf86MyqAYTrnvb4vTwJ9skCsax2UbSUR8/FfFAP8VcO282CmXuw== ddalto@thorin

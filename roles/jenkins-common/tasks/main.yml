@@ -1,4 +1,11 @@
 ---
+- name: Extra packages for convenience
+  dnf:
+    name: ['wget', 'jq', 'sed', 'git', 'sendmail', 'curl', 'unzip', 'vim']
+    state: present
+  tags:
+    - extra-packages
+
 - name: Install Postfix
   dnf:
     name: "postfix"
@@ -14,6 +21,9 @@
 # Create the jenkins user and explicitly set gid and uid
 - group: name=jenkins state=present gid=1001
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present uid=1001 password_lock=true
+
+- name: Ensure /home/jenkins/.ssh exists
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
 
 - name: Setup SSH config
   copy: src=sshconfig dest=/home/jenkins/.ssh/config mode=0600 owner=jenkins group=jenkins
