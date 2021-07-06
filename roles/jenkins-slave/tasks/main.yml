@@ -69,34 +69,6 @@
 - name: Ensure /home/jenkins/.ssh exists
   file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
 
-- name: Add Couchdb service
-  copy: src=couchdb/docker-couchdb.service dest=/etc/systemd/system/ mode=0600 owner=root group=root
-  tags:
-    - couchdb
-
-- name: Start CouchDB
-  service:
-    name: docker-couchdb
-    enabled: no
-    state: stopped
-    daemon_reload: yes
-  tags:
-    - couchdb
-
-- name: Add Cassandra service 
-  copy: src=cassandra/docker-cassandra.service dest=/etc/systemd/system/ mode=0600 owner=root group=root
-  tags:
-    - cassandra
-
-- name: Start Cassandra
-  service:
-    name: docker-cassandra
-    enabled: no
-    state: stopped
-    daemon_reload: yes
-  tags:
-    - cassandra
-
 # Some slaves need to run rsync on in.relation.to,
 # this will ensure in.relation.to is added to the known_host
 # The ssh-keyscan approach (controversial!) is inspired from: http://hakunin.com/six-ansible-practices
@@ -138,3 +110,4 @@
   become_user: jenkins
   tags:
     - websitegems
+

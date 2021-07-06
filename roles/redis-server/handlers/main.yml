@@ -1,6 +1,0 @@
----
-
-- name: Restart Redis
-  service: name=redis enabled=yes state=restarted
-  tags:
-  - redis
