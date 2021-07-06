@@ -23,7 +23,7 @@
 
 - name: Docker engine and Docker Compose
   dnf:
-    name: ['docker-engine', 'docker-compose']
+    name: ['moby-engine', 'docker-compose']
     state: present
   tags:
     - docker
