@@ -59,6 +59,9 @@
   file: path=/var/www/staging-in.relation.to owner=jenkins group=jenkins mode=0755 state=directory
   tags: staging
 
+- name: Create httpd home for hibernate.org
+  file: path=/var/www/hibernate.org owner=jenkins group=jenkins mode=0755 state=directory
+
 - name: Create httpd home for staging.hibernate.org
   file: path=/var/www/staging-hibernate.org owner=jenkins group=jenkins mode=0755 state=directory
   tags: staging
@@ -73,6 +76,9 @@
 - name: Add a minimal, default index.html (staging.in.relation.to)
   copy: src=var/www/staging-in.relation.to/basic-index.html dest=/var/www/staging-in.relation.to/index.html owner=jenkins group=jenkins mode=0666 force=no
   tags: staging
+
+- name: Add a minimal, default index.html (hibernate.org)
+  copy: src=var/www/hibernate.org/basic-index.html dest=/var/www/hibernate.org/index.html owner=jenkins group=jenkins mode=0666 force=no
 
 - name: Add a minimal, default index.html (staging.hibernate.org)
   copy: src=var/www/staging-hibernate.org/basic-index.html dest=/var/www/staging-hibernate.org/index.html owner=jenkins group=jenkins mode=0666 force=no
@@ -90,6 +96,12 @@
 - name: Add custom HTTPD configuration (staging.in.relation.to)
   copy: src=etc/httpd/staging-in.relation.to.conf dest=/etc/httpd/conf.d/staging-in.relation.to.conf mode=0600 owner=root
   tags: staging
+
+- name: Add custom HTTPD configuration (hibernate.org)
+  copy: src=etc/httpd/hibernate.org.conf dest=/etc/httpd/conf.d/hibernate.org.conf mode=0600 owner=root
+
+- name: Add custom HTTPD configuration (www.hibernate.org)
+  copy: src=etc/httpd/www.hibernate.org.conf dest=/etc/httpd/conf.d/www.hibernate.org.conf mode=0600 owner=root
 
 - name: Add custom HTTPD configuration (staging.hibernate.org)
   copy: src=etc/httpd/staging-hibernate.org.conf dest=/etc/httpd/conf.d/staging-hibernate.org.conf mode=0600 owner=root
@@ -123,6 +135,16 @@
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d staging.in.relation.to
   args:
     creates: /etc/letsencrypt/live/staging.in.relation.to
+
+- name: Obtain certificates for hibernate.org using Let's Encrypt
+  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d hibernate.org
+  args:
+    creates: /etc/letsencrypt/live/hibernate.org
+
+- name: Obtain certificates for www.hibernate.org using Let's Encrypt
+  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d www.hibernate.org
+  args:
+    creates: /etc/letsencrypt/live/www.hibernate.org
 
 - name: Obtain certificates for staging.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d staging.hibernate.org
