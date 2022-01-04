@@ -13,8 +13,23 @@
   tags:
     - postfix
 
+# Gmail SMTP server does not support IPv6, so needs to be disabled explicitly:
+- name: Postfix Server configuration
+  ini_file:
+    path: /etc/postfix/main.cf
+    section: null
+    option: 'inet_protocols'
+    value: 'ipv4'
+  notify:
+    - Restart Postfix
+  tags:
+    - postfix
+
 - name: Ensure Postfix Server is started now, and again on startup
-  service: name=postfix enabled=yes state=started
+  service:
+    name: postfix
+    enabled: yes
+    state: started
   tags:
     - postfix
 
