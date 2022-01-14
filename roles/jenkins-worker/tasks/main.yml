@@ -2,7 +2,7 @@
 
 - name: Extra packages required on worker nodes
   dnf:
-    name: ['java-11-openjdk-devel', 'git']
+    name: ['java-11-openjdk-devel', 'git', 'patch']
     state: present
   tags:
     - extra-packages
