@@ -107,6 +107,9 @@
   copy: src=etc/httpd/staging-hibernate.org.conf dest=/etc/httpd/conf.d/staging-hibernate.org.conf mode=0600 owner=root
   tags: staging
 
+- name: Add custom HTTPD configuration (www.hibernate.org)
+  copy: src=etc/httpd/www.hibernate.org.conf dest=/etc/httpd/conf.d/www.hibernate.org.conf mode=0600 owner=root
+
 - name: Add custom HTTPD configuration (staging.beanvalidation.org)
   copy: src=etc/httpd/staging-beanvalidation.org.conf dest=/etc/httpd/conf.d/staging-beanvalidation.org.conf mode=0600 owner=root
   tags: staging
@@ -145,6 +148,11 @@
   shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d staging.hibernate.org
   args:
     creates: /etc/letsencrypt/live/staging.hibernate.org
+
+- name: Obtain certificates for www.hibernate.org using Let's Encrypt
+  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d www.hibernate.org
+  args:
+    creates: /etc/letsencrypt/live/www.hibernate.org
 
 - name: Obtain certificates for blog.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d blog.hibernate.org
