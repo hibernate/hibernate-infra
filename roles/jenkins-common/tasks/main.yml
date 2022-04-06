@@ -37,23 +37,5 @@
 - group: name=jenkins state=present gid=1001
 - user: name=jenkins comment="Jenkins user" shell=/bin/bash state=present uid=1001 password_lock=true
 
-- name: Ensure /home/jenkins/.ssh exists
-  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
-
-- name: Setup SSH config
-  copy: src=sshconfig dest=/home/jenkins/.ssh/config mode=0600 owner=jenkins group=jenkins
-
-- name: Setup in.relation.to as a known host
-  copy: src=inrelationto-knownhosts dest=/home/jenkins/.ssh/inrelationto-knownhosts mode=0600 owner=jenkins group=jenkins
-
-- name: Setup Github as a known host
-  copy: src=github-knownhosts dest=/home/jenkins/.ssh/github-knownhosts mode=0600 owner=jenkins group=jenkins
-
-- name: Setup SourceForge as a known host
-  copy: src=sourceforge-knownhosts dest=/home/jenkins/.ssh/sourceforge-knownhosts mode=0600 owner=jenkins group=jenkins
-
-- name: Setup filemgmt.boss.org as a known host
-  copy: src=filemgmt-knownhosts dest=/home/jenkins/.ssh/filemgmt-knownhosts mode=0600 owner=jenkins group=jenkins
-
 - name: Add .bashrc for jenkins
   copy: src=.bashrc dest=/home/jenkins/.bashrc mode=0600 owner=jenkins group=jenkins

@@ -33,6 +33,15 @@
     regexp: '^jdk.certpath.disabledAlgorithms='
     line: 'jdk.certpath.disabledAlgorithms=MD2, MD5, DSA, RSA keySize < 1024'
 
+- name: Ensure /home/jenkins/.ssh exists
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
+
+- name: Setup SSH config
+  copy: src=sshconfig dest=/home/jenkins/.ssh/config mode=0600 owner=jenkins group=jenkins
+
+- name: Setup known hosts
+  copy: src=known_hosts dest=/home/jenkins/.ssh/known_hosts mode=0600 owner=jenkins group=jenkins
+
 - name: Copy custom CSS for CI
   copy: src=jenkins/userContent/ci-hibernate.css dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
   tags:

@@ -1,0 +1,18 @@
+Host *
+    UseRoaming no
+
+Host in.relation.to
+    User jenkins
+    PreferredAuthentications publickey
+    Compression yes
+    # Allow ssh-agent (useful for Jenkins jobs)
+    IdentitiesOnly no
+    GSSAPIAuthentication no
+    AddressFamily inet
+    PasswordAuthentication no
+    ForwardAgent no
+    ForwardX11 no
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmaster-inrelationto-%r@%h:%p
+    StrictHostKeyChecking yes
+    CheckHostIP no
