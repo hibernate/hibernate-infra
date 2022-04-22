@@ -139,20 +139,20 @@
   args:
     creates: /etc/letsencrypt/live/staging.in.relation.to
 
-#- name: Obtain certificates for hibernate.org using Let's Encrypt
-#  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d hibernate.org
-#  args:
-#    creates: /etc/letsencrypt/live/hibernate.org
+- name: Obtain certificates for hibernate.org using Let's Encrypt
+  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d hibernate.org
+  args:
+    creates: /etc/letsencrypt/live/hibernate.org
 
 - name: Obtain certificates for staging.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d staging.hibernate.org
   args:
     creates: /etc/letsencrypt/live/staging.hibernate.org
 
-#- name: Obtain certificates for www.hibernate.org using Let's Encrypt
-#  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d www.hibernate.org
-#  args:
-#    creates: /etc/letsencrypt/live/www.hibernate.org
+- name: Obtain certificates for www.hibernate.org using Let's Encrypt
+  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d www.hibernate.org
+  args:
+    creates: /etc/letsencrypt/live/www.hibernate.org
 
 - name: Obtain certificates for blog.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d blog.hibernate.org
