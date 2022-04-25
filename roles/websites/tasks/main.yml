@@ -90,6 +90,7 @@
 - name: Add custom HTTPD configuration for *.in.hibernate.org
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
   with_fileglob:
+    - "etc/httpd/origin.in.relation.to.conf"
     - "etc/httpd/in.relation.to.conf"
     - "etc/httpd/in.relation.to-*.confpart"
     - "etc/httpd/staging-in.relation.to.conf"
@@ -99,6 +100,7 @@
 - name: Add custom HTTPD configuration for *.hibernate.org
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
   with_fileglob:
+    - "etc/httpd/origin.hibernate.org.conf"
     - "etc/httpd/hibernate.org.conf"
     - "etc/httpd/hibernate.org-*.confpart"
     - "etc/httpd/staging-hibernate.org.conf"
@@ -130,6 +132,13 @@
   notify:
     - Restart Apache HTTPD
 
+- name: Obtain certificates for origin.in.relation.to using Let's Encrypt
+  shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d origin.in.relation.to
+  args:
+    creates: /etc/letsencrypt/live/origin.in.relation.to
+  notify:
+    - Restart Apache HTTPD
+
 - name: Obtain certificates for staging.in.relation.to using Let's Encrypt
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d staging.in.relation.to
   args:
@@ -141,6 +150,13 @@
   shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d hibernate.org
   args:
     creates: /etc/letsencrypt/live/hibernate.org
+  notify:
+    - Restart Apache HTTPD
+
+- name: Obtain certificates for origin.hibernate.org using Let's Encrypt
+  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d origin.hibernate.org
+  args:
+    creates: /etc/letsencrypt/live/origin.hibernate.org
   notify:
     - Restart Apache HTTPD
 
