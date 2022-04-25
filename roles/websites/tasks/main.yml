@@ -87,38 +87,26 @@
   copy: src=var/www/staging-beanvalidation.org/basic-index.html dest=/var/www/staging-hibernate.org/index.html owner=jenkins group=jenkins mode=0666 force=no
   tags: staging
 
-- name: Add custom HTTPD configuration (in.relation.to rewrite rules)
-  copy: src=etc/httpd/in.relation.to-rewriterules.confpart dest=/etc/httpd/conf.d/in.relation.to-rewriterules.confpart mode=0600 owner=root
+- name: Add custom HTTPD configuration for *.in.hibernate.org
+  copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
+  with_fileglob:
+    - "etc/httpd/in.relation.to.conf"
+    - "etc/httpd/in.relation.to-*.confpart"
+    - "etc/httpd/staging-in.relation.to.conf"
 
-- name: Add custom HTTPD configuration (in.relation.to)
-  copy: src=etc/httpd/in.relation.to.conf dest=/etc/httpd/conf.d/in.relation.to.conf mode=0600 owner=root
-
-- name: Add custom HTTPD configuration (staging.in.relation.to)
-  copy: src=etc/httpd/staging-in.relation.to.conf dest=/etc/httpd/conf.d/staging-in.relation.to.conf mode=0600 owner=root
-  tags: staging
-
-- name: Add custom HTTPD configuration (hibernate.org rewrite rules)
-  copy: src=etc/httpd/hibernate.org-rewriterules.confpart dest=/etc/httpd/conf.d/hibernate.org-rewriterules.confpart mode=0600 owner=root
-
-- name: Add custom HTTPD configuration (hibernate.org)
-  copy: src=etc/httpd/hibernate.org.conf dest=/etc/httpd/conf.d/hibernate.org.conf mode=0600 owner=root
-
-- name: Add custom HTTPD configuration (staging.hibernate.org)
-  copy: src=etc/httpd/staging-hibernate.org.conf dest=/etc/httpd/conf.d/staging-hibernate.org.conf mode=0600 owner=root
-  tags: staging
-
-- name: Add custom HTTPD configuration (www.hibernate.org)
-  copy: src=etc/httpd/www.hibernate.org.conf dest=/etc/httpd/conf.d/www.hibernate.org.conf mode=0600 owner=root
+- name: Add custom HTTPD configuration for *.hibernate.org
+  copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
+  with_fileglob:
+    - "etc/httpd/hibernate.org.conf"
+    - "etc/httpd/hibernate.org-*.confpart"
+    - "etc/httpd/staging-hibernate.org.conf"
+    - "etc/httpd/www.hibernate.org.conf"
+    - "etc/httpd/blog.hibernate.org.conf"
+    - "etc/httpd/infra.hibernate.org.conf"
 
 - name: Add custom HTTPD configuration (staging.beanvalidation.org)
   copy: src=etc/httpd/staging-beanvalidation.org.conf dest=/etc/httpd/conf.d/staging-beanvalidation.org.conf mode=0600 owner=root
   tags: staging
-
-- name: Add custom HTTPD configuration (blog.hibernate.org)
-  copy: src=etc/httpd/blog.hibernate.org.conf dest=/etc/httpd/conf.d/blog.hibernate.org.conf mode=0600 owner=root
-
-- name: Add custom HTTPD configuration (infra.hibernate.org)
-  copy: src=etc/httpd/infra.hibernate.org.conf dest=/etc/httpd/conf.d/infra.hibernate.org.conf mode=0600 owner=root
 
 - name: Install the latest version of Let's Encrypt's "certbot", using snapd
   community.general.snap:
