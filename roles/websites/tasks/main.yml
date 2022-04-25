@@ -93,6 +93,8 @@
     - "etc/httpd/in.relation.to.conf"
     - "etc/httpd/in.relation.to-*.confpart"
     - "etc/httpd/staging-in.relation.to.conf"
+  notify:
+    - Restart Apache HTTPD
 
 - name: Add custom HTTPD configuration for *.hibernate.org
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
@@ -103,10 +105,14 @@
     - "etc/httpd/www.hibernate.org.conf"
     - "etc/httpd/blog.hibernate.org.conf"
     - "etc/httpd/infra.hibernate.org.conf"
+  notify:
+    - Restart Apache HTTPD
 
 - name: Add custom HTTPD configuration (staging.beanvalidation.org)
   copy: src=etc/httpd/staging-beanvalidation.org.conf dest=/etc/httpd/conf.d/staging-beanvalidation.org.conf mode=0600 owner=root
   tags: staging
+  notify:
+    - Restart Apache HTTPD
 
 - name: Install the latest version of Let's Encrypt's "certbot", using snapd
   community.general.snap:
@@ -121,36 +127,50 @@
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d in.relation.to
   args:
     creates: /etc/letsencrypt/live/in.relation.to
+  notify:
+    - Restart Apache HTTPD
 
 - name: Obtain certificates for staging.in.relation.to using Let's Encrypt
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d staging.in.relation.to
   args:
     creates: /etc/letsencrypt/live/staging.in.relation.to
+  notify:
+    - Restart Apache HTTPD
 
 - name: Obtain certificates for hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d hibernate.org
   args:
     creates: /etc/letsencrypt/live/hibernate.org
+  notify:
+    - Restart Apache HTTPD
 
 - name: Obtain certificates for staging.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d staging.hibernate.org
   args:
     creates: /etc/letsencrypt/live/staging.hibernate.org
+  notify:
+    - Restart Apache HTTPD
 
 - name: Obtain certificates for www.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d www.hibernate.org
   args:
     creates: /etc/letsencrypt/live/www.hibernate.org
+  notify:
+    - Restart Apache HTTPD
 
 - name: Obtain certificates for blog.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d blog.hibernate.org
   args:
     creates: /etc/letsencrypt/live/blog.hibernate.org
+  notify:
+    - Restart Apache HTTPD
 
 - name: Obtain certificates for infra.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly --apache -d infra.hibernate.org
   args:
     creates: /etc/letsencrypt/live/infra.hibernate.org
+  notify:
+    - Restart Apache HTTPD
 
 - name: Ensure Let's encrypt certificates get renewed
   cron:
@@ -181,16 +201,19 @@
   when: not hibernate_github_bot_config.stat.exists
 - name: Fix permissions of the hibernate-github-bot config file
   file: path=/etc/hibernate-github-bot/application.properties owner=root group=root mode=0600
+  notify:
+    - Restart hibernate-github-bot
 
 - name: Copy systemd service file for hibernate-github-bot
   copy: src=etc/systemd/system/container-hibernate-github-bot.service dest=/etc/systemd/system/container-hibernate-github-bot.service owner=root group=root mode=0440
+  notify:
+    - Restart hibernate-github-bot
 
-# daemon-reload is necessary to pick up config changes
 - name: Ensure hibernate-github-bot is started now, and again on startup
-  systemd: name=container-hibernate-github-bot enabled=yes state=restarted daemon_reload=yes
+  systemd: name=container-hibernate-github-bot enabled=yes state=started
 
 - name: Ensure Apache HTTPD is started now, and again on startup
-  service: name=httpd enabled=yes state=restarted
+  service: name=httpd enabled=yes state=started
   tags:
     - staging
 
