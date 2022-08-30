@@ -39,3 +39,6 @@
 
 - name: Add .bashrc for jenkins
   copy: src=.bashrc dest=/home/jenkins/.bashrc mode=0600 owner=jenkins group=jenkins
+
+- name: Ensure /home/jenkins/.ssh exists and has the right owner/permissions
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins group=jenkins
