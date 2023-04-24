@@ -7,7 +7,6 @@
 - hosts: jenkins-worker
   remote_user: fedora
   become: yes
-
   roles:
     - common
     - aws
@@ -15,11 +14,12 @@
     - jenkins-worker
     - jenkins-worker-aws
 
-
 - hosts: jenkins-coordinator
   remote_user: ec2-user
   become: yes
-
+  pre_tasks:
+    - name: Install Jenkins repo
+      ansible.builtin.include: tasks/repo/jenkins.yml
   roles:
     - common
     - aws
@@ -29,7 +29,6 @@
 - hosts: websites
   remote_user: ec2-user
   become: yes
-
   roles:
     - common
     - aws

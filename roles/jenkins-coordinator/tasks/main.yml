@@ -1,26 +1,5 @@
 ---
 
-# https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos
-# https://fedoraproject.org/wiki/EPEL
-# https://linuxconfig.org/redhat-8-epel-install-guide
-- name: Enable Extra Packages for Enterprise Linux
-  dnf:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-    state: latest
-    # We're installing the package that contains the keys, so obviously we don't have them yet.
-    # We're using HTTPS to retrieve the package, so this should be safe anyway.
-    disable_gpg_check: true
-
-- name: Ensure Jenkins repo is installed.
-  get_url:
-    url: "https://pkg.jenkins.io/redhat-stable/jenkins.repo"
-    dest: /etc/yum.repos.d/jenkins.repo
-
-- name: Add Jenkins repo GPG key.
-  rpm_key:
-    state: present
-    key: "https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
-
 - name: Install Jenkins, HTTPD, OpenJDK
   dnf:
     name: ['java-11-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl']
