@@ -8,4 +8,4 @@
 - name: Add Jenkins repo GPG key.
   rpm_key:
     state: present
-    key: "https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
+    key: "https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key"
