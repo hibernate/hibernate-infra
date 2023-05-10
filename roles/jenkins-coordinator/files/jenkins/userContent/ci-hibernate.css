@@ -1,27 +1,7 @@
 @charset "utf-8";
 
-#header #jenkins-home-link {
-  /* Center logos vertically */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Hide the Jenkins head image */
-#header img#jenkins-head-icon {
-  display: none;
-}
-
-#header img#jenkins-name-icon {
-  /* Override absolute positioning */
-  position: static;
-  top: auto;
-  right: auto;
-  bottom: : auto;
-  left: auto;
-
-  /* Override Jenkins name image */
-  display: inline-block;
+#page-header img#jenkins-head-icon {
+  /* Override Jenkins logo */
   box-sizing: border-box;
   background: url("/userContent/hibernate-logo.svg") no-repeat;
   background-size: 100%;
@@ -30,4 +10,11 @@
   padding-left: 122px; /* Equal to width of new image */
   /* Make the logo contrast a bit more with the black background */
   filter: drop-shadow(0 0 0.75rem #fff);
+}
+
+/* Hide "Jenkins" on smaller screens */
+@media (max-width: 30em) {
+  #page-header img#jenkins-name-icon {
+    display: none;
+  }
 }
