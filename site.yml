@@ -19,7 +19,7 @@
   become: yes
   pre_tasks:
     - name: Install Jenkins repo
-      ansible.builtin.include: tasks/repo/jenkins.yml
+      ansible.builtin.import_tasks: tasks/repo/jenkins.yml
   roles:
     - common
     - aws
