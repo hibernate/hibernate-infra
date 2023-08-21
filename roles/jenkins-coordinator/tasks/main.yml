@@ -2,7 +2,7 @@
 
 - name: Install Jenkins, HTTPD, OpenJDK
   dnf:
-    name: ['java-11-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl']
+    name: ['java-17-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl']
     state: present
 
 - name: Override Java security config to enable RSA 1024bits (used by the Jenkins update site)
