@@ -21,10 +21,26 @@
     - docker
     - groups
 
-- name: Docker engine and Docker Compose
+- name: Install Docker engine and Docker Compose
   dnf:
     name: ['moby-engine', 'docker-compose']
     state: present
+  tags:
+    - docker
+
+# Just in case the worker node does not get anything mounted to /mnt/workdir
+- name: Create /mnt/workdir/docker
+  file: path=/mnt/workdir/docker owner=root group=root mode=0600 state=directory
+  tags:
+    - docker
+
+- name: Create /etc/docker
+  file: path=/etc/docker owner=root group=root mode=0600 state=directory
+  tags:
+    - docker
+
+- name: Use /mnt/workdir/docker for Docker data
+  copy: src=etc/docker/daemon.json dest=/etc/docker/daemon.json mode=0600 owner=root group=root
   tags:
     - docker
 
@@ -53,13 +69,14 @@
   tags:
     - services
 
-- name: Create /mnt/jenkins-workdir
-  file: path=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=directory
+# Just in case the worker node does not get anything mounted to /mnt/workdir
+- name: Create /mnt/workdir/jenkins
+  file: path=/mnt/workdir/jenkins owner=jenkins group=jenkins mode=0755 state=directory
   tags:
     - jenkins
 
-- name: Create link /var/lib/jenkins to /mnt/jenkins-workdir
-  file: path=/var/lib/jenkins src=/mnt/jenkins-workdir owner=jenkins group=jenkins mode=0755 state=link force=yes
+- name: Create link /var/lib/jenkins to /mnt/workdir/jenkins
+  file: path=/var/lib/jenkins src=/mnt/workdir/jenkins owner=jenkins group=jenkins mode=0755 state=link force=yes
   tags:
     - jenkins
 

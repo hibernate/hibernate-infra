@@ -1,0 +1,10 @@
+[Unit]
+Description=Mounts the first found AWS Instance Store device as /mnt/workdir
+Before=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mount_workdir.sh /mnt/workdir
+
+[Install]
+WantedBy=multi-user.target
