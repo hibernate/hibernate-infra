@@ -2,7 +2,7 @@
 
 - name: Extra packages required on worker nodes
   dnf:
-    name: ['java-11-openjdk-devel', 'git', 'patch']
+    name: ['java-11-openjdk-devel', 'git', 'patch', 'policycoreutils-python-utils']
     state: present
   tags:
     - extra-packages
@@ -29,8 +29,8 @@
     - docker
 
 # Just in case the worker node does not get anything mounted to /mnt/workdir
-- name: Create /mnt/workdir/docker
-  file: path=/mnt/workdir/docker owner=root group=root mode=0600 state=directory
+- name: Create /mnt/workdir/containers
+  file: path=/mnt/workdir/containers owner=root group=root mode=0600 state=directory
   tags:
     - docker
 
@@ -39,7 +39,7 @@
   tags:
     - docker
 
-- name: Use /mnt/workdir/docker for Docker data
+- name: Use /mnt/workdir/containers for Docker data
   copy: src=etc/docker/daemon.json dest=/etc/docker/daemon.json mode=0600 owner=root group=root
   tags:
     - docker

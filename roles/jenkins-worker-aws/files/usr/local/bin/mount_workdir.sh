@@ -38,8 +38,12 @@ then
 	exit 1
 fi
 
-mkdir -p $mountpoint/docker
-chmod 0600 $mountpoint/docker
+mkdir -p $mountpoint/containers
+chmod 0600 $mountpoint/containers
+# https://github.com/containers/podman/blob/main/troubleshooting.md#11-changing-the-location-of-the-graphroot-leads-to-permission-denied
+# Ignore failures because this command doesn't like being called a second time (e.g. after a reboot)
+semanage fcontext -a -e /var/lib/containers $mountpoint/containers || true
+restorecon -R -v $mountpoint/containers
 
 mkdir -p $mountpoint/jenkins
 chmod 0755 $mountpoint/jenkins
