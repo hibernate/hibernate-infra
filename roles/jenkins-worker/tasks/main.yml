@@ -39,8 +39,15 @@
   tags:
     - docker
 
-- name: Use /mnt/workdir/containers for Docker data
-  copy: src=etc/docker/daemon.json dest=/etc/docker/daemon.json mode=0600 owner=root group=root
+# The config includes:
+# * an instruction to use /mnt/workdir/containers for Docker data
+# * a workaround to reenable OOB on Oracle DB container.
+#   See https://github.com/gvenzl/oci-oracle-xe/issues/43
+#   Timeout handling requires some networking features and
+#   the docker userland proxies lack handling of these features,
+#   so we have to disable docker userland proxies.
+- name: Create docker config
+  copy: src=etc/docker/daemon.json dest=/etc/docker/daemon.json mode=0644 owner=root group=root
   tags:
     - docker
 
