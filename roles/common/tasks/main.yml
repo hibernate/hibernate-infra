@@ -18,7 +18,6 @@
     state: latest
   notify:
      - Restart server
-     - Wait for server to restart
 
 # Hostname and hosts file
 - name: Set the hostname
