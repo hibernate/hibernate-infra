@@ -87,6 +87,16 @@
   tags:
     - jenkins
 
+- name: Create link /home/jenkins/.gradle to /mnt/workdir/jenkins/.gradle
+  file: path=/mnt/workdir/jenkins/.gradle src=/home/jenkins/.gradle owner=jenkins group=jenkins mode=0755 state=link force=yes
+  tags:
+    - jenkins
+
+- name: Create link /home/jenkins/.m2 to /mnt/workdir/jenkins/.m2
+  file: path=/mnt/workdir/jenkins/.m2 src=/home/jenkins/.m2 owner=jenkins group=jenkins mode=0755 state=link force=yes
+  tags:
+    - jenkins
+
 # Some CI jobs need to run rsync on in.relation.to,
 # this will ensure in.relation.to is added to the known_host
 # The ssh-keyscan approach (controversial!) is inspired from: http://hakunin.com/six-ansible-practices
