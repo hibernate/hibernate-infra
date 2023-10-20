@@ -81,17 +81,23 @@
   file: path=/mnt/workdir/jenkins owner=jenkins group=jenkins mode=0755 state=directory
   tags:
     - jenkins
+- name: Create /mnt/workdir/jenkins/.m2
+  file: path=/mnt/workdir/jenkins owner=jenkins group=jenkins mode=0755 state=directory
+  tags:
+    - jenkins
+- name: Create /mnt/workdir/jenkins/.gradle
+  file: path=/mnt/workdir/jenkins owner=jenkins group=jenkins mode=0755 state=directory
+  tags:
+    - jenkins
 
 - name: Create link /var/lib/jenkins to /mnt/workdir/jenkins
   file: path=/var/lib/jenkins src=/mnt/workdir/jenkins owner=jenkins group=jenkins mode=0755 state=link follow=false
   tags:
     - jenkins
-
 - name: Create link /home/jenkins/.gradle to /mnt/workdir/jenkins/.gradle
   file: path=/home/jenkins/.gradle src=/mnt/workdir/jenkins/.gradle owner=jenkins group=jenkins mode=0755 state=link force=true follow=false
   tags:
     - jenkins
-
 - name: Create link /home/jenkins/.m2 to /mnt/workdir/jenkins/.m2
   file: path=/home/jenkins/.m2 src=/mnt/workdir/jenkins/.m2 owner=jenkins group=jenkins mode=0755 state=link force=true follow=false
   tags:

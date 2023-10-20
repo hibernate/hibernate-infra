@@ -46,7 +46,9 @@ semanage fcontext -a -e /var/lib/containers $mountpoint/containers || true
 restorecon -R -v $mountpoint/containers
 
 mkdir -p $mountpoint/jenkins
-chmod 0755 $mountpoint/jenkins
-chown jenkins:jenkins $mountpoint/jenkins
+mkdir -p $mountpoint/jenkins/.m2
+mkdir -p $mountpoint/jenkins/.gradle
+chmod -R 0755 $mountpoint/jenkins
+chown -R jenkins:jenkins $mountpoint/jenkins
 
 echo 2>&1 "Initialized directory structure in $mountpoint"
