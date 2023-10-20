@@ -1,3 +1,4 @@
 {
-  "data-root": "/mnt/workdir/containers"
+  "data-root": "/mnt/workdir/containers",
+  "userland-proxy": false
 }
