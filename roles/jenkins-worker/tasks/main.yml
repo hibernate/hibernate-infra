@@ -30,12 +30,12 @@
 
 # Just in case the worker node does not get anything mounted to /mnt/workdir
 - name: Create /mnt/workdir/containers
-  file: path=/mnt/workdir/containers owner=root group=root mode=0600 state=directory
+  file: path=/mnt/workdir/containers owner=root group=root mode=0700 state=directory
   tags:
     - docker
 
 - name: Create /etc/docker
-  file: path=/etc/docker owner=root group=root mode=0600 state=directory
+  file: path=/etc/docker owner=root group=root mode=0755 state=directory
   tags:
     - docker
 
