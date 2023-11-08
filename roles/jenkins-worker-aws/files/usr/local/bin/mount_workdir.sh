@@ -1,42 +1,90 @@
 #!/bin/bash -e
 # Mounts the first found AWS instance store device as $1
 
-devices=('/dev/nvme1n1' '/dev/xvdb' '/dev/xvdc' '/dev/xvdd' '/dev/xvde')
-mountpoint="$1"
+function log() {
+	echo 2>&1 "${@}"
+}
 
-mount_device()
-{
+function device_for_mountpoint() {
+	mount | awk "{if (\$3 == \"$1\") {print \$1; exit 0}}"
+}
+
+function devices() {
+	lsblk --nodeps --noheading -o PATH | sort
+}
+
+function mountpoint_for_device() {
+	mount | awk "{if (\$1 == \"$1\") {print \$3; exit 0}}"
+}
+
+function partitions_for_device() {
+	lsblk --noheading -o PATH "$1" | { grep -v "^$1$" || true; } | tr '\n' ' '
+}
+
+function fstype_for_device() {
+	lsblk --noheading --nodeps -o FSTYPE "$1"
+}
+
+function mount_device() {
 	device="$1"
-	if [ ! -z "$(lsblk -o MOUNTPOINTS "$device" | tail -n +2)" ]
-	then
-		echo 2>&1 "Device $device is already mounted; aborting."
-		exit 1
-	fi
-	if [ ! "xfs" = "$(lsblk -o FSTYPE /dev/nvme1n1 | tail -n +2)" ]
+	log "Mounting '$device' on '$mountpoint'."
+	if ! [[ "xfs" == "$(fstype_for_device "$device")" ]]
 	then
 		mkfs -t xfs "$device"
 	fi
 	mkdir -p "$mountpoint"
 	mount -t xfs "$device" "$mountpoint"
-	echo 2>&1 "Mounted $device to $mountpoint"
+	log "Mounted '$device' on '$mountpoint'"
 }
 
+mountpoint="$1"
+
+current_device_for_mountpoint="$(device_for_mountpoint "$mountpoint")"
+if [[ -n "$current_device_for_mountpoint" ]]
+then
+	log "Directory '$1' is already the mountpoint for '$current_device_for_mountpoint'; skipping."
+	exit 0
+fi
+
 mounted=0
-for device in "${devices[@]}"
+candidate_devices=()
+for device in $(devices)
 do
-		if [ -b "$device" ]
-		then
-				mount_device "$device"
-				mounted=1
-				break
-		fi
+	current_mountpoint_for_device="$(mountpoint_for_device "$device")"
+	current_partitions_for_device="$(partitions_for_device "$device")"
+	if ! [[ "$device" == /dev/nvme* || "$device" == /dev/xvd* ]]
+	then
+		log "Ignoring device '$device' because its name doesn't match any expected pattern."
+	elif [[ -n "$current_mountpoint_for_device" ]]
+	then
+		log "Ignoring device '$device' because it is already mounted on '$current_mountpoint_for_device'."
+	elif [[ -n "$current_partitions_for_device" ]]
+	then
+		log "Ignoring device '$device' because it is already has partitions: $current_partitions_for_device."
+	else
+		candidate_devices=("${candidate_devices[@]}" "$device")
+	fi
 done
 
-if (( !mounted ))
-then
-	echo 2>&1 "Did not find any device among ${devices[*]}"
-	exit 1
-fi
+log "Candidate devices: ${candidate_devices[*]}"
+
+device_to_mount=
+case "${#candidate_devices[@]}" in
+	"0")
+		log "No candidate device found; aborting."
+		exit 1
+		;;
+	"1")
+		;;
+	*)
+		log "Multiple candidate devices found: selecting the first one and hoping for the best."
+		;;
+esac
+
+device_to_mount="${candidate_devices[0]}"
+mount_device "$device_to_mount"
+
+log "Initializing directory structure in '$mountpoint'"
 
 mkdir -p $mountpoint/containers
 chmod 0700 $mountpoint/containers
@@ -51,4 +99,4 @@ mkdir -p $mountpoint/jenkins/.gradle
 chmod -R 0755 $mountpoint/jenkins
 chown -R jenkins:jenkins $mountpoint/jenkins
 
-echo 2>&1 "Initialized directory structure in $mountpoint"
+log "Done"
