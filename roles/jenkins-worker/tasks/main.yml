@@ -2,7 +2,7 @@
 
 - name: Extra packages required on worker nodes
   dnf:
-    name: ['java-11-openjdk-devel', 'git', 'patch', 'policycoreutils-python-utils']
+    name: ['java-17-openjdk-devel', 'git', 'patch', 'policycoreutils-python-utils']
     state: present
   tags:
     - extra-packages
