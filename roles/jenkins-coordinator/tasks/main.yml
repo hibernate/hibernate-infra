@@ -29,7 +29,7 @@
     - copy-css
 
 - name: Custom Jenkins configuration
-  copy: src=etc/sysconfig/jenkins dest=/etc/sysconfig/jenkins mode=0600 owner=root
+  copy: src=etc/systemd/system/jenkins.service.d/override.conf dest=/etc/systemd/system/jenkins.service.d/override.conf mode=0644 owner=root
 
 - name: Ensure Jenkins is started now, and again on startup
   service: name=jenkins enabled=yes state=started
