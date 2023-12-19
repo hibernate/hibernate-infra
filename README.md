@@ -1,13 +1,16 @@
-## Preparations for Jenkins environment
+# Hibernate infrastructure
 
-This is a set of scripts to setup the Continuous Integration infrastructure for Hibernate.
+## What is this?
+
+This is an Ansible playbook to set up the Hibernate infrastructure:
+Continuous Integration, website, and bot deployments.
+
 The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to setup a CI environment.
 
 We prefer to make some assumptions and keep this simple;
 among others, we expect to run the public facing services on Red Hat Enterprise Linux 8,
 and run some Jenkins worker nodes on Fedora Cloud.
 
-The primary site will run on Amazon AWS; Jenkins worker nodes are run on a variety of other platforms, some directly controlled, some provided by partners.
 The websites and the Jenkins coordinator node will run on permanent instances on Amazon AWS,
 while most Jenkins worker nodes will run on AWS EC2 Spot instances launched by the Jenkins AWS EC2 plugin,
 and some Jenkins worker nodes will be managed by partners.
