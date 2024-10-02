@@ -5,7 +5,7 @@
 This is an Ansible playbook to set up the Hibernate infrastructure:
 Continuous Integration, website, and bot deployments.
 
-The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to setup a CI environment.
+The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to set up a CI environment.
 
 We prefer to make some assumptions and keep this simple;
 among others, we expect to run the public facing services on Red Hat Enterprise Linux 8,
@@ -15,7 +15,9 @@ The websites and the Jenkins coordinator node will run on permanent instances on
 while most Jenkins worker nodes will run on AWS EC2 Spot instances launched by the Jenkins AWS EC2 plugin,
 and some Jenkins worker nodes will be managed by partners.
 
-## Preparations: AWS launch templates
+## First setup
+
+### Preparations: AWS launch templates
 
 If your SSH key was never used to build the servers,
 you will need to add the public key to the `cloud-init` file at the root of this git repository.
@@ -27,9 +29,11 @@ by setting the "user data" to the content of the `cloud-init` file:
 
 You can use a different organization and launch templates of course, but we won't pay your AWS bills.
 
-## Boot the servers
+### Boot the servers
 
 You should run:
+- 1 instance to host the websites.
+  Start it on AWS and figure out the launch template yourself (details have been lost to time, I think it should use a RHEL 8 image).
  - 1 instance to host the Jenkins coordinator node.
    Start it on AWS and use the `jenkins-ci-coordinator` launch template (a RHEL 8 image).
  - 1 instance to create an AMI for the various Jenkins worker nodes,
@@ -42,7 +46,7 @@ You should run:
 Boot them using the provided 'cloud-init' script.
 When booting machines from the UI, you can paste the content of 'cloud-init' into the "Customisation Script" section on the AWS console.
 
-## Update the inventory file (server addresses and keys)
+### Update the inventory file (server addresses and keys)
 
 You will need to update the inventory file `hosts` to point to the servers you just launched.
 Gather the public IP address or public DNS for each server,
@@ -55,7 +59,7 @@ Make sure to update the paths to the private keys as necessary.
 
 Do not commit these changes unless your changes may be useful to other users.
 
-## Let it configure your servers
+### Let it configure your servers
 
 Now install Ansible, then the required collections:
 
@@ -65,7 +69,7 @@ Then run the Ansible playbook like this:
 
 	ansible-playbook -i hosts site.yml
 
-### Performance Tip
+#### Performance Tip
 
 When only updating the worker nodes (which run on Fedora), it is recommended to enable SSH pipelining which will make things go quite a bit faster. To do so, specify pipelining = True in ansible.cfg. (This couldn't work on RHEL 7 for security reasons, it might work on RHEL 8)
 
@@ -83,7 +87,7 @@ It is also possible to execute specific tasks using tags:
 
 More details about tags can be found the ansible documentation.
 
-## Finishing touches
+### Finishing touches
 
 The Jenkins coordinator node is now running, updates installed.
 
@@ -96,15 +100,32 @@ Create an image from the `Instances` panel of the AWS EC2 console:
 select the instance, then click `Actions > Image > Create Image`.
 Do not forget to update the AMI in the Jenkins AWS EC2 plugin configuration.
 
-## Making changes to the Jenkins worker nodes
+## Maintenance of existing nodes
+
+### Updating the website and CI coordinator nodes
+
+Ansible should run a `dnf update` automatically, so just do this:
+
+```shell
+ansible-playbook -i hosts site.yml --limit jenkins-coordinator
+```
+
+or:
+
+```shell
+ansible-playbook -i hosts site.yml --limit websites
+```
+
+### Making changes to the Jenkins worker nodes
 
 The Ansible playbook is designed so it can be re-run on your existing infrastructure without undoing configuration you did on the previous step.
-To make changes to the configuration of a Jenkins worker nodes, update the playbook and run the ansible-playbook command again.
-When done, commit the changes here again so that next time we'll need to rebuild nodes they will include your changes.
 
+To make changes to the configuration of a Jenkins worker node:
 
-## TL;DR Running ansible on the Jenkins worker nodes
+1. Update the playbook.
+2. Start an instance on AWS (see first setup) using the current Jenkins worker node AMI. Alternatively, you can start from a fresh AMI.
+3. Run the ansible-playbook command again (see first setup).
+4. If it doesn't work, iterate.
+5. When it works, commit and push the changes so that next time we'll need to rebuild nodes they will include your changes.
 
-ansible-playbook -i hosts site.yml --limit jenkins-worker
-ansible-playbook -i hosts site.yml --tags generate-script
 
