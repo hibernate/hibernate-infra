@@ -2,7 +2,3 @@
 
 - name: Restart Apache HTTPD
   service: name=httpd state=restarted
-
-# daemon-reload is necessary to pick up config changes
-- name: Restart hibernate-github-bot
-  systemd: name=container-hibernate-github-bot state=restarted daemon_reload=yes
