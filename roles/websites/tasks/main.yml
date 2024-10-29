@@ -10,8 +10,6 @@
   copy: src=authorized_keys dest=/home/jenkins/.ssh/authorized_keys mode=0600 owner=jenkins group=jenkins
   tags:
     - jenkins
-- name: "Allow limited sudo for deployment"
-  copy: src=etc/sudoers.d/deployment dest=/etc/sudoers.d/deployment mode=0440 owner=root group=root
 
 # https://certbot.eff.org/lets-encrypt/centosrhel8-apache.html
 # https://snapcraft.io/docs/installing-snap-on-red-hat
@@ -195,43 +193,7 @@
     hour: "0,12"
     job: "python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew"
 
-# This file contains sensitive secrets, so it must be created manually on the target host.
-# Note we're not using an env file passed directly to the container,
-# but rather a configuration file.
-# That's because Docker env files don't support multiline, apparently on purpose
-# (https://github.com/moby/moby/issues/12997#issuecomment-331836641),
-# so we cannot store the private key in an env file.
-# The config file must define:
-# quarkus.github-app.app-id
-# quarkus.github-app.app-name
-# quarkus.github-app.webhook-secret
-# quarkus.github-app.private-key
-# See https://quarkiverse.github.io/quarkiverse-docs/quarkus-github-app/dev/create-github-app.html#_initialize_the_configuration
-- name: Check if hibernate-github-bot config file exists
-  stat:
-    path: /etc/hibernate-github-bot/application.properties
-  register: hibernate_github_bot_config
-- name: Fail if hibernate-github-bot config file does not exist
-  fail:
-    msg: You must create file /etc/hibernate-github-bot/application.properties manually.
-  when: not hibernate_github_bot_config.stat.exists
-- name: Fix permissions of the hibernate-github-bot config file
-  file: path=/etc/hibernate-github-bot/application.properties owner=root group=root mode=0600
-  notify:
-    - Restart hibernate-github-bot
-
-- name: Copy systemd service file for hibernate-github-bot
-  copy: src=etc/systemd/system/container-hibernate-github-bot.service dest=/etc/systemd/system/container-hibernate-github-bot.service owner=root group=root mode=0440
-  notify:
-    - Restart hibernate-github-bot
-
-- name: Ensure hibernate-github-bot is started now, and again on startup
-  systemd: name=container-hibernate-github-bot enabled=yes state=started
-
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=started
   tags:
     - staging
-
-- name: Ensure podman-auto-update is started now, and again on startup
-  service: name=podman-auto-update enabled=yes state=started

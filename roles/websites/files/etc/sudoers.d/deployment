@@ -1,1 +1,0 @@
-jenkins ALL = NOPASSWD: /usr/bin/systemctl start podman-auto-update
