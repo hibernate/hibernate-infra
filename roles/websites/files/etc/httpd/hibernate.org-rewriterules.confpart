@@ -1,2 +1,6 @@
 # Nothing here at the moment. We might want to move our javascript redirection rules here.
 # See in.relation.to-rewriterules.confpart for examples.
+
+# bsky.app domain verification
+# Hack because awstruct doesn't support files starting with '.'
+RewriteRule ^/\.well-known/(.*)$ /dot-well-known/$1 [L]
