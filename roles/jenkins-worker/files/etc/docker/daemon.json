@@ -1,4 +1,5 @@
 {
   "data-root": "/mnt/workdir/containers",
-  "userland-proxy": false
+  "userland-proxy": false,
+  "registry-mirrors": ["https://mirror.gcr.io"]
 }
