@@ -1,0 +1,71 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright Red Hat Inc. and Hibernate Authors
+ */
+
+@Library('hibernate-jenkins-pipeline-helpers') _
+
+import org.hibernate.jenkins.pipeline.helpers.version.Version
+
+pipeline {
+	agent {
+		label 'Release'
+	}
+	options {
+		buildDiscarder logRotator(daysToKeepStr: '30', numToKeepStr: '10')
+		disableConcurrentBuilds(abortPrevious: false)
+	}
+	parameters {
+		string(
+				name: 'RELEASE_TAG',
+				defaultValue: '',
+				description: 'The tag to be released, e.g. 1.1.1',
+				trim: true
+		)
+	}
+	stages {
+		stage('Release') {
+			when {
+				beforeAgent true
+				// Releases must be triggered explicitly
+				// This is just for safety; normally the Jenkins job for this pipeline
+				// should be configured to "Suppress automatic SCM triggering"
+				// See https://stackoverflow.com/questions/58259326/prevent-jenkins-multibranch-pipeline-from-triggering-builds-for-new-branches
+				triggeredBy cause: "UserIdCause"
+			}
+			steps {
+				script {
+					// Check that all the necessary parameters are set
+					if (!params.RELEASE_TAG) {
+						throw new IllegalArgumentException("Missing value for parameter RELEASE_TAG.")
+					}
+
+					def releaseVersion = Version.parseReleaseVersion(params.RELEASE_VERSION)
+					echo "Performing full release for version ${releaseVersion.toString()}"
+
+					docker.withRegistry('https://quay.io/v2/', 'hibernateci.quay.io') {
+						sh """
+							docker buildx build \
+								--label org.opencontainers.image.created=\$(date -Is -u) \
+								--label org.opencontainers.image.description="Preconfigured Nexus 3 proxy" \
+								--label org.opencontainers.image.licenses="MIT" \
+								--label org.opencontainers.image.revision="\$(git rev-parse HEAD)" \
+								--label org.opencontainers.image.source="${helper.scmSource.remoteUrl}/containers/nexus" \
+								--label org.opencontainers.image.url="${helper.scmSource.remoteUrl}/containers/nexus" \
+								--label org.opencontainers.image.title="proxy-nexus3" \
+								--label org.opencontainers.image.version="${params.RELEASE_TAG}" \
+								--tag "quay.io/rh-ee-mbekhta/proxy-nexus3:${params.RELEASE_TAG}" \
+								--tag "quay.io/rh-ee-mbekhta/proxy-nexus3:"\$(git rev-parse HEAD)" \
+								--push ./containers/nexus/
+						"""
+					}
+				}
+			}
+		}
+	}
+	post {
+		always {
+			notifyBuildResult notifySuccessAfterSuccess: true, maintainers: 'marko@hibernate.org'
+		}
+	}
+}

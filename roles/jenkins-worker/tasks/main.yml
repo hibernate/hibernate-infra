@@ -56,6 +56,11 @@
   tags:
     - docker
 
+- name: Create podman config
+  copy: src=etc/containers/registries.conf dest=/etc/containers/registries.conf mode=0644 owner=root group=root
+  tags:
+      - podman
+
 # Just in case the worker node does not get anything mounted to /mnt/workdir
 - name: Create /mnt/workdir/jenkins
   file: path=/mnt/workdir/jenkins owner=jenkins group=jenkins mode=0755 state=directory
