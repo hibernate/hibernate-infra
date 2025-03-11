@@ -6,3 +6,4 @@ site.retry
 # IDEA users
 *.iml
 .idea
+.project
