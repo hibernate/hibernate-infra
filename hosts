@@ -2,10 +2,10 @@
 #ec2-18-234-96-5.compute-1.amazonaws.com ansible_ssh_user=fedora hostname=jenkins-worker
 
 [jenkins-coordinator]
-ci.hibernate.org ansible_ssh_private_key_file=~/.ssh/keys/ci-hibernate-org-2019 ansible_ssh_user=ec2-user hostname=ci
+ci.hibernate.org ansible_ssh_user=ec2-user hostname=ci
 
 [websites]
-in.relation.to ansible_ssh_private_key_file=~/.ssh/keys/websites-2019 ansible_ssh_user=ec2-user hostname=websites
+in.relation.to ansible_ssh_user=ec2-user hostname=websites
 
 [jenkins-worker:vars]
 ansible_python_interpreter=/usr/bin/python3
