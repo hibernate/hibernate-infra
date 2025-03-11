@@ -1,4 +1,5 @@
 {
   "data-root": "/mnt/workdir/containers",
-  "userland-proxy": false
+  "userland-proxy": false,
+  "registry-mirrors": ["http://nexus-load-balancer-c4cf05fd92f43ef8.elb.us-east-1.amazonaws.com:8181"]
 }
