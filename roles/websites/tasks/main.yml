@@ -22,9 +22,9 @@
     # We're using HTTPS to retrieve the package, so this should be safe anyway.
     disable_gpg_check: true
 
-- name: Install the latest version of Apache HTTPD, snapd, podman, using dnf
+- name: Install the latest version of Apache HTTPD, snapd, using dnf
   dnf:
-    name: ['httpd', 'mod_ssl', 'snapd', 'podman']
+    name: ['httpd', 'mod_ssl', 'snapd']
     state: latest
 
 - name: Enable snapd's socket
@@ -68,7 +68,6 @@
     - "etc/httpd/hibernate.org-*.confpart"
     - "etc/httpd/staging-hibernate.org.conf"
     - "etc/httpd/www.hibernate.org.conf"
-    - "etc/httpd/infra.hibernate.org.conf"
     - "etc/httpd/staging-beanvalidation.org.conf"
   notify:
     - Restart Apache HTTPD
@@ -103,7 +102,6 @@
     - "hibernate.org"
     - "staging.hibernate.org"
     - "www.hibernate.org"
-    - "infra.hibernate.org"
   notify:
     - Restart Apache HTTPD
 
