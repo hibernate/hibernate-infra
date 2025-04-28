@@ -11,30 +11,10 @@
   tags:
     - jenkins
 
-# https://certbot.eff.org/lets-encrypt/centosrhel8-apache.html
-# https://snapcraft.io/docs/installing-snap-on-red-hat
-# https://fedoraproject.org/wiki/EPEL
-- name: Enable Extra Packages for Enterprise Linux
+- name: Install the latest version of Apache HTTPD, certbot using dnf
   dnf:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    name: ['httpd', 'mod_ssl', 'certbot', 'certbot-apache']
     state: latest
-    # We're installing the package that contains the keys, so obviously we don't have them yet.
-    # We're using HTTPS to retrieve the package, so this should be safe anyway.
-    disable_gpg_check: true
-
-- name: Install the latest version of Apache HTTPD, snapd, using dnf
-  dnf:
-    name: ['httpd', 'mod_ssl', 'snapd']
-    state: latest
-
-- name: Enable snapd's socket
-  systemd:
-    name: snapd.socket
-    state: started
-    enabled: yes
-
-- name: Enable classic snap support
-  file: src='/var/lib/snapd/snap' dest='/snap' state=link
 
 # Necessary for reverse proxies
 - name: Allow HTTPD to open connections
@@ -71,15 +51,6 @@
     - "etc/httpd/staging-beanvalidation.org.conf"
   notify:
     - Restart Apache HTTPD
-
-- name: Install the latest version of Let's Encrypt's "certbot", using snapd
-  community.general.snap:
-    name: certbot
-    # No sandboxing in certbox.
-    classic: yes
-
-- name: Put the certbot command into the path
-  file: src='/snap/bin/certbot' dest='/usr/bin/certbot' state=link
 
 - name: Obtain certificates for *.in.relation.to using Let's Encrypt
   shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d {{ item }}

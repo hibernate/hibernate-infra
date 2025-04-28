@@ -1,8 +1,8 @@
 ---
 
-- name: Install Jenkins, HTTPD, OpenJDK
+- name: Install the latest version of OpenJDK, Jenkins, Apache HTTPD, certbot using dnf
   dnf:
-    name: ['java-21-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl']
+    name: ['java-21-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl', 'certbot', 'certbot-apache']
     state: present
 
 - name: Override Java security config to enable RSA 1024bits (used by the Jenkins update site)
@@ -49,13 +49,6 @@
     name: httpd_can_network_connect
     state: yes
     persistent: yes
-
-# Doesn't currently work because we're using an unregistered RHEL for some reason,
-# and repos containing necessary dependencies are disabled
-#- name: Install the latest version of Let's Encrypt's "certbot", using dnf
-#  dnf:
-#    name: ['certbot', 'certbot-apache']
-#    state: latest
 
 - name: Obtain certificates for ci.hibernate.org using Let's Encrypt
   shell: sudo certbot certonly --apache -d ci.hibernate.org
