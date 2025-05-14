@@ -48,7 +48,6 @@
     - "etc/httpd/hibernate.org-*.confpart"
     - "etc/httpd/staging-hibernate.org.conf"
     - "etc/httpd/forum.hibernate.org.conf"
-    - "etc/httpd/forums.hibernate.org.conf"
     - "etc/httpd/www.hibernate.org.conf"
     - "etc/httpd/staging-beanvalidation.org.conf"
   notify:
@@ -76,7 +75,6 @@
     - "staging.hibernate.org"
     - "www.hibernate.org"
     - "forum.hibernate.org"
-    - "forums.hibernate.org"
   notify:
     - Restart Apache HTTPD
 
