@@ -49,8 +49,6 @@
     - "etc/httpd/staging-hibernate.org.conf"
     - "etc/httpd/forum.hibernate.org.conf"
     - "etc/httpd/forums.hibernate.org.conf"
-    # TODO: Remove this line (along with that file) once forum domains actually point to our machine
-    - "etc/httpd/testforum.hibernate.org.conf"
     - "etc/httpd/www.hibernate.org.conf"
     - "etc/httpd/staging-beanvalidation.org.conf"
   notify:
@@ -77,9 +75,8 @@
     - "hibernate.org"
     - "staging.hibernate.org"
     - "www.hibernate.org"
-# TODO: Uncomment once forum domains actually point to our machine
-#    - "forum.hibernate.org"
-#    - "forums.hibernate.org"
+    - "forum.hibernate.org"
+    - "forums.hibernate.org"
   notify:
     - Restart Apache HTTPD
 
