@@ -62,6 +62,12 @@
     - { domain: 'blog.hibernate.org', redirect: 'in.relation.to' }
     # Removed temporarily as forums.hibernate.org points to Red Hat infra handling the redirect
     # - { domain: 'forums.hibernate.org', redirect: 'forum.hibernate.org' }
+    # =======================================================================
+    # DNS records for these domains were set up at some point, the reason is lost to history.
+    # Regardless, we make sure they redirect to the proper place.
+    - { domain: 'relation.to', redirect: 'in.relation.to' }
+    - { domain: 'www.relation.to', redirect: 'in.relation.to' }
+    # =======================================================================
   notify:
     - Restart Apache HTTPD
 
@@ -81,6 +87,8 @@
     - "forum.hibernate.org"
     # Removed temporarily as forums.hibernate.org points to Red Hat infra handling the redirect
     # - "forums.hibernate.org"
+    - "relation.to"
+    - "www.relation.to"
   notify:
     - Restart Apache HTTPD
 
