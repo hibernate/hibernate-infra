@@ -53,8 +53,8 @@
   notify:
     - Restart Apache HTTPD
 
-- name: Obtain certificates for *.in.relation.to using Let's Encrypt
-  shell: sudo certbot certonly -m admin+inrelationto@hibernate.org --agree-tos --apache -d {{ item }}
+- name: Obtain certificates using Let's Encrypt
+  shell: sudo certbot certonly -m admin+websites@hibernate.org --agree-tos --apache -d {{ item }}
   args:
     creates: /etc/letsencrypt/live/{{ item }}
   loop:
