@@ -35,14 +35,13 @@
   with_fileglob:
     - "var/www/*/"
 
-- name: Add custom HTTPD configuration
+- name: Add Apache HTTPD VHosts with non-trivial config
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
   with_fileglob:
     - "etc/httpd/origin.in.relation.to.conf"
     - "etc/httpd/in.relation.to.conf"
     - "etc/httpd/in.relation.to-*.confpart"
     - "etc/httpd/staging-in.relation.to.conf"
-    - "etc/httpd/blog.hibernate.org.conf"
     - "etc/httpd/origin.hibernate.org.conf"
     - "etc/httpd/hibernate.org.conf"
     - "etc/httpd/hibernate.org-*.confpart"
@@ -50,6 +49,19 @@
     - "etc/httpd/forum.hibernate.org.conf"
     - "etc/httpd/www.hibernate.org.conf"
     - "etc/httpd/staging-beanvalidation.org.conf"
+  notify:
+    - Restart Apache HTTPD
+
+- name: Add Apache HTTPD VHosts with only trivial redirection
+  template:
+    src: etc/httpd/redirect.conf
+    dest: /etc/httpd/conf.d/{{ item.domain }}.conf
+    owner: root
+    mode: 0600
+  loop:
+    - { domain: 'blog.hibernate.org', redirect: 'in.relation.to' }
+    # Removed temporarily as forums.hibernate.org points to Red Hat infra handling the redirect
+    # - { domain: 'forums.hibernate.org', redirect: 'forum.hibernate.org' }
   notify:
     - Restart Apache HTTPD
 
@@ -62,19 +74,13 @@
     - "in.relation.to"
     - "staging.in.relation.to"
     - "blog.hibernate.org"
-  notify:
-    - Restart Apache HTTPD
-
-- name: Obtain certificates for *.hibernate.org using Let's Encrypt
-  shell: sudo certbot certonly -m admin+hibernateorg@hibernate.org --agree-tos --apache -d {{ item }}
-  args:
-    creates: /etc/letsencrypt/live/{{ item }}
-  loop:
     - "origin.hibernate.org"
     - "hibernate.org"
     - "staging.hibernate.org"
     - "www.hibernate.org"
     - "forum.hibernate.org"
+    # Removed temporarily as forums.hibernate.org points to Red Hat infra handling the redirect
+    # - "forums.hibernate.org"
   notify:
     - Restart Apache HTTPD
 
