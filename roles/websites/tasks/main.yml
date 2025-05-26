@@ -59,14 +59,28 @@
     owner: root
     mode: 0600
   loop:
-    - { domain: 'blog.hibernate.org', redirect: 'in.relation.to' }
-    # Removed temporarily as forums.hibernate.org points to Red Hat infra handling the redirect
-    # - { domain: 'forums.hibernate.org', redirect: 'forum.hibernate.org' }
+    - { domain: 'blog.hibernate.org', redirect: 'in.relation.to/', drop_path: false }
     # =======================================================================
     # DNS records for these domains were set up at some point, the reason is lost to history.
     # Regardless, we make sure they redirect to the proper place.
-    - { domain: 'relation.to', redirect: 'in.relation.to' }
-    - { domain: 'www.relation.to', redirect: 'in.relation.to' }
+    - { domain: 'relation.to', redirect: 'in.relation.to/', drop_path: false }
+    - { domain: 'www.relation.to', redirect: 'in.relation.to/', drop_path: false }
+    - { domain: 'annotations.hibernate.org', redirect: 'hibernate.org/orm/', drop_path: true }
+    - { domain: 'console.hibernate.org', redirect: 'hibernate.org/', drop_path: true }
+    - { domain: 'core.hibernate.org', redirect: 'hibernate.org/orm/', drop_path: true }
+    - { domain: 'dao.hibernate.org', redirect: 'hibernate.org/', drop_path: true }
+    - { domain: 'datagen.hibernate.org', redirect: 'hibernate.org/', drop_path: true }
+    - { domain: 'ejb3.hibernate.org', redirect: 'hibernate.org/orm/', drop_path: true }
+    - { domain: 'entitymanager.hibernate.org', redirect: 'hibernate.org/orm/', drop_path: true }
+    - { domain: 'forums.hibernate.org', redirect: 'forum.hibernate.org/', drop_path: false }
+    - { domain: 'jpa.hibernate.org', redirect: 'hibernate.org/orm/', drop_path: true }
+    - { domain: 'nhibernate.org', redirect: 'hibernate.org/nhibernate.html', drop_path: true }
+    - { domain: 'ogm.hibernate.org', redirect: 'hibernate.org/ogm/', drop_path: true }
+    - { domain: 'search.hibernate.org', redirect: 'hibernate.org/search/', drop_path: true }
+    - { domain: 'others.hibernate.org', redirect: 'hibernate.org/others/', drop_path: true }
+    - { domain: 'validator.hibernate.org', redirect: 'hibernate.org/validator/', drop_path: true }
+    - { domain: 'www.nhibernate.org', redirect: 'hibernate.org/nhibernate.html', drop_path: true }
+    - { domain: 'wiki.nhibernate.org', redirect: 'hibernate.org/nhibernate.html', drop_path: true }
     # =======================================================================
   notify:
     - Restart Apache HTTPD
@@ -85,10 +99,26 @@
     - "staging.hibernate.org"
     - "www.hibernate.org"
     - "forum.hibernate.org"
-    # Removed temporarily as forums.hibernate.org points to Red Hat infra handling the redirect
-    # - "forums.hibernate.org"
     - "relation.to"
     - "www.relation.to"
+    # Removed temporarily as these domains point to Red Hat infra handling the redirect
+    # - "forums.hibernate.org"
+    # - "annotations.hibernate.org"
+    # - "console.hibernate.org"
+    # - "core.hibernate.org"
+    # - "dao.hibernate.org"
+    # - "datagen.hibernate.org"
+    # - "ejb3.hibernate.org"
+    # - "entitymanager.hibernate.org"
+    # - "forums.hibernate.org"
+    # - "jpa.hibernate.org"
+    # - "nhibernate.org"
+    # - "ogm.hibernate.org"
+    # - "search.hibernate.org"
+    # - "others.hibernate.org"
+    # - "validator.hibernate.org"
+    # - "www.nhibernate.org"
+    # - "wiki.nhibernate.org"
   notify:
     - Restart Apache HTTPD
 
