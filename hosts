@@ -1,11 +1,19 @@
+# ansible-playbook -i hosts site.yml --limit jenkins-worker
 [jenkins-worker]
 #ec2-18-234-96-5.compute-1.amazonaws.com ansible_ssh_user=fedora hostname=jenkins-worker
+[jenkins-worker:vars]
+ansible_python_interpreter=/usr/bin/python3
 
+# ansible-playbook -i hosts site.yml --limit jenkins-coordinator
 [jenkins-coordinator]
 ci.hibernate.org ansible_ssh_user=ec2-user hostname=ci
 
+# ansible-playbook -i hosts site.yml --limit websites
 [websites]
 in.relation.to ansible_ssh_user=ec2-user hostname=websites
 
-[jenkins-worker:vars]
+# ansible-playbook -i hosts site.yml --limit ci-nexus-proxy
+[ci-nexus-proxy]
+#ec2-35-153-74-225.compute-1.amazonaws.com ansible_ssh_user=fedora hostname=ci-nexus-proxy
+[ci-nexus-proxy:vars]
 ansible_python_interpreter=/usr/bin/python3

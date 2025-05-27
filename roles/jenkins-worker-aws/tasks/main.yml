@@ -7,26 +7,6 @@
   tags:
     - jenkins
 
-- name: Copy mount_workdir script file
-  copy: src=usr/local/bin/mount_workdir.sh dest=/usr/local/bin/mount_workdir.sh owner=root group=root mode=0500
-  tags:
-    - jenkins
-    - docker
-
-- name: Copy mount_workdir service file
-  copy: src=etc/systemd/system/mount_workdir.service dest=/etc/systemd/system/mount_workdir.service owner=root group=root mode=0440
-  tags:
-    - jenkins
-    - docker
-
-- name: Ensure mount_workdir.service is started now, and again on startup
-  systemd: name=mount_workdir enabled=yes state=started
-  tags:
-    - jenkins
-    - docker
-  notify:
-    - Restart Docker
-
 # Some performance tuning; we have absolutely nothing important
 # to save on a Jenkins worker node in case of job crash so allow aggressive caching.
 # See also: https://www.kernel.org/doc/Documentation/sysctl/vm.txt

@@ -1,0 +1,20 @@
+---
+
+- name: Create podman storage config
+  copy: src=etc/containers/storage.conf dest=/etc/containers/storage.conf mode=0644 owner=root group=root
+
+- name: Install podman
+  dnf:
+    name: ['podman']
+    state: present
+
+- name: Copy systemd service file for nexus-proxy
+  copy: src=etc/systemd/system/nexus-proxy.service dest=/etc/systemd/system/nexus-proxy.service owner=root group=root mode=0440
+  notify:
+    - Restart nexus-proxy
+
+- name: Ensure nexus-proxy is started now, and again on startup
+  systemd: name=nexus-proxy enabled=yes state=started
+
+- name: Ensure podman-auto-update is started now, and again on startup
+  service: name=podman-auto-update enabled=yes state=started
