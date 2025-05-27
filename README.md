@@ -26,6 +26,7 @@ by setting the "user data" to the content of the `cloud-init` file:
 
  - `jenkins-ci-coordinator`
  - `jenkins-ci-worker-ami-building`
+ - `ci-nexus-proxy`
 
 You can use a different organization and launch templates of course, but we won't pay your AWS bills.
 
@@ -34,14 +35,14 @@ You can use a different organization and launch templates of course, but we won'
 You should run:
 - 1 instance to host the websites.
   Start it on AWS and figure out the launch template yourself (details have been lost to time, I think it should use a RHEL 8 image).
- - 1 instance to host the Jenkins coordinator node.
-   Start it on AWS and use the `jenkins-ci-coordinator` launch template (a RHEL 8 image).
- - 1 instance to create an AMI for the various Jenkins worker nodes,
-   which will then be used by the Jenkins AWS EC2 plugin to spawn workers on demand.
-   Start it on AWS and use the `jenkins-ci-worker-ami-building` launch template.
-   Note worker node instances are expected to provide an "instance storage" volume
-   that the node will mount as `/mnt/workdir` and use for docker and jenkins data.
-   Failing that, you're likely to see errors in your builds, e.g. "no space left on device".
+- 1 instance to host the Nexus proxy.
+  Start it on AWS and use the `ci-nexus-proxy` launch template.
+- 1 instance to create an AMI for the various Jenkins worker nodes,
+  which will then be used by the Jenkins AWS EC2 plugin to spawn workers on demand.
+  Start it on AWS and use the `jenkins-ci-worker-ami-building` launch template.
+  Note worker node instances are expected to provide an "instance storage" volume
+  that the node will mount as `/mnt/workdir` and use for docker and jenkins data.
+  Failing that, you're likely to see errors in your builds, e.g. "no space left on device".
 
 Boot them using the provided 'cloud-init' script.
 When booting machines from the UI, you can paste the content of 'cloud-init' into the "Customisation Script" section on the AWS console.
@@ -54,6 +55,7 @@ and paste it in the 'hosts' file in the appropriate section:
 
 - The address of the AWS Jenkins CI coordinator node in `jenkins-coordinator`
 - The address of the AWS Jenkins CI worker node in `jenkins-worker`
+- The address of the AWS Jenkins CI worker node in `ci-nexus-proxy`
 
 Make sure to update the paths to the private keys as necessary.
 

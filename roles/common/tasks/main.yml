@@ -11,6 +11,13 @@
   tags:
     - journald
 
+- name: Extra packages for convenience
+  dnf:
+    name: ['wget', 'jq', 'sed', 'curl', 'unzip', 'vim']
+    state: present
+  tags:
+    - extra-packages
+
 # Update and install packages, using dnf
 - name: Install all package upgrades using dnf
   dnf:

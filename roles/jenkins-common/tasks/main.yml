@@ -1,7 +1,7 @@
 ---
 - name: Extra packages for convenience
   dnf:
-    name: ['wget', 'jq', 'sed', 'git', 'sendmail', 'curl', 'unzip', 'vim']
+    name: ['git', 'sendmail']
     state: present
   tags:
     - extra-packages

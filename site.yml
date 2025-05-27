@@ -10,6 +10,7 @@
   roles:
     - common
     - aws
+    - instance-storage
     - jenkins-common
     - jenkins-worker
     - jenkins-worker-aws
@@ -33,3 +34,12 @@
     - common
     - aws
     - websites
+
+- hosts: ci-nexus-proxy
+  remote_user: fedora
+  become: yes
+  roles:
+    - common
+    - aws
+    - instance-storage
+    - ci-nexus-proxy

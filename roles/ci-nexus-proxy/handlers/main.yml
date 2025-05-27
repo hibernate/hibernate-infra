@@ -1,0 +1,5 @@
+---
+
+# daemon-reload is necessary to pick up config changes
+- name: Restart nexus-proxy
+  systemd: name=nexus-proxy state=restarted daemon_reload=yes
