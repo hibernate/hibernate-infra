@@ -30,14 +30,15 @@ log "Done"
 
 log "Initializing directory structure for Nexus proxy in '$mountpoint'"
 
-mkdir -p $mountpoint/containers/storage
-chmod -R 0700 $mountpoint/containers
+# we put nexus/jdk executables in this directory,
+# hence once we want to run them through a service (systemd)
+# we have to make sure that SElinux is not going to be in the way and it would allow execution of the files in these dirs:
+mkdir -p $mountpoint/nexus-service
+chown fedora:fedora $mountpoint/nexus-service
+chmod -R 0755 $mountpoint/nexus-service
 
-semanage fcontext -a -e /var/lib/containers $mountpoint/containers || true
-restorecon -R -v $mountpoint/containers
-semanage fcontext -a -e /var/lib/containers/storage $mountpoint/containers/storage || true
-restorecon -R -v $mountpoint/containers/storage
-
+semanage fcontext -a -t bin_t "$mountpoint/nexus-service"
+restorecon -R -v $mountpoint/nexus-service
 
 log "Done"
 

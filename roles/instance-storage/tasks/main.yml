@@ -1,4 +1,10 @@
 ---
+- name: Extra packages required on instance-storage nodes
+  dnf:
+    name: ['policycoreutils-python-utils']
+    state: present
+  tags:
+    - extra-packages
 
 - name: Copy mount_workdir script file
   copy: src=usr/local/bin/mount_workdir.sh dest=/usr/local/bin/mount_workdir.sh owner=root group=root mode=0500
