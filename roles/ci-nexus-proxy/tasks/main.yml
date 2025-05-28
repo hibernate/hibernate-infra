@@ -1,12 +1,15 @@
 ---
 
-- name: Create podman storage config
-  copy: src=etc/containers/storage.conf dest=/etc/containers/storage.conf mode=0644 owner=root group=root
+- name: Copy the installation script for nexus-proxy
+  copy: src=install-nexus3.sh dest=/home/fedora/install-nexus3.sh owner=fedora group=fedora mode=0740
 
-- name: Install podman
-  dnf:
-    name: ['podman']
-    state: present
+- name: Run the installation script for nexus-proxy
+  shell:
+    cmd: /home/fedora/install-nexus3.sh /mnt/workdir/nexus-service
+  args:
+    creates: /mnt/workdir/nexus-service/sonatype-work/nexus3/instance.configured
+  become: true
+  become_user: fedora
 
 - name: Copy systemd service file for nexus-proxy
   copy: src=etc/systemd/system/nexus-proxy.service dest=/etc/systemd/system/nexus-proxy.service owner=root group=root mode=0440
@@ -15,6 +18,3 @@
 
 - name: Ensure nexus-proxy is started now, and again on startup
   systemd: name=nexus-proxy enabled=yes state=started
-
-- name: Ensure podman-auto-update is started now, and again on startup
-  service: name=podman-auto-update enabled=yes state=started
