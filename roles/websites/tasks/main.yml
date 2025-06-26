@@ -82,6 +82,8 @@
     - { name: 'relation.to', redirect: 'in.relation.to/', drop_path: false }
     - { name: 'blog.hibernate.org', redirect: 'in.relation.to/', drop_path: false, certificate: 'hibernate.org-0001' }
     - { name: 'nhibernate.org', redirect: 'hibernate.org/nhibernate.html', drop_path: true }
+    - { name: 'hibernate.asia', redirect: 'hibernate.org/', drop_path: true }
+    - { name: 'hibernate.cn', redirect: 'hibernate.org/', drop_path: true }
     # Note the '999-' file prefix is necessary for wildcard VHosts to not override non-wildcard subdomain VHosts.
     # Note Apache HTTPD only accepts wildcards in the "ServerAlias" directive, not in "ServerName".
     - { order: 999, name: 'wildcard.relation.to', alias: '*.relation.to', redirect: 'in.relation.to/', drop_path: false, certificate: 'relation.to-0001' }
@@ -113,6 +115,8 @@
     - "staging.in.relation.to"
     - "hibernate.org"
     - "nhibernate.org"
+    - "hibernate.asia"
+    - "hibernate.cn"
   notify:
     - Restart Apache HTTPD
 
