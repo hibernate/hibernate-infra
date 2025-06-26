@@ -111,12 +111,10 @@
     - "entitymanager.hibernate.org"
     - "forums.hibernate.org"
     - "jpa.hibernate.org"
-    # This domain does not point to our machine for some reason -- need to investigate after the move to Commonhaus
-    # - "nhibernate.org"
+    - "nhibernate.org"
     - "ogm.hibernate.org"
     - "search.hibernate.org"
-    # This domain does not point to our machine for some reason -- need to investigate after the move to Commonhaus
-    # - "others.hibernate.org"
+    - "others.hibernate.org"
     - "validator.hibernate.org"
     - "www.nhibernate.org"
     - "wiki.nhibernate.org"
