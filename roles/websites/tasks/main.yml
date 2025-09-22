@@ -52,10 +52,15 @@
     - userdir.conf
     - welcome.conf
 
-- name: Add minimal, default index.html files
-  copy: src={{ item }} dest=/var/www/ directory_mode=0755 mode=0600 owner=jenkins group=jenkins force=no
-  with_fileglob:
-    - "var/www/*/"
+- name: Add minimal www content directories
+  file: path=/var/www/{{ item }} state=directory mode=0755 owner=jenkins group=jenkins force=no
+  loop:
+    - "forum.hibernate.org"
+    - "hibernate.org"
+    - "in.relation.to"
+    - "staging-beanvalidation.org"
+    - "staging-hibernate.org"
+    - "staging-in.relation.to"
 
 - name: Add Apache HTTPD VHosts with non-trivial config
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
