@@ -61,6 +61,7 @@
     - "staging-beanvalidation.org"
     - "staging-hibernate.org"
     - "staging-in.relation.to"
+    - "docs.hibernate.org"
 
 - name: Add Apache HTTPD VHosts with non-trivial config
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
@@ -74,6 +75,8 @@
     - "etc/httpd/002-forum.hibernate.org.conf"
     - "etc/httpd/002-www.hibernate.org.conf"
     - "etc/httpd/002-staging-beanvalidation.org.conf"
+    - "etc/httpd/002-docs.hibernate.org.conf"
+    - "etc/httpd/docs.hibernate.org-*.confpart"
   notify:
     - Restart Apache HTTPD
 
