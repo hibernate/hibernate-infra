@@ -63,6 +63,11 @@
     - "staging-in.relation.to"
     - "docs.hibernate.org"
 
+- name: Copy "infra" www content
+  copy: src=var/www/{{ item }} dest=/var/www/ directory_mode=0755 mode=0644 owner=jenkins group=users force=yes
+  loop:
+    - "docs.hibernate.org"
+
 - name: Add Apache HTTPD VHosts with non-trivial config
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
   with_fileglob:
