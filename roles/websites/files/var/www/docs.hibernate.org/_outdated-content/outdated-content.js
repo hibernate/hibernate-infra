@@ -12,9 +12,10 @@ HibernateDoc.OutdatedContent = (function () {
         if (!basepath) {
             basepath = '/hibernate/_outdated-content/';
         }
+        const jq_3_1 = $.noConflict(true);
 
         // build the url to redirect to
-        jQuery_3_1.getJSON(basepath + project + '.json', function (json) {
+        jq_3_1.getJSON(basepath + project + '.json', function (json) {
             const button = document.getElementById('versionSelectButton');
             const dropdown = document.getElementById('versionSelectList');
 
@@ -61,7 +62,7 @@ HibernateDoc.OutdatedContent = (function () {
 
                 // Hide dropdown when clicking outside
                 document.addEventListener('click', (e) => {
-                    if (!e.target.closest('#versionSelect')) {
+                    if (!e.target.closest('#versionSelect') || e.target.tagName.toLowerCase() === 'a') {
                         dropdown.style.display = 'none';
                     }
                 });
@@ -69,16 +70,16 @@ HibernateDoc.OutdatedContent = (function () {
 
             // Follow the scroll of the user to choose the best hash possible
             let currentHash = window.location.hash;
-            jQuery_3_1(document).scroll(function () {
+            jq_3_1(document).scroll(function () {
                 // in order: html docbook output, html5 docbook output, asciidoc output
-                jQuery_3_1('h2 > a[id], h3 > a[id], section[id], h2[id], h3[id]').each(function () {
-                    const hash = jQuery_3_1(this).attr('id');
+                jq_3_1('h2 > a[id], h3 > a[id], section[id], h2[id], h3[id]').each(function () {
+                    const hash = jq_3_1(this).attr('id');
                     if (/^d0e[0-9]+$/.exec(hash)) {
                         // we don't consider the numeric hashes as they have been renamed to strings later
                         return;
                     }
                     const top = window.scrollY;
-                    const distance = top - jQuery_3_1(this).offset().top;
+                    const distance = top - jq_3_1(this).offset().top;
                     if (distance < 30 && distance > -30 && currentHash !== hash) {
                         if (history.replaceState) {
                             history.replaceState(null, null, "#" + hash);
@@ -139,7 +140,7 @@ HibernateDoc.OutdatedContent = (function () {
 
                     stableUrl = json.multi.target.replace('${version}', json.stable).replace('${page}', redirectPage);
                 } else {
-                    pageHash = jQuery_3_1('div.titlepage h2.title a').attr('id');
+                    pageHash = jq_3_1('div.titlepage h2.title a').attr('id');
                     stableUrl = json.multi.target.replace('${version}', json.stable);
                 }
             } else if (matchSingle && matchSingle.length > 2) {
@@ -159,7 +160,7 @@ HibernateDoc.OutdatedContent = (function () {
 
             stableUrl += '?v=' + json.stable;
 
-            jQuery_3_1('head').append('<style type="text/css">' +
+            jq_3_1('head').append('<style type="text/css">' +
                 'body {' +
                 '	padding-bottom: 50px;' +
                 '}' +
@@ -203,8 +204,8 @@ HibernateDoc.OutdatedContent = (function () {
                 '}' +
                 '</style>');
             if (document.cookie.indexOf('hibernate-doc-hide-outdated-cookie=true') === -1) {
-                jQuery_3_1('body').append('<div class="outdated-content">This content refers to an earlier version of ' + json.project + '. Go to latest stable: <a id="stable-url" href="' + stableUrl + '" class="version">version ' + json.stable + '</a>.<a id="close-outdated" title="Close this banner">&times;</a></div>');
-                jQuery_3_1('a#stable-url').on('click', function (e) {
+                jq_3_1('body').append('<div class="outdated-content">This content refers to an earlier version of ' + json.project + '. Go to latest stable: <a id="stable-url" href="' + stableUrl + '" class="version">version ' + json.stable + '</a>.<a id="close-outdated" title="Close this banner">&times;</a></div>');
+                jq_3_1('a#stable-url').on('click', function (e) {
                     e.preventDefault();
                     let url = this.href;
                     if (window.location.hash !== '' && window.location.hash !== '#' && !/^#d0e[0-9]+$/.exec(window.location.hash)) {
@@ -214,9 +215,9 @@ HibernateDoc.OutdatedContent = (function () {
                     }
                     window.location.href = url;
                 });
-                jQuery_3_1('a#close-outdated').on('click', function (e) {
+                jq_3_1('a#close-outdated').on('click', function (e) {
                     e.preventDefault();
-                    jQuery_3_1('.outdated-content').hide();
+                    jq_3_1('.outdated-content').hide();
                     document.cookie = 'hibernate-doc-hide-outdated-cookie=true; path=/';
                 });
             }
@@ -244,3 +245,6 @@ HibernateDoc.OutdatedContent = (function () {
         install: install
     }
 })();
+
+// Dispatch the event so that the main page script would know it can "install" itself now:
+document.dispatchEvent( new CustomEvent('outdatedContentReady') );
