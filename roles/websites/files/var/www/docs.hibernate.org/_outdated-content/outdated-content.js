@@ -23,25 +23,33 @@ HibernateDoc.OutdatedContent = (function () {
                 const renderVersions = (list) => {
                     // first figure out the url pattern:
                     // e.g. /hibernate/stable/search/reference/en-US/html_single/
-                    const versionPattern = /(\/[\d.]+\/|\/current|\/stable\/)/;
+                    const versionPattern = /(\/[\d.]+\/|\/current)/;
+                    const stablePattern = /\/stable\/(\w+)\//;
 
                     const currentPath = window.location.pathname;
                     const currentVersionMatch = currentPath.match(versionPattern);
+                    const stableMatch = currentPath.match(stablePattern);
 
-                    if (!currentVersionMatch) {
+                    if (!currentVersionMatch && !stableMatch) {
                         console.warn("Could not find a version ('X.Y', 'current', or 'stable') in the current path. Skipping version dropdown construction.");
                         button.className = 'hidden';
                         return;
                     }
-
-                    const versionSegment = currentVersionMatch[0];
+                    let versionSegment = '';
+                    let pathTemplate = currentPath;
+                    if (currentVersionMatch) {
+                        versionSegment = currentVersionMatch[0];
+                    } else {
+                        versionSegment = 'string-to-be-replaced'
+                        pathTemplate = currentPath.replace(stableMatch[0], `/${stableMatch[1]}/${versionSegment}/`);
+                    }
 
                     dropdown.innerHTML = '';
                     list.forEach(version => {
                         const item = document.createElement('a');
                         item.textContent = version;
                         item.className = 'version-dropdown-item';
-                        item.href = currentPath.replace(versionSegment, `/${version}/`);
+                        item.href = pathTemplate.replace(versionSegment, `/${version}/`);
                         dropdown.appendChild(item);
                     });
                 };
