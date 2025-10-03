@@ -64,7 +64,7 @@
     - "docs.hibernate.org"
 
 - name: Copy "infra" www content
-  copy: src=var/www/{{ item }} dest=/var/www/ directory_mode=0755 mode=0644 owner=jenkins group=users force=yes
+  copy: src=var/www/{{ item }} dest=/var/www/ directory_mode=0755 mode=0644 owner=jenkins group=users force=yes local_follow=false
   loop:
     - "docs.hibernate.org"
 
