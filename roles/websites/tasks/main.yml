@@ -71,17 +71,7 @@
 - name: Add Apache HTTPD VHosts with non-trivial config
   copy: src={{ item }} dest=/etc/httpd/conf.d/ mode=0600 owner=root
   with_fileglob:
-    - "etc/httpd/002-in.relation.to.conf"
-    - "etc/httpd/in.relation.to-*.confpart"
-    - "etc/httpd/002-staging-in.relation.to.conf"
-    - "etc/httpd/002-hibernate.org.conf"
-    - "etc/httpd/hibernate.org-*.confpart"
-    - "etc/httpd/002-staging-hibernate.org.conf"
-    - "etc/httpd/002-forum.hibernate.org.conf"
-    - "etc/httpd/002-www.hibernate.org.conf"
-    - "etc/httpd/002-staging-beanvalidation.org.conf"
-    - "etc/httpd/002-docs.hibernate.org.conf"
-    - "etc/httpd/docs.hibernate.org-*.confpart"
+    - "etc/httpd/conf.d/*"
   notify:
     - Restart Apache HTTPD
 
