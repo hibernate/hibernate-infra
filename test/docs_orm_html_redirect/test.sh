@@ -10,7 +10,7 @@ rewriterule() {
   rewriterule_replace="$3"
   perl -wpe "s,$rewriterule_match,$rewriterule_replace,g if m,$rewritecond,"
   {
-    echo "RewriteCond %{REQUEST_URI} ^$rewritecond"
+    echo "RewriteCond %{REQUEST_URI} $rewritecond"
     echo "RewriteRule $rewriterule_match $rewriterule_replace $4"
   } >> rewriterules.tmp
 }
