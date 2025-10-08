@@ -1,5 +1,7 @@
 site.retry
 
+*.tmp
+
 # Apple users
 **/.DS_Store
 

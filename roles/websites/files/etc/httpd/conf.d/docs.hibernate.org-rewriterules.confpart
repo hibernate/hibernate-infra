@@ -1,2 +1,44 @@
 # Nothing here at the moment. Feel free to add rules as necessary.
 # See in.relation.to-rewriterules.confpart for examples.
+
+# Old versions of Hibernate ORM used to have their (single-page) documentation files named Something.html
+# instead of index.html, leading to messy URLs.
+# This is solved from 7.2 upwards. However we still need a few redirections, both internal and external.
+# See below for rules, and see /test/docs_orm_html_redirect for generation/testing.
+
+# 1. We want to redirect people attempting to use the old naming scheme to the new one:
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(dialect/)dialect.html$ $1/$2 [R=301,L,E=nocache:1]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(integrationguide/html_single/)Hibernate_Integration_Guide.html$ $1/$2 [R=301,L,E=nocache:1]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(introduction/html_single/)Hibernate_Introduction.html$ $1/$2 [R=301,L,E=nocache:1]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(migration-guide/)migration-guide.html$ $1/$2 [R=301,L,E=nocache:1]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(querylanguage/html_single/)Hibernate_Query_Language.html$ $1/$2 [R=301,L,E=nocache:1]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(repositories/html_single/)Hibernate_Data_Repositories.html$ $1/$2 [R=301,L,E=nocache:1]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(userguide/html_single/)Hibernate_User_Guide.html$ $1/$2 [R=301,L,E=nocache:1]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[^/]+|stable/orm)/
+RewriteRule ^(.*)/(whats-new/)whats-new.html$ $1/$2 [R=301,L,E=nocache:1]
+
+# 2. We want to expose older versions of ORM docs as index.html as well
+#    even though the actual files on the filesystem are named Something.html.
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(dialect/)(index\.html)?$ $1/$2dialect.html [L]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(integrationguide/html_single/)(index\.html)?$ $1/$2Hibernate_Integration_Guide.html [L]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(introduction/html_single/)(index\.html)?$ $1/$2Hibernate_Introduction.html [L]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(migration-guide/)(index\.html)?$ $1/$2migration-guide.html [L]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(querylanguage/html_single/)(index\.html)?$ $1/$2Hibernate_Query_Language.html [L]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(repositories/html_single/)(index\.html)?$ $1/$2Hibernate_Data_Repositories.html [L]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(userguide/html_single/)(index\.html)?$ $1/$2Hibernate_User_Guide.html [L]
+RewriteCond %{REQUEST_URI} ^^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteRule ^(.*)/(whats-new/)(index\.html)?$ $1/$2whats-new.html [L]
