@@ -12,7 +12,7 @@ HibernateDoc.OutdatedContent = (function () {
         if (!basepath) {
             basepath = '/hibernate/_outdated-content/';
         }
-        const jq_3_1 = $.noConflict(true);
+        const jq_3_1 = (typeof jQuery_3_1 !== 'undefined') ? jQuery_3_1 : $.noConflict(true);
 
         // build the url to redirect to
         jq_3_1.getJSON(basepath + project + '.json', function (json) {
