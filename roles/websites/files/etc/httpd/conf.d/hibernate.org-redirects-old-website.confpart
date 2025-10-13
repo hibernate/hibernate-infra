@@ -1,0 +1,327 @@
+# A list of Redirect permanents picked up by the Redirect permanentCreator extension
+# Taken from hibernate.org's configuration:
+# https://github.com/hibernate/hibernate.org/blob/bc7e4333c492304ba28f74913651b3f55c3f8d6f/_config/redirects.yml
+
+# General
+Redirect permanent /community.html /community/
+Redirect permanent /community/mailinglists /community/
+Redirect permanent /community/irc /community/
+Redirect permanent /issuetracker https://hibernate.atlassian.net
+Redirect permanent /issuetracker.html https://hibernate.atlassian.net
+Redirect permanent /license /community/license/
+Redirect permanent /ForumMailinglists/HowToAskForHelp /community/
+Redirect permanent /about /
+Redirect permanent /hibernate.html /
+Redirect permanent /community/contribute/guidelines /community/contribute/
+Redirect permanent /orm/contribute /community/contribute/
+Redirect permanent /search/contribute /community/contribute/
+Redirect permanent /validator/contribute /community/contribute/
+Redirect permanent /ogm/contribute /community/contribute/
+
+## Illegal URLs frequently requested
+Redirect permanent /dtd/hibernate-configuration /dtd/
+Redirect permanent /dtd/hibernate-mapping /dtd/
+Redirect permanent /dtd/hibernate-configuration-4.0.dtd /dtd/hibernate-configuration-3.0.dtd
+Redirect permanent /dtd/hibernate-configuration-5.0.dtd /dtd/hibernate-configuration-3.0.dtd
+
+## URLs I don't know how to map
+Redirect permanent /37.html /community/we-lost-that-content/
+Redirect permanent /56.html /community/we-lost-that-content/
+Redirect permanent /56.html /community/we-lost-that-content/
+Redirect permanent /73.html /community/we-lost-that-content/
+Redirect permanent /73.html /community/we-lost-that-content/
+Redirect permanent /110.html /community/we-lost-that-content/
+Redirect permanent /132.html /community/we-lost-that-content/
+Redirect permanent /194.html /community/we-lost-that-content/
+Redirect permanent /248.html /community/we-lost-that-content/
+Redirect permanent /264.html /community/we-lost-that-content/
+Redirect permanent /356.html /community/we-lost-that-content/
+Redirect permanent /374.html /community/we-lost-that-content/
+Redirect permanent /120.935.html /community/we-lost-that-content/
+Redirect permanent /Documentation/HQLBNF /community/we-lost-that-content/
+
+## ORM
+Redirect permanent /download /orm/releases/
+Redirect permanent /download.html /orm/releases/
+Redirect permanent /downloads /orm/releases/
+Redirect permanent /downloads.html /orm/releases/
+Redirect permanent /Download /orm/releases/
+Redirect permanent /Download.html /orm/releases/
+Redirect permanent /Downloads /orm/releases/
+Redirect permanent /Downloads.html /orm/releases/
+Redirect permanent /hibernate/downloads /orm/releases/
+Redirect permanent /orm/downloads /orm/releases/
+Redirect permanent /orm/downloads.html /orm/releases/
+Redirect permanent /Download/DownloadOverview /orm/releases/
+Redirect permanent /docs /orm/documentation/
+Redirect permanent /docs.html /orm/documentation/
+Redirect permanent /quick-start /orm/documentation/getting-started/
+Redirect permanent /quick-start.html /orm/documentation/getting-started/
+Redirect permanent /faq /orm/faq/
+Redirect permanent /roadmap /orm/roadmap/
+Redirect permanent /doc/books /orm/documentation/
+Redirect permanent /doc/books.html /orm/documentation/
+Redirect permanent /docs/books /orm/documentation/
+Redirect permanent /docs/books.html /orm/documentation/
+Redirect permanent /Documentation/DocumentationOverview /orm/documentation/
+Redirect permanent /Documentation /orm/documentation/
+Redirect permanent /about/orm /orm/what-is-an-orm/
+Redirect permanent /About/RoadMap /orm/roadmap/
+Redirect permanent /about/orm.html /orm/what-is-an-orm/
+Redirect permanent /about/entitymanager /orm/
+Redirect permanent /about/annotations /orm/
+Redirect permanent /about/why-hibernate /orm/
+Redirect permanent /sourcecode /orm/contribute/
+Redirect permanent /hibernate-core /orm/
+
+## Metamodel Gen
+Redirect permanent /subprojects/jpamodelgen /orm/tooling
+Redirect permanent /subprojects/jpamodelgen.html /orm/tooling
+Redirect permanent /subprojects/jpamodelgen/download /orm/tooling
+Redirect permanent /subprojects/jpamodelgen/download.html /orm/tooling
+Redirect permanent /subprojects/jpamodelgen/docs /orm/tooling
+Redirect permanent /subprojects/jpamodelgen/docs.html /orm/tooling
+
+## Search
+Redirect permanent /subprojects/search /search/
+Redirect permanent /subprojects/search.html /search/
+Redirect permanent /subprojects/search/download /search/releases/
+Redirect permanent /subprojects/search/download.html /search/releases/
+Redirect permanent /search/downloads /search/releases/
+Redirect permanent /search/downloads.html /search/releases/
+Redirect permanent /subprojects/search/docs /search/documentation/
+Redirect permanent /subprojects/search/docs.html /search/documentation/
+Redirect permanent /search/documentation/migrate/6.0/ https://docs.hibernate.org/search/6.0/migration/html_single/
+Redirect permanent /search/documentation/migrate/6.0/index.html https://docs.hibernate.org/search/6.0/migration/html_single/
+Redirect permanent /search/documentation/migrate/6.0 https://docs.hibernate.org/search/6.0/migration/html_single/
+Redirect permanent /search/articles /search/more-resources/
+Redirect permanent /search/articles.html /search/more-resources/
+
+## Validator
+Redirect permanent /subprojects/validator/ /validator/
+Redirect permanent /subprojects/validator.html /validator/
+Redirect permanent /subprojects/validator/download /validator/releases/
+Redirect permanent /subprojects/validator/download.html /validator/releases/
+Redirect permanent /validator/downloads /validator/releases/
+Redirect permanent /validator/downloads.html /validator/releases/
+Redirect permanent /subprojects/validator/docs /validator/documentation/
+Redirect permanent /subprojects/validator/docs.html /validator/documentation/
+
+
+## Tools
+Redirect permanent /hibernate-tools /tools/
+Redirect permanent /hibernate-tools.html /tools/
+Redirect permanent /subprojects/tools /tools/
+Redirect permanent /subprojects/tools.html /tools/
+
+## OGM
+Redirect permanent /subprojects/ogm /ogm/
+Redirect permanent /subprojects/ogm.html /ogm/
+Redirect permanent /subprojects/ogm/download /ogm/releases/
+Redirect permanent /subprojects/ogm/download.html /ogm/releases/
+Redirect permanent /ogm/downloads /ogm/releases/
+Redirect permanent /ogm/downloads.html /ogm/releases/
+Redirect permanent /subprojects/ogm/docs /ogm/documentation/
+Redirect permanent /subprojects/search/ogm.html /ogm/documentation/
+
+## Shards
+Redirect permanent /shards /others/
+Redirect permanent /shards.html /others/
+Redirect permanent /subprojects/shards /others/
+Redirect permanent /subprojects/shards.html /others/
+Redirect permanent /subprojects/shards/download /others/
+Redirect permanent /subprojects/shards/download.html /others/
+Redirect permanent /414.html /others/
+
+## nhibernate
+Redirect permanent /360.html /nhibernate.html
+Redirect permanent /362.html /nhibernate.html
+
+## Annotations
+Redirect permanent /hib_docs/annotations/reference/en/html_single/ https://docs.hibernate.org/stable/annotations/reference/en/html_single/
+Redirect permanent /hib_docs/annotations/reference/en/html/ https://docs.hibernate.org/stable/annotations/reference/en/html/
+Redirect permanent /hib_docs/annotations/reference/en/html/preface.html https://docs.hibernate.org/stable/annotations/reference/en/html/preface.html
+Redirect permanent /hib_docs/annotations/reference/en/html/ch01.html https://docs.hibernate.org/stable/annotations/reference/en/html/ch01.html
+Redirect permanent /hib_docs/annotations/reference/en/html/entity.html https://docs.hibernate.org/stable/annotations/reference/en/html/entity.html
+Redirect permanent /hib_docs/annotations/reference/en/html/xml-overriding.html https://docs.hibernate.org/stable/annotations/reference/en/html/xml-overriding.html
+Redirect permanent /hib_docs/annotations/reference/en/html/additionalmodules.html https://docs.hibernate.org/stable/annotations/reference/en/html/additionalmodules.html
+
+## Old documentation links on the initial website
+Redirect permanent /hib_docs/reference/en/html/mapping-types.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/reference/html/or-mapping.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en/html/mapping-entityname.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en/html/quickstart.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en/html/objectstate-querying.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en/html/querycriteria-detachedqueries.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en-US/html/mapping-entityname.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en-US/html/quickstart.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en-US/html/objectstate-querying.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/v3/reference/en-US/html/querycriteria-detachedqueries.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/reference/en/html/components.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/reference/en/html/performance-cache.htm /orm/documentation/obsolete
+Redirect permanent /hib_docs/reference/en/html/performance-cache.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/reference/en/html/manipulatingdata.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/reference/en/html/querysql-namedqueries.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/api/net/sf/hibernate/Session.html /orm/documentation/obsolete
+Redirect permanent /hib_docs/entitymanager/reference/en/html_single/ https://docs.hibernate.org/entitymanager/3.6/reference/en/html_single/
+Redirect permanent /hib_docs/entitymanager/reference/en/html/architecture.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/architecture.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/configuration.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/configuration.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/objectstate.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/objectstate.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/metamodel.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/metamodel.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/transactions.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/transactions.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/listeners.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/listeners.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/batch.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/batch.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/queryhql.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/queryhql.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/querycriteria.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/querycriteria.html
+Redirect permanent /hib_docs/entitymanager/reference/en/html/query_native.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/query_native.html
+Redirect permanent /hib_docs/search/reference/en/html_single/ https://docs.hibernate.org/search/3.4/reference/en-US/html_single/
+Redirect permanent /hib_docs/validator/reference/en/html/validator-defineconstraints.html https://docs.hibernate.org/stable/validator/reference/en-US/html_single/
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/mapping.html https://nhibernate.info/doc/nhibernate-reference/mapping.html
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html_single/ https://nhibernate.info/doc/nh/en/
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/ https://nhibernate.info/doc/nhibernate-reference/
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/collections.html https://nhibernate.info/doc/nhibernate-reference/collections.html
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/filters.html https://nhibernate.info/doc/nhibernate-reference/filters.html
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/example-parentchild.html https://nhibernate.info/doc/nhibernate-reference/example-parentchild.html
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/queryhql.html https://nhibernate.info/doc/nhibernate-reference/queryhql.html
+Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/transactions.html https://nhibernate.info/doc/nhibernate-reference/transactions.html
+Redirect permanent /hib_docs/nhibernate/html/toolsetguide.html https://nhibernate.info/doc/nhibernate-reference/toolsetguide.html
+Redirect permanent /hib_docs/nhibernate/html/example-parentchild.html https://nhibernate.info/doc/nhibernate-reference/example-parentchild.html
+Redirect permanent /hib_docs/nhibernate/html/mapping-attributes.html https://nhibernate.info/doc/nhibernate-reference/mapping-attributes.html
+Redirect permanent /hib_docs/nhibernate/html/performance.html https://nhibernate.info/doc/nhibernate-reference/performance.html
+Redirect permanent /hib_docs/nhibernate/html/index.html https://nhibernate.info/doc/nhibernate-reference/
+Redirect permanent /hib_docs/tools/reference/en/html_single/ https://www.jboss.org/tools/docs/
+Redirect permanent /hib_docs/tools/reference/en/html/index.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html
+Redirect permanent /hib_docs/tools/reference/en/html/pr01.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#introduction
+Redirect permanent /hib_docs/tools/reference/en/html/setup.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#setup
+Redirect permanent /hib_docs/tools/reference/en/html/codegenarchitecture.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#codegenarchitecture
+Redirect permanent /hib_docs/tools/reference/en/html/plugins.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#plugins
+Redirect permanent /hib_docs/tools/reference/en/html/ant.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#ant
+Redirect permanent /hib_docs/tools/reference/en/html/reverseengineering.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#reverseengineering
+Redirect permanent /hib_docs/tools/reference/en/html/codegen.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#codegen
+Redirect permanent /hib_docs/reference/en/html/queryhql-expressions.html https://docs.hibernate.org/stable/core.old/reference/en/html/queryhql-expressions.html
+
+# Old cwiki Redirect permanents
+
+## ORM
+Redirect permanent /5.html /orm/documentation/
+Redirect permanent /6.html /orm/downloads/
+Redirect permanent /30.html /orm/downloads/
+Redirect permanent /148.html /orm/support/
+Redirect permanent /152.html /orm/documentation/getting-started/
+Redirect permanent /344.html /orm/
+Redirect permanent /397.html /orm/
+Redirect permanent /398.html /orm/documentation/old-jpa-migration-guide/
+Redirect permanent /422.html /orm/contribute/
+
+# ORM FAQ wiki pages.
+Redirect permanent /9.html /orm/faq/
+Redirect permanent /15.html /orm/faq/
+Redirect permanent /116.html /orm/faq/
+Redirect permanent /117.html /orm/faq/
+Redirect permanent /118.html /orm/faq/
+Redirect permanent /119.html /orm/faq/
+Redirect permanent /120.html /orm/faq/
+Redirect permanent /263.html /orm/faq/
+Redirect permanent /329.html /orm/faq/
+
+## Search
+Redirect permanent /410.html /search/
+
+## Validator
+Redirect permanent /412.html /validator/
+Redirect permanent /469.html https://community.jboss.org/en/hibernate/validator
+
+## Tools
+Redirect permanent /256.html /tools/
+Redirect permanent /255.html https://www.jboss.org/tools/docs/
+
+## Redirect permanents to wiki pages
+Redirect permanent /38.html https://community.jboss.org/docs/DOC-13916
+Redirect permanent /41.html https://community.jboss.org/docs/DOC-13924
+Redirect permanent /42.html https://community.jboss.org/docs/DOC-13951
+Redirect permanent /43.html https://community.jboss.org/docs/DOC-13954
+Redirect permanent /45.html https://community.jboss.org/docs/DOC-13927
+Redirect permanent /46.html https://community.jboss.org/docs/DOC-13944
+Redirect permanent /50.html https://community.jboss.org/docs/DOC-13993
+Redirect permanent /51.html https://community.jboss.org/docs/DOC-13957
+Redirect permanent /79.html https://community.jboss.org/docs/DOC-14025
+Redirect permanent /80.html https://community.jboss.org/docs/DOC-13921
+Redirect permanent /86.html https://community.jboss.org/docs/DOC-13928
+Redirect permanent /95.html https://community.jboss.org/docs/DOC-13917
+Redirect permanent /100.html https://community.jboss.org/docs/DOC-13992
+Redirect permanent /109.html https://community.jboss.org/docs/DOC-13933
+Redirect permanent /113.html https://community.jboss.org/docs/DOC-13918
+Redirect permanent /114.html https://community.jboss.org/docs/DOC-14022
+Redirect permanent /124.html https://community.jboss.org/docs/DOC-13958
+Redirect permanent /137.html https://community.jboss.org/docs/DOC-13973
+Redirect permanent /139.html https://community.jboss.org/docs/DOC-13998
+Redirect permanent /140.html https://community.jboss.org/docs/DOC-13999
+Redirect permanent /157.html https://community.jboss.org/docs/DOC-13920
+Redirect permanent /161.html https://community.jboss.org/docs/DOC-13959
+Redirect permanent /162.html https://community.jboss.org/docs/DOC-13960
+Redirect permanent /164.html https://community.jboss.org/docs/DOC-14000
+Redirect permanent /172.html https://community.jboss.org/docs/DOC-13978
+Redirect permanent /193.html https://community.jboss.org/docs/DOC-13945
+Redirect permanent /204.html https://community.jboss.org/docs/DOC-14015
+Redirect permanent /209.html https://community.jboss.org/docs/DOC-14069
+Redirect permanent /213.html https://community.jboss.org/docs/DOC-14002
+Redirect permanent /214.html https://community.jboss.org/docs/DOC-14014
+Redirect permanent /216.html https://community.jboss.org/docs/DOC-14013
+Redirect permanent /250.html https://community.jboss.org/docs/DOC-15061
+Redirect permanent /265.html https://community.jboss.org/docs/DOC-13979
+Redirect permanent /272.html https://community.jboss.org/docs/DOC-13995
+Redirect permanent /273.html https://community.jboss.org/docs/DOC-13997
+Redirect permanent /275.html https://community.jboss.org/docs/DOC-14005
+Redirect permanent /280.html https://community.jboss.org/docs/DOC-13931
+Redirect permanent /282.html https://community.jboss.org/docs/DOC-14021
+Redirect permanent /290.html https://community.jboss.org/docs/DOC-13919
+Redirect permanent /293.html https://community.jboss.org/docs/DOC-13961
+Redirect permanent /295.html https://community.jboss.org/docs/DOC-14071
+Redirect permanent /296.html https://community.jboss.org/docs/DOC-13966
+Redirect permanent /300.html https://community.jboss.org/docs/DOC-14003
+Redirect permanent /311.html https://community.jboss.org/docs/DOC-14072
+Redirect permanent /314.html https://community.jboss.org/docs/DOC-14004
+Redirect permanent /315.html https://community.jboss.org/docs/DOC-13932
+Redirect permanent /318.html https://community.jboss.org/docs/DOC-13976
+Redirect permanent /328.html https://community.jboss.org/docs/DOC-13955
+Redirect permanent /333.html https://community.jboss.org/docs/DOC-13962
+Redirect permanent /339.html https://community.jboss.org/docs/DOC-13949
+Redirect permanent /343.html https://community.jboss.org/docs/DOC-14068
+Redirect permanent /359.html https://community.jboss.org/docs/DOC-14062
+Redirect permanent /361.html https://community.jboss.org/docs/DOC-14063
+Redirect permanent /363.html https://community.jboss.org/docs/DOC-14065
+Redirect permanent /364.html https://community.jboss.org/docs/DOC-14067
+Redirect permanent /366.html https://community.jboss.org/docs/DOC-14064
+Redirect permanent /368.html https://community.jboss.org/docs/DOC-14066
+Redirect permanent /377.html https://community.jboss.org/docs/DOC-13964
+Redirect permanent /381.html https://community.jboss.org/docs/DOC-14011
+Redirect permanent /386.html https://community.jboss.org/docs/DOC-14073
+Redirect permanent /387.html https://community.jboss.org/docs/DOC-14057
+Redirect permanent /388.html https://community.jboss.org/docs/DOC-13994
+Redirect permanent /391.html https://community.jboss.org/docs/DOC-13956
+Redirect permanent /402.html https://community.jboss.org/docs/DOC-13948
+Redirect permanent /403.html https://community.jboss.org/docs/DOC-13953
+Redirect permanent /405.html https://community.jboss.org/docs/DOC-13946
+Redirect permanent /407.html https://nhibernate.info/doc/reference2-0en/from-1-0-to-1-2.html
+Redirect permanent /415.html https://community.jboss.org/docs/DOC-14001
+Redirect permanent /416.html https://community.jboss.org/docs/DOC-14023
+Redirect permanent /421.html https://community.jboss.org/docs/DOC-14050
+Redirect permanent /426.html https://community.jboss.org/docs/DOC-14010
+Redirect permanent /432.html https://community.jboss.org/docs/DOC-14049
+Redirect permanent /440.html https://community.jboss.org/docs/DOC-14045
+Redirect permanent /441.html https://community.jboss.org/docs/DOC-14048
+Redirect permanent /442.html https://community.jboss.org/docs/DOC-14007
+Redirect permanent /443.html https://community.jboss.org/docs/DOC-14046
+Redirect permanent /444.html https://community.jboss.org/docs/DOC-13947
+Redirect permanent /446.html https://community.jboss.org/docs/DOC-14044
+Redirect permanent /450.html https://community.jboss.org/docs/DOC-13965
+Redirect permanent /451.html https://community.jboss.org/docs/DOC-13937
+Redirect permanent /453.html https://community.jboss.org/docs/DOC-14047
+Redirect permanent /460.html https://community.jboss.org/docs/DOC-14008
+Redirect permanent /461.html https://community.jboss.org/docs/DOC-13991
+Redirect permanent /462.html https://community.jboss.org/docs/DOC-14042
+Redirect permanent /466.html https://community.jboss.org/docs/DOC-13950
+Redirect permanent /Documentation/Benchmarks https://developer.jboss.org/docs/DOC-13920
+
+# Other Redirect permanents
+Redirect permanent /400.html https://downloads.jboss.org/hibernate/caveatemptor/

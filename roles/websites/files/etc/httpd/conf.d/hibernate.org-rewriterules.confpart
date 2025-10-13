@@ -4,3 +4,14 @@
 # bsky.app domain verification
 # Hack because awstruct doesn't support files starting with '.'
 RewriteRule ^/\.well-known/(.*)$ /dot-well-known/$1 [L]
+
+# Old javadocs
+RewriteRule ^/hib_docs/v3/api/(.*)$ https://docs.hibernate.org/orm/3.5/javadocs/$1 [R=301,L,NE,E=nocache:1]
+
+# Old reference
+RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)/(tutorial|architecture|persistent-classes|mapping|collections|associations|components|inheritance|objectstate|batch|queryhql|querycriteria|xml|performance|example-[^-]+)-(.*).html$ https://docs.hibernate.org/orm/3.5/reference/$1/$2.html#$2-$3 [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)/(?:assoc|associations)-(.*).html$ https://docs.hibernate.org/orm/3.5/reference/$1/associations.html#assoc-$2 [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)/(?:configuration|session-configuration)-(.*).html$ https://docs.hibernate.org/orm/3.5/reference/$1/session-configuration.html#configuration-$2 [R=301,L,NE,E=nocache:1]
+RewriteRule ^hib_docs/(?:v3/)?reference/(.*)/(?:query-criteria|querycriteria)-(.*).html$ https://docs.hibernate.org/orm/3.5/reference/$1/querycriteria.html#query-criteria-$2 [R=301,L,NE,E=nocache:1]
+RewriteRule ^hib_docs/(?:v3/)?reference/(.*)/misc.html$ https://docs.hibernate.org/orm/3.5/reference/$1/example-mappings.html#misc [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)$ https://docs.hibernate.org/orm/3.5/reference/$1 [R=301,L,NE,E=nocache:1]
