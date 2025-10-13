@@ -147,33 +147,6 @@ Redirect permanent /hib_docs/annotations/reference/en/html/xml-overriding.html h
 Redirect permanent /hib_docs/annotations/reference/en/html/additionalmodules.html https://docs.hibernate.org/stable/annotations/reference/en/html/additionalmodules.html
 
 ## Old documentation links on the initial website
-Redirect permanent /hib_docs/reference/en/html/mapping-types.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/reference/html/or-mapping.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en/html/mapping-entityname.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en/html/quickstart.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en/html/objectstate-querying.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en/html/querycriteria-detachedqueries.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en-US/html/mapping-entityname.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en-US/html/quickstart.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en-US/html/objectstate-querying.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/v3/reference/en-US/html/querycriteria-detachedqueries.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/reference/en/html/components.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/reference/en/html/performance-cache.htm /orm/documentation/obsolete
-Redirect permanent /hib_docs/reference/en/html/performance-cache.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/reference/en/html/manipulatingdata.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/reference/en/html/querysql-namedqueries.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/api/net/sf/hibernate/Session.html /orm/documentation/obsolete
-Redirect permanent /hib_docs/entitymanager/reference/en/html_single/ https://docs.hibernate.org/entitymanager/3.6/reference/en/html_single/
-Redirect permanent /hib_docs/entitymanager/reference/en/html/architecture.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/architecture.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/configuration.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/configuration.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/objectstate.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/objectstate.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/metamodel.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/metamodel.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/transactions.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/transactions.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/listeners.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/listeners.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/batch.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/batch.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/queryhql.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/queryhql.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/querycriteria.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/querycriteria.html
-Redirect permanent /hib_docs/entitymanager/reference/en/html/query_native.html https://docs.hibernate.org/entitymanager/3.6/reference/en/html/query_native.html
 Redirect permanent /hib_docs/search/reference/en/html_single/ https://docs.hibernate.org/search/3.4/reference/en-US/html_single/
 Redirect permanent /hib_docs/validator/reference/en/html/validator-defineconstraints.html https://docs.hibernate.org/stable/validator/reference/en-US/html_single/
 Redirect permanent /hib_docs/nhibernate/1.2/reference/en/html/mapping.html https://nhibernate.info/doc/nhibernate-reference/mapping.html
@@ -198,7 +171,6 @@ Redirect permanent /hib_docs/tools/reference/en/html/plugins.html https://docs.j
 Redirect permanent /hib_docs/tools/reference/en/html/ant.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#ant
 Redirect permanent /hib_docs/tools/reference/en/html/reverseengineering.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#reverseengineering
 Redirect permanent /hib_docs/tools/reference/en/html/codegen.html https://docs.jboss.org/tools/4.1.0.Final/en/hibernatetools/html_single/index.html#codegen
-Redirect permanent /hib_docs/reference/en/html/queryhql-expressions.html https://docs.hibernate.org/stable/core.old/reference/en/html/queryhql-expressions.html
 
 # Old cwiki Redirect permanents
 

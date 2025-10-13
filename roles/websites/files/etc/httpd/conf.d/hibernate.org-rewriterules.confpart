@@ -7,6 +7,8 @@ RewriteRule ^/\.well-known/(.*)$ /dot-well-known/$1 [L]
 
 # Old javadocs
 RewriteRule ^/hib_docs/v3/api/(.*)$ https://docs.hibernate.org/orm/3.5/javadocs/$1 [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/search/api/(.*)$ https://docs.hibernate.org/search/3.4/api/$1 [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/validator/api/(.*)$ https://docs.hibernate.org/search/3.1/api/$1 [R=301,L,NE,E=nocache:1]
 
 # Old reference
 RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)/(tutorial|architecture|persistent-classes|mapping|collections|associations|components|inheritance|objectstate|batch|queryhql|querycriteria|xml|performance|example-[^-]+)-(.*).html$ https://docs.hibernate.org/orm/3.5/reference/$1/$2.html#$2-$3 [R=301,L,NE,E=nocache:1]
@@ -15,3 +17,6 @@ RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)/(?:configuration|session-configura
 RewriteRule ^hib_docs/(?:v3/)?reference/(.*)/(?:query-criteria|querycriteria)-(.*).html$ https://docs.hibernate.org/orm/3.5/reference/$1/querycriteria.html#query-criteria-$2 [R=301,L,NE,E=nocache:1]
 RewriteRule ^hib_docs/(?:v3/)?reference/(.*)/misc.html$ https://docs.hibernate.org/orm/3.5/reference/$1/example-mappings.html#misc [R=301,L,NE,E=nocache:1]
 RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)$ https://docs.hibernate.org/orm/3.5/reference/$1 [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/entitymanager/reference/(.*)$ https://docs.hibernate.org/entitymanager/3.5/reference/$1 [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/search/reference/en/(.*)$ https://docs.hibernate.org/search/3.4/reference/en-US/$1 [R=301,L,NE,E=nocache:1]
+RewriteRule ^/hib_docs/validator/reference/(.*)$ https://docs.hibernate.org/validator/3.1/reference/$1 [R=301,L,NE,E=nocache:1]
