@@ -130,7 +130,7 @@
     creates: /etc/letsencrypt/live/{{ item.certificate }}
   loop:
     - { name: "\\*.relation.to", certificate: "relation.to-0001" }
-    - { name: "\\*.hibernate.org", certificate: "relation.to-0001" }
+    - { name: "\\*.hibernate.org", certificate: "hibernate.org-0001" }
     - { name: "\\*.nhibernate.org", certificate: "nhibernate.org-0001" }
   notify:
     - Restart Apache HTTPD
