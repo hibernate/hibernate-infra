@@ -1,7 +1,7 @@
 Host *
     UseRoaming no
 
-Host in.relation.to
+Host ssh.websites.hibernate.org
     User jenkins
     PreferredAuthentications publickey
     Compression yes

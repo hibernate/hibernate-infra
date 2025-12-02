@@ -2,7 +2,7 @@
 
 - name: Extra packages required on worker nodes
   dnf:
-    name: ['java-17-openjdk-devel', 'git', 'patch', 'policycoreutils-python-utils']
+    name: ['java-21-openjdk-devel', 'git', 'patch', 'policycoreutils-python-utils']
     state: present
   tags:
     - extra-packages
@@ -84,9 +84,9 @@
     - jenkins
 
 # Some CI jobs need to run rsync on in.relation.to,
-# this will ensure in.relation.to is added to the known_host
+# this will ensure ssh.websites.hibernate.org is added to the known_host
 # The ssh-keyscan approach (controversial!) is inspired from: http://hakunin.com/six-ansible-practices
-- name: Ensure in.relation.to is a known host
+- name: Ensure ssh.websites.hibernate.org is a known host
   lineinfile:
     dest: /home/jenkins/.ssh/inrelationto-knownhosts
     create: yes
@@ -94,7 +94,7 @@
     owner: jenkins
     group: jenkins
     mode: 0600
-    line: "{{ lookup('pipe', 'ssh-keyscan -t ecdsa in.relation.to') }}"
-    regexp: "^in.relation.to"
+    line: "{{ lookup('pipe', 'ssh-keyscan -t ecdsa ssh.websites.hibernate.org') }}"
+    regexp: "^ssh.websites.hibernate.org"
   tags:
     - create-known-hosts
