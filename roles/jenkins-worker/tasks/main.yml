@@ -82,19 +82,3 @@
   file: path=/home/jenkins/.m2 src=/mnt/workdir/jenkins/.m2 owner=jenkins group=jenkins mode=0755 state=link force=true follow=false
   tags:
     - jenkins
-
-# Some CI jobs need to run rsync on in.relation.to,
-# this will ensure ssh.websites.hibernate.org is added to the known_host
-# The ssh-keyscan approach (controversial!) is inspired from: http://hakunin.com/six-ansible-practices
-- name: Ensure ssh.websites.hibernate.org is a known host
-  lineinfile:
-    dest: /home/jenkins/.ssh/inrelationto-knownhosts
-    create: yes
-    state: present
-    owner: jenkins
-    group: jenkins
-    mode: 0600
-    line: "{{ lookup('pipe', 'ssh-keyscan -t ecdsa ssh.websites.hibernate.org') }}"
-    regexp: "^ssh.websites.hibernate.org"
-  tags:
-    - create-known-hosts
