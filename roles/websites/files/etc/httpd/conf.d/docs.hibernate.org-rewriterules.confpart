@@ -26,19 +26,19 @@ RewriteRule ^(.*)/(whats-new/)whats-new.html$ $1/$2 [R=301,L,E=nocache:1]
 
 # 2. We want to expose older versions of ORM docs as index.html as well
 #    even though the actual files on the filesystem are named Something.html.
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(dialect/)(index\.html)?$ $1/$2dialect.html [L]
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(integrationguide/html_single/)(index\.html)?$ $1/$2Hibernate_Integration_Guide.html [L]
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(introduction/html_single/)(index\.html)?$ $1/$2Hibernate_Introduction.html [L]
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(migration-guide/)(index\.html)?$ $1/$2migration-guide.html [L]
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(querylanguage/html_single/)(index\.html)?$ $1/$2Hibernate_Query_Language.html [L]
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(repositories/html_single/)(index\.html)?$ $1/$2Hibernate_Data_Repositories.html [L]
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(userguide/html_single/)(index\.html)?$ $1/$2Hibernate_User_Guide.html [L]
-RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/
+RewriteCond %{REQUEST_URI} ^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/
 RewriteRule ^(.*)/(whats-new/)(index\.html)?$ $1/$2whats-new.html [L]

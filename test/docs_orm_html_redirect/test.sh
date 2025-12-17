@@ -36,7 +36,7 @@ toindex() {
 
 fromindex_part() {
   rewriterule \
-    '^/(?:orm/[3456]\.[^/]+|orm/7\.[01]|stable/orm|orm/current)/' \
+    '^/(?:orm/[3456]\.[^/]+|orm/7\.[01])/' \
     "^(.*)/($1)(index\.html)?$" \
     "\$1/\$2$2" \
     '[L]'
