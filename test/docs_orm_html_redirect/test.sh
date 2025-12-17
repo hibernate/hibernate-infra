@@ -53,13 +53,12 @@ fromindex() {
     | fromindex_part "whats-new/" "whats-new.html"
 }
 
+# Most *.html files should be renamed to "/" (no HTML file name, implicit index.html)
+# We ignore files that *should not* be redirected
 toindex <paths >1.tmp
-
 echo "===================================================================="
 echo "REDIRECTION 1 PROBLEMS (should be empty)"
 echo "===================================================================="
-# Most *.html files should be renamed to "/" (no HTML file name, implicit index.html)
-# We ignore files that *should not* be redirected
 grep -E '/(orm/[^/]+|stable/orm)/' 1.tmp | grep -Ev '/$|index.html$' \
   | grep -Ev '/html/|/html_single/chapters/|/html_single/appendices/' \
   | grep -Ev 'legalnotice.html|Legal_Notice.html|Preface.html|ln-d5e19.html|Bibliography.html' \
@@ -71,14 +70,23 @@ echo "===================================================================="
 echo "END"
 echo "===================================================================="
 
+# Applying redirection 1 then 2 should result in the initial paths
+# ... except for some directory paths, because they used to show the directory content
+# and will now show the main HTML file in the directory (e.g. Hibernate_User_Guide.html) instead.
+# So we'll ignore them.
+grep -Ev '^/orm/([3456]\.[^/]+|7\.[01])/((introduction|userguide|migration-guide)/html_single|migration-guide|migration-guide/migration-guide)/$' paths > paths_no_directory.tmp
+
+# We'll execute toindex again, ignore the first run.
+rm rewriterules.tmp
+
+toindex <paths_no_directory.tmp >1_no_directory.tmp
 echo >> rewriterules.tmp
-fromindex <1.tmp >2.tmp
+fromindex <1_no_directory.tmp >2_no_directory.tmp
 
 echo "===================================================================="
 echo "REDIRECTION 2 PROBLEMS (should be empty)"
 echo "===================================================================="
-# Applying redirection 1 then 2 should result in the initial paths
-diff -C 0 --color paths 2.tmp || true
+diff -C 0 --color paths_no_directory.tmp 2_no_directory.tmp || true
 echo "===================================================================="
 echo "END"
 echo "===================================================================="
