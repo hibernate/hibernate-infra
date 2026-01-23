@@ -10,7 +10,7 @@ ssh.ci.hibernate.org ansible_ssh_user=ec2-user hostname=ci
 
 # ansible-playbook -i hosts site.yml --limit websites
 [websites]
-ssh.websites.hibernate.org ansible_ssh_user=ec2-user hostname=websites
+ssh.websites.hibernate.org ansible_ssh_user=fedora hostname=websites
 
 # ansible-playbook -i hosts site.yml --limit ci-nexus-proxy
 [ci-nexus-proxy]

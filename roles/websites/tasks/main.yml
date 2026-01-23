@@ -11,19 +11,9 @@
   tags:
     - jenkins
 
-# https://rpmfind.net/linux/rpm2html/search.php?query=python3dist(certbot-dns-cloudflare)
-# https://docs.fedoraproject.org/en-US/epel/getting-started/#_el9
-- name: Enable Extra Packages for Enterprise Linux
-  dnf:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-    state: latest
-    # We're installing the package that contains the keys, so obviously we don't have them yet.
-    # We're using HTTPS to retrieve the package, so this should be safe anyway.
-    disable_gpg_check: true
-
 - name: Install the latest version of Apache HTTPD, certbot using dnf
   dnf:
-    name: ['httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'python3-certbot-dns-cloudflare']
+    name: ['httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'python3-certbot-dns-cloudflare', 'crontab']
     state: latest
 
 # https://certbot-dns-cloudflare.readthedocs.io/en/stable/
@@ -84,14 +74,12 @@
   loop:
     - { name: 'relation.to', redirect: 'in.relation.to/', drop_path: false }
     - { name: 'blog.hibernate.org', redirect: 'in.relation.to/', drop_path: false, certificate: 'hibernate.org-0001' }
-    - { name: 'nhibernate.org', redirect: 'hibernate.org/nhibernate.html', drop_path: true }
     - { name: 'hibernate.asia', redirect: 'hibernate.org/', drop_path: true }
     - { name: 'hibernate.cn', redirect: 'hibernate.org/', drop_path: true }
     # Note the '999-' file prefix is necessary for wildcard VHosts to not override non-wildcard subdomain VHosts.
     # Note Apache HTTPD only accepts wildcards in the "ServerAlias" directive, not in "ServerName".
     - { order: 999, name: 'wildcard.relation.to', alias: '*.relation.to', redirect: 'in.relation.to/', drop_path: false, certificate: 'relation.to-0001' }
     - { order: 999, name: 'wildcard.hibernate.org', alias: '*.hibernate.org', redirect: 'hibernate.org/', drop_path: true, certificate: 'hibernate.org-0001' }
-    - { order: 999, name: 'wildcard.nhibernate.org', alias: '*.nhibernate.org', redirect: 'hibernate.org/nhibernate.html', drop_path: true, certificate: 'nhibernate.org-0001' }
     # =======================================================================
     # DNS records for these domains were set up at some point, the reason is lost to history.
     # Regardless, we make sure they redirect to the proper place.
@@ -117,7 +105,6 @@
     - "relation.to"
     - "staging.in.relation.to"
     - "hibernate.org"
-    - "nhibernate.org"
     - "hibernate.asia"
     - "hibernate.cn"
   notify:
@@ -131,7 +118,6 @@
   loop:
     - { name: "\\*.relation.to", certificate: "relation.to-0001" }
     - { name: "\\*.hibernate.org", certificate: "hibernate.org-0001" }
-    - { name: "\\*.nhibernate.org", certificate: "nhibernate.org-0001" }
   notify:
     - Restart Apache HTTPD
 
