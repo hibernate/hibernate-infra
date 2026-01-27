@@ -6,7 +6,7 @@ ansible_python_interpreter=/usr/bin/python3
 
 # ansible-playbook -i hosts site.yml --limit jenkins-coordinator
 [jenkins-coordinator]
-ssh.ci.hibernate.org ansible_ssh_user=ec2-user hostname=ci
+ssh.ci.hibernate.org ansible_ssh_user=fedora hostname=ci
 
 # ansible-playbook -i hosts site.yml --limit websites
 [websites]

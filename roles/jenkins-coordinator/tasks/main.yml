@@ -1,18 +1,8 @@
 ---
 
-# https://rpmfind.net/linux/rpm2html/search.php?query=python3dist(certbot)
-# https://docs.fedoraproject.org/en-US/epel/getting-started/#_el9
-- name: Enable Extra Packages for Enterprise Linux
-  dnf:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-    state: latest
-    # We're installing the package that contains the keys, so obviously we don't have them yet.
-    # We're using HTTPS to retrieve the package, so this should be safe anyway.
-    disable_gpg_check: true
-
 - name: Install the latest version of OpenJDK, Jenkins, Apache HTTPD, certbot using dnf
   dnf:
-    name: ['java-21-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl', 'certbot', 'certbot-apache']
+    name: ['java-21-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'crontab']
     state: present
 
 - name: Override Java security config to enable RSA 1024bits (used by the Jenkins update site)
@@ -31,6 +21,11 @@
   copy: src=jenkins/userContent/hibernate-logo.svg dest=/var/lib/jenkins/userContent/ mode=0700 owner=jenkins group=jenkins
   tags:
     - copy-css
+
+- name: Add Jenkins configuration directory
+  file: path=/etc/systemd/system/{{ item }} state=directory mode=0755 owner=root force=no
+  loop:
+    - "jenkins.service.d"
 
 - name: Custom Jenkins configuration
   copy: src=etc/systemd/system/jenkins.service.d/override.conf dest=/etc/systemd/system/jenkins.service.d/override.conf mode=0644 owner=root
