@@ -8,11 +8,10 @@ Continuous Integration, website, and bot deployments.
 The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to set up a CI environment.
 
 We prefer to make some assumptions and keep this simple;
-among others, we expect to run the public facing services on Red Hat Enterprise Linux 8,
-and run some Jenkins worker nodes on Fedora Cloud.
+among others, we expect to run most machines on Fedora.
 
 The websites and the Jenkins coordinator node will run on permanent instances on Amazon AWS,
-while most Jenkins worker nodes will run on AWS EC2 Spot instances launched by the Jenkins AWS EC2 plugin,
+while most Jenkins worker nodes will run on AWS EC2 instances launched by the Jenkins AWS EC2 plugin,
 and some Jenkins worker nodes will be managed by partners.
 
 ## First setup
@@ -33,16 +32,41 @@ You can use a different organization and launch templates of course, but we won'
 ### Boot the servers
 
 You should run:
-- 1 instance to host the websites.
-  Start it on AWS and figure out the launch template yourself (details have been lost to time, I think it should use a RHEL 8 image).
-- 1 instance to host the Nexus proxy.
-  Start it on AWS and use the `ci-nexus-proxy` launch template.
-- 1 instance to create an AMI for the various Jenkins worker nodes,
+- 1 Fedora instance to host the websites. To copy a previous instance:
+  - Start a Fedora instance on EC2.
+  - Run the Ansible playbook (will fail in the Certbot step)
+  - Sync with the previous instance using:
+    ```
+    sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.220:/etc/letsencrypt/ /etc/letsencrypt/`
+    sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.220:/var/www/ /var/www/
+  - Switchover the elastic IP
+  - Run the Ansible playbook again (for certbot)
+- 1 Fedora instance to host the Jenkins coordinator. To copy a previous instance:
+  - Start a Fedora instance on EC2.
+    Don't forget to assign the `JenkinsCICoordinator` IAM Role to the new EC2 instance
+  - Run the Ansible playbook (will fail in the Certbot step)
+  - Sync with the previous instance using:
+    ```
+    sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/home/jenkins/ /home/jenkins/
+    sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/var/lib/jenkins/ /var/lib/jenkins/
+    sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/etc/letsencrypt/ /etc/letsencrypt/
+    ```
+  - On old and new, run ` sudo systemctl stop jenkins`
+  - Sync with the previous instance using:
+    ```
+    sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/var/lib/jenkins/ /var/lib/jenkins/
+    ```
+  - Switchover the elastic IP
+  - Run `sudo systemctl start jenkins`
+  - Run the Ansible playbook again (for certbot)
+- 1 Amazon Linux instance to host the Nexus proxy.
+  - Start it on AWS and use the `ci-nexus-proxy` launch template.
+- 1 Fedora instance to create an AMI for the various Jenkins worker nodes,
   which will then be used by the Jenkins AWS EC2 plugin to spawn workers on demand.
-  Start it on AWS and use the `jenkins-ci-worker-ami-building` launch template.
-  Note worker node instances are expected to provide an "instance storage" volume
-  that the node will mount as `/mnt/workdir` and use for docker and jenkins data.
-  Failing that, you're likely to see errors in your builds, e.g. "no space left on device".
+  - Start it on AWS and use the `jenkins-ci-worker-ami-building` launch template.
+  - Note worker node instances are expected to provide an "instance storage" volume
+    that the node will mount as `/mnt/workdir` and use for docker and jenkins data.
+    Failing that, you're likely to see errors in your builds, e.g. "no space left on device".
 
 Boot them using the provided 'cloud-init' script.
 When booting machines from the UI, you can paste the content of 'cloud-init' into the "Customisation Script" section on the AWS console.
