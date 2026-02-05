@@ -1,8 +1,8 @@
 ---
 
-- name: Install the latest version of OpenJDK, Jenkins, Apache HTTPD, certbot using dnf
+- name: Install the latest version of OpenJDK, Jenkins, Apache HTTPD, certbot, crontabs using dnf
   dnf:
-    name: ['java-21-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'crontab']
+    name: ['java-21-openjdk-devel', 'jenkins', 'httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'crontabs']
     state: present
 
 - name: Override Java security config to enable RSA 1024bits (used by the Jenkins update site)
