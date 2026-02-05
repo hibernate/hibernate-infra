@@ -50,7 +50,7 @@
     persistent: yes
 
 - name: Obtain certificates for ci.hibernate.org using Let's Encrypt
-  shell: sudo certbot certonly --apache -d ci.hibernate.org
+  shell: sudo certbot certonly -m ci@hibernate.org --agree-tos --apache -d ci.hibernate.org
   args:
     creates: /etc/letsencrypt/live/ci.hibernate.org
 
