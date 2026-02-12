@@ -33,6 +33,7 @@
   file: path=/mnt/workdir/containers owner=root group=root mode=0700 state=directory
   tags:
     - docker
+    - podman
 
 - name: Create /etc/docker
   file: path=/etc/docker owner=root group=root mode=0755 state=directory
@@ -55,6 +56,54 @@
   service: name=docker enabled=yes state=started
   tags:
     - docker
+
+- name: Create Podman group
+  group:
+    name: podman
+    state: present
+  tags:
+    - podman
+    - groups
+
+- name: Assign podman groups to jenkins
+  user: name=jenkins groups=podman append=yes
+  tags:
+    - podman
+    - groups
+
+- name: Install Podman engine
+  dnf:
+    name: ['podman']
+    state: present
+  tags:
+    - podman
+
+- name: Create /etc/podman
+  file: path=/etc/podman owner=root group=root mode=0755 state=directory
+  tags:
+    - podman
+
+# The config includes:
+# * an instruction to use /mnt/workdir/containers for Docker data
+# * a workaround to reenable OOB on Oracle DB container.
+#   See https://github.com/gvenzl/oci-oracle-xe/issues/43
+#   Timeout handling requires some networking features and
+#   the docker userland proxies lack handling of these features,
+#   so we have to disable docker userland proxies.
+- name: Create podman config
+  copy: src=etc/containers/registries.conf dest=/etc/containers/registries.conf mode=0644 owner=root group=root
+  tags:
+    - podman
+
+- name: Create podman config
+  copy: src=etc/containers/storage.conf dest=/etc/containers/storage.conf mode=0644 owner=root group=root
+  tags:
+    - podman
+
+- name: Start Podman
+  service: name=podman enabled=yes state=started
+  tags:
+    - podman
 
 # Just in case the worker node does not get anything mounted to /mnt/workdir
 - name: Create /mnt/workdir/jenkins
