@@ -17,3 +17,12 @@ RewriteRule ^/hib_docs/(?:v3/)?reference/(.*)$ https://docs.hibernate.org/orm/3.
 RewriteRule ^/hib_docs/entitymanager/reference/(.*)$ https://docs.hibernate.org/entitymanager/3.5/reference/$1 [R=301,L,NE,E=nocache:1]
 RewriteRule ^/hib_docs/search/reference/en/(.*)$ https://docs.hibernate.org/search/3.4/reference/en-US/$1 [R=301,L,NE,E=nocache:1]
 RewriteRule ^/hib_docs/validator/reference/(.*)$ https://docs.hibernate.org/validator/3.1/reference/$1 [R=301,L,NE,E=nocache:1]
+
+# Old support/policy links
+Redirect permanent /orm/support/ /support/
+Redirect permanent /search/support/ /support/
+Redirect permanent /validator/support/ /support/
+Redirect permanent /reactive/support/ /support/
+Redirect permanent /ogm/support/ /support/
+Redirect permanent /community/compatibility-policy/ /support/compatibility-policy/
+Redirect permanent /community/maintenance-policy/ /support/maintenance-policy/
