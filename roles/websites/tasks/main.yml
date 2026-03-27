@@ -13,7 +13,7 @@
 
 - name: Install the latest version of Apache HTTPD, certbot using dnf
   dnf:
-    name: ['httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'python3-certbot-dns-cloudflare', 'crontab']
+    name: ['httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'python3-certbot-dns-cloudflare', 'crontabs']
     state: latest
 
 # https://certbot-dns-cloudflare.readthedocs.io/en/stable/
