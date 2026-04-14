@@ -33,6 +33,10 @@
   file: path=/mnt/workdir/containers owner=root group=root mode=0700 state=directory
   tags:
     - docker
+- name: Create /mnt/workdir/containerd
+  file: path=/mnt/workdir/containerd owner=root group=root mode=0700 state=directory
+  tags:
+    - docker
 
 - name: Create /etc/docker
   file: path=/etc/docker owner=root group=root mode=0755 state=directory
@@ -48,6 +52,11 @@
 #   so we have to disable docker userland proxies.
 - name: Create docker config
   copy: src=etc/docker/daemon.json dest=/etc/docker/daemon.json mode=0644 owner=root group=root
+  tags:
+    - docker
+# Recent versions of docker use containerd for storage
+- name: Create containerd config
+  copy: src=etc/containerd/config.toml dest=/etc/containerd/config.toml mode=0644 owner=root group=root
   tags:
     - docker
 
