@@ -19,10 +19,10 @@ RewriteRule ^/hib_docs/search/reference/en/(.*)$ https://docs.hibernate.org/sear
 RewriteRule ^/hib_docs/validator/reference/(.*)$ https://docs.hibernate.org/validator/3.1/reference/$1 [R=301,L,NE,E=nocache:1]
 
 # Old support/policy links
-Redirect permanent /orm/support/ /support/
-Redirect permanent /search/support/ /support/
-Redirect permanent /validator/support/ /support/
-Redirect permanent /reactive/support/ /support/
-Redirect permanent /ogm/support/ /support/
-Redirect permanent /community/compatibility-policy/ /support/compatibility-policy/
-Redirect permanent /community/maintenance-policy/ /support/maintenance-policy/
+RewriteRule ^/orm/support/?$ /support/ [R=301,L,NE,E=nocache:1]
+RewriteRule ^/search/support/?$ /support/ [R=301,L,NE,E=nocache:1]
+RewriteRule ^/validator/support/?$ /support/ [R=301,L,NE,E=nocache:1]
+RewriteRule ^/reactive/support/?$ /support/ [R=301,L,NE,E=nocache:1]
+RewriteRule ^/ogm/support/?$ /support/ [R=301,L,NE,E=nocache:1]
+RewriteRule ^/community/compatibility-policy/?$ /support/compatibility-policy/ [R=301,L,NE,E=nocache:1]
+RewriteRule ^/community/maintenance-policy/?$ /support/maintenance-policy/ [R=301,L,NE,E=nocache:1]
