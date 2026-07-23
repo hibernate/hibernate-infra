@@ -26,3 +26,6 @@ RewriteRule ^/reactive/support/?$ /support/ [R=301,L,NE,E=nocache:1]
 RewriteRule ^/ogm/support/?$ /support/ [R=301,L,NE,E=nocache:1]
 RewriteRule ^/community/compatibility-policy/?$ /support/compatibility-policy/ [R=301,L,NE,E=nocache:1]
 RewriteRule ^/community/maintenance-policy/?$ /support/maintenance-policy/ [R=301,L,NE,E=nocache:1]
+
+# Old "book" links
+RewriteRule ^/orm/books/?$ /orm/more-resources/ [R=301,L,NE,E=nocache:1]
