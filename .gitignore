@@ -1,4 +1,4 @@
-site.retry
+ansible/site.retry
 
 *.tmp
 

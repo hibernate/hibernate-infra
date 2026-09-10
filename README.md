@@ -2,8 +2,12 @@
 
 ## What is this?
 
-This is an Ansible playbook to set up the Hibernate infrastructure:
+This repository contains the infrastructure configuration for Hibernate:
 Continuous Integration and website.
+
+## Ansible
+
+The `ansible/` directory contains an Ansible playbook to set up the Hibernate infrastructure.
 
 The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to set up a CI environment.
 
@@ -20,11 +24,12 @@ and some Jenkins worker nodes will be managed by partners.
 
 Before doing anything, install Ansible, then the required collections:
 
+	cd ansible
 	ansible-galaxy collection install -r requirements.yml
 
 #### Update the inventory file (server addresses and keys)
 
-You will need to update the inventory file `hosts` to point to the servers you just launched.
+You will need to update the inventory file `ansible/hosts` to point to the servers you just launched.
 Gather the public IP address or public DNS for each server,
 and paste it in the 'hosts' file in the appropriate section:
 
@@ -43,6 +48,7 @@ Do not commit these changes unless your changes may be useful to other users.
 
 You can run the Ansible playbook like this:
 
+	cd ansible
 	ansible-playbook -i hosts site.yml
 
 You can also run the playbook on a subset of the hosts in the file using the parameter "--limit":
@@ -63,9 +69,9 @@ More details about tags can be found the ansible documentation.
 
 When only updating the worker nodes (which run on Fedora), it is recommended to enable SSH pipelining which will make things go quite a bit faster. To do so, specify pipelining = True in ansible.cfg. (This couldn't work on RHEL 7 for security reasons, it might work on RHEL 8)
 
-## Setup of new nodes
+### Setup of new nodes
 
-### Preparations: AWS launch templates
+#### Preparations: AWS launch templates
 
 If your SSH key was never used to build the servers,
 you will need to add the public key to the `cloud-init` file at the root of this git repository.
@@ -78,7 +84,7 @@ by setting the "user data" to the content of the `cloud-init` file:
 
 You can use a different organization and launch templates of course, but we won't pay your AWS bills.
 
-### Boot the servers
+#### Boot the servers
 
 You should run:
 - 1 Fedora instance to host the websites:
@@ -98,9 +104,9 @@ You should run:
 Boot them using the provided 'cloud-init' script.
 When booting machines from the UI, you can paste the content of 'cloud-init' into the "Customisation Script" section on the AWS console.
 
-### Specifics of each node
+#### Specifics of each node
 
-#### Websites
+##### Websites
 
 You'll likely want to restore from a previous instance.
 This involves multiple steps, ansible is just one part of it.
@@ -113,7 +119,7 @@ This involves multiple steps, ansible is just one part of it.
 - Switchover the elastic IP
 - Run the Ansible playbook again (for certbot)
 
-#### Jenkins coordinator
+##### Jenkins coordinator
 
 You'll likely want to restore from a previous instance.
 This involves multiple steps, ansible is just one part of it.
@@ -134,30 +140,32 @@ This involves multiple steps, ansible is just one part of it.
 - Run `sudo systemctl start jenkins`
 - Run the Ansible playbook again (for certbot)
 
-#### Jenkins worker nodes
+##### Jenkins worker nodes
 
 - Run the Ansible playbook (will fail in the Certbot step) -- see "Running ansible" above
 - Create an image from the `Instances` panel of the AWS EC2 console:
   select the instance, then click `Actions > Image > Create Image`.
 - Do not forget to update the AMI in the Jenkins AWS EC2 plugin "Cloud" configuration.
 
-## Maintenance of existing nodes
+### Maintenance of existing nodes
 
-### Updating the website and CI coordinator nodes
+#### Updating the website and CI coordinator nodes
 
 Ansible should run a `dnf update` automatically, so just do this:
 
 ```shell
+cd ansible
 ansible-playbook -i hosts site.yml --limit jenkins-coordinator
 ```
 
 or:
 
 ```shell
+cd ansible
 ansible-playbook -i hosts site.yml --limit websites
 ```
 
-### Making changes to the Jenkins worker nodes
+#### Making changes to the Jenkins worker nodes
 
 The Ansible playbook is designed so it can be re-run on your existing infrastructure without undoing configuration you did on the previous step.
 
@@ -168,5 +176,3 @@ To make changes to the configuration of a Jenkins worker node:
 3. Run the ansible-playbook command again (see first setup).
 4. If it doesn't work, iterate.
 5. When it works, commit and push the changes so that next time we'll need to rebuild nodes they will include your changes.
-
-
