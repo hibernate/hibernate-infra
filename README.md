@@ -5,6 +5,161 @@
 This repository contains the infrastructure configuration for Hibernate:
 Continuous Integration and website.
 
+- `ansible/` — Ansible playbooks for Jenkins CI and website nodes
+- `terraform/runs-on-commonhaus/` — RunsOn Fleet on the CommonHaus AWS account
+- `terraform/runs-on-ibm/` — RunsOn Fleet on the IBM AWS account
+
+## RunsOn Fleet (GitHub Actions runners)
+
+[RunsOn Fleet](https://runs-on.com/) provides self-hosted GitHub Actions runners on AWS.
+Two independent fleets are configured, one per AWS account. Each is deployed separately
+with its own AWS credentials, but they share the same GitHub App.
+
+### Prerequisites
+
+- [Terraform](https://www.terraform.io/) or [OpenTofu](https://opentofu.org/) installed
+- AWS credentials with permissions to manage ECS, IAM, EC2, S3, Secrets Manager, and CloudWatch resources
+- A [RunsOn license key](https://runs-on.com/docs/costs/licensing/)
+- A GitHub App installed on the `hibernate` organization (see [fleet installation docs](https://runs-on.com/installation/fleet/))
+
+Secrets (license key, GitHub App private key) are stored in AWS Secrets Manager
+in each AWS account under `runs-on/license-key` and `runs-on/github-app-private-key` by default.
+The `terraform.tfvars` files are checked into the repo and contain only non-secret values.
+
+### GitHub token
+
+Terraform needs a GitHub personal access token to create and manage runner groups.
+Set it as `GITHUB_TOKEN` before running `terraform apply`.
+
+**Fine-grained token** (recommended):
+
+1. Go to GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens
+2. Set **Resource owner** to `hibernate`
+3. Under **Organization permissions**, set **Self-hosted runners** to **Read and write**
+4. No repository permissions are needed
+
+**Classic token** (alternative):
+
+1. Go to GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Select the **admin:org** scope ("Full control of orgs and teams, read and write org projects")
+
+### Terraform state backend (one-time setup)
+
+Terraform state is stored remotely in S3 so that multiple people can work on the same
+configuration without conflicts. Each AWS account needs a state bucket and a lock table
+created once before the first `terraform init`.
+
+For each account, run (with the appropriate AWS profile):
+
+```shell
+aws s3api create-bucket \
+  --bucket hibernate-terraform-state-commonhaus \
+  --region us-east-2 \
+  --create-bucket-configuration LocationConstraint=us-east-2
+
+aws s3api put-bucket-versioning \
+  --bucket hibernate-terraform-state-commonhaus \
+  --versioning-configuration Status=Enabled
+
+aws dynamodb create-table \
+  --table-name hibernate-terraform-locks \
+  --attribute-definitions AttributeName=LockID,AttributeType=S \
+  --key-schema AttributeName=LockID,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --region us-east-2
+```
+
+Repeat for the IBM account with bucket `hibernate-terraform-state-ibm` in `us-east-1`
+(omit `--create-bucket-configuration` for us-east-1).
+
+### AWS credentials
+
+Each fleet targets a different AWS account. Set up a named profile for each account
+using AWS IAM Identity Center (SSO):
+
+```shell
+aws configure sso --profile commonhaus-hibernate
+aws configure sso --profile ibm-hibernate
+```
+
+This walks you through selecting your SSO start URL, account, and role.
+Then log in before running Terraform:
+
+```shell
+aws sso login --profile commonhaus-hibernate
+export AWS_PROFILE=commonhaus-hibernate
+```
+
+Verify your credentials are working:
+
+```shell
+aws sts get-caller-identity
+```
+
+### Usage
+
+Each fleet is deployed independently. Set the AWS credentials for the target account,
+then run:
+
+```shell
+# CommonHaus fleet (us-east-2)
+cd terraform/runs-on-commonhaus
+export AWS_PROFILE=commonhaus-hibernate
+export GITHUB_TOKEN="ghp_..."
+terraform init
+terraform plan
+terraform apply
+```
+
+```shell
+# IBM fleet (us-east-1)
+cd terraform/runs-on-ibm
+export AWS_PROFILE=ibm-hibernate
+export GITHUB_TOKEN="ghp_..."
+terraform init
+terraform plan
+terraform apply
+```
+
+### Verification after apply
+
+After `terraform apply` succeeds, verify the deployment:
+
+1. **Check the runner group exists on GitHub**:
+   go to https://github.com/organizations/hibernate/settings/actions/runner-groups
+   and confirm `runs-on-commonhaus` (or `runs-on-ibm`) appears.
+
+2. **Check the ECS service is running in AWS**:
+   ```shell
+   aws ecs list-clusters
+   aws ecs list-services --cluster runs-on-commonhaus
+   ```
+
+3. **Check CloudWatch logs for the control plane**:
+   ```shell
+   aws logs describe-log-groups --log-group-name-prefix runs-on
+   ```
+
+4. **Run a test workflow** to confirm runners register and pick up jobs
+   (see "Workflow usage" below). If the job stays queued, check that the
+   workflow's `runs-on` label matches the fleet name exactly, and that the
+   repository is visible to the runner group.
+
+### Workflow usage
+
+Once deployed, use the fleets in GitHub Actions workflows:
+
+```yaml
+jobs:
+  build:
+    runs-on: runs-on/fleet=commonhaus-linux-standard/env=production
+    # or: runs-on/fleet=ibm-linux-standard/env=production
+    steps:
+      - uses: runs-on/action@v2
+      - uses: actions/checkout@v7
+      - run: echo "Hello from RunsOn Fleet"
+```
+
 ## Ansible
 
 The `ansible/` directory contains an Ansible playbook to set up the Hibernate infrastructure.
