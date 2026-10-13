@@ -2,6 +2,12 @@ ansible/site.retry
 
 *.tmp
 
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+
 # Apple users
 **/.DS_Store
 
