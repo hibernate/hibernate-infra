@@ -67,47 +67,6 @@ Repeat for the IBM account with bucket `hibernate-terraform-state-ibm` in `us-ea
 
 Locking uses S3-native lock files (`use_lockfile = true`), so no DynamoDB table is needed.
 
-### IBM account: IAM role setup (one-time, done by IBM admin)
-
-On the IBM account, Terraform runs under a scoped IAM role that can only manage
-resources tagged with `Project = runs-on-ibm-hibernate`. This prevents accidental
-changes to pre-existing IBM infrastructure.
-
-Create the role:
-
-```shell
-aws iam create-role \
-  --role-name runs-on-ibm-hibernate-deployer \
-  --assume-role-policy-document file://trust-policy.json
-```
-
-Where `trust-policy.json` allows the SSO users who will run Terraform to assume the role
-(your IBM admin will know the appropriate principal ARN — typically the SSO permission set
-or the IAM Identity Center user/group ARN).
-
-Attach the deployment policy:
-
-```shell
-aws iam put-role-policy \
-  --role-name runs-on-ibm-hibernate-deployer \
-  --policy-name runs-on-ibm-hibernate-deploy \
-  --policy-document file://deploy-policy.json
-```
-
-The `deploy-policy.json` should grant permissions to manage ECS, EC2, IAM, S3,
-Secrets Manager, and CloudWatch resources, scoped with tag conditions where supported:
-
-- **Create actions**: require `"aws:RequestTag/Project": "runs-on-ibm-hibernate"`
-- **Modify/delete actions**: require `"aws:ResourceTag/Project": "runs-on-ibm-hibernate"`
-- **Read/list/describe actions**: no tag condition needed (these are read-only)
-
-Not all AWS services support tag-based conditions uniformly (notably some IAM and ECS
-actions). This provides practical isolation from existing infrastructure, but is not
-a hard security boundary.
-
-When configuring the `ibm-hibernate` SSO profile, select this role so that Terraform
-operates under its scoped permissions.
-
 ### AWS credentials
 
 Each fleet targets a different AWS account. Set up a named profile for each account
@@ -119,6 +78,11 @@ aws configure sso --profile ibm-hibernate
 ```
 
 This walks you through selecting your SSO start URL, account, and role.
+When prompted for the role:
+
+- **CommonHaus**: select `AWSAdministratorAccess`
+- **IBM**: TBD
+
 Then log in before running Terraform:
 
 ```shell
