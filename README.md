@@ -69,19 +69,18 @@ Locking uses S3-native lock files (`use_lockfile = true`), so no DynamoDB table 
 
 ### AWS credentials
 
-Each fleet targets a different AWS account. Set up a named profile for each account
-using AWS IAM Identity Center (SSO):
+Each fleet targets a different AWS account. Set up a named profile for each.
+
+**CommonHaus** — uses IAM Identity Center (SSO).
+See [AWS Console - CommonHaus funded](https://github.com/commonhaus/project-hibernate/blob/main/wiki/resources.md#aws-console---commonhaus-funded)
+for login details.
 
 ```shell
 aws configure sso --profile commonhaus-hibernate
-aws configure sso --profile ibm-hibernate
 ```
 
 This walks you through selecting your SSO start URL, account, and role.
-When prompted for the role:
-
-- **CommonHaus**: select `AWSAdministratorAccess`
-- **IBM**: TBD
+When prompted for the role, select `AWSAdministratorAccess`.
 
 Then log in before running Terraform:
 
@@ -90,7 +89,20 @@ aws sso login --profile commonhaus-hibernate
 export AWS_PROFILE=commonhaus-hibernate
 ```
 
-Verify your credentials are working:
+**IBM** — uses browser-based login (requires AWS CLI v2.32+).
+See [AWS Console - IBM/Harmony funded](https://github.com/commonhaus/project-hibernate/blob/main/wiki/resources.md#aws-console---ibmharmony-funded)
+for login details.
+
+```shell
+aws login --profile ibm-hibernate
+export AWS_PROFILE=ibm-hibernate
+```
+
+This opens your browser and authenticates with your console credentials.
+The session lasts up to 12 hours. Your IAM identity must have the
+`SignInLocalDevelopmentAccess` managed policy attached.
+
+**Verify** your credentials are working:
 
 ```shell
 aws sts get-caller-identity
