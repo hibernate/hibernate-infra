@@ -122,12 +122,12 @@ After `terraform apply` succeeds, verify the deployment:
 
 1. **Check the runner group exists on GitHub**:
    go to https://github.com/organizations/hibernate/settings/actions/runner-groups
-   and confirm `runs-on-commonhaus` (or `runs-on-ibm`) appears.
+   and confirm `runs-on-commonhaus-hibernate` (or `runs-on-ibm-hibernate`) appears.
 
 2. **Check the ECS service is running in AWS**:
    ```shell
    aws ecs list-clusters
-   aws ecs list-services --cluster runs-on-commonhaus
+   aws ecs list-services --cluster runs-on-commonhaus-hibernate
    ```
 
 3. **Check CloudWatch logs for the control plane**:
@@ -147,8 +147,8 @@ Once deployed, use the fleets in GitHub Actions workflows:
 ```yaml
 jobs:
   build:
-    runs-on: runs-on/fleet=commonhaus-linux-standard/env=production
-    # or: runs-on/fleet=ibm-linux-standard/env=production
+    runs-on: runs-on/fleet=commonhaus-hibernate-linux-standard/env=production
+    # or: runs-on/fleet=ibm-hibernate-linux-standard/env=production
     steps:
       - uses: runs-on/action@v2
       - uses: actions/checkout@v7

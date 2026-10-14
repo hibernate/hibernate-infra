@@ -24,7 +24,7 @@ provider "aws" {
   region = var.aws_region
   default_tags {
     tags = {
-      Project = "runs-on-hibernate"
+      Project = "runs-on-ibm-hibernate"
     }
   }
 }
@@ -43,7 +43,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 6.0"
 
-  name = "runs-on-ibm"
+  name = "runs-on-ibm-hibernate"
   cidr = "10.0.0.0/16"
 
   azs            = slice(data.aws_availability_zones.available.names, 0, 2)
@@ -81,7 +81,7 @@ data "aws_secretsmanager_secret_version" "license_key" {
 # --- RunsOn Fleet ---
 
 resource "github_actions_runner_group" "runs_on" {
-  name                       = "runs-on-ibm"
+  name                       = "runs-on-ibm-hibernate"
   visibility                 = "all"
   allows_public_repositories = true
 }
@@ -90,7 +90,7 @@ module "runs_on_fleet" {
   source  = "runs-on/runs-on/aws//modules/fleet"
   version = "v3.4.0"
 
-  stack_name  = "runs-on-ibm"
+  stack_name  = "runs-on-ibm-hibernate"
   license_key = data.aws_secretsmanager_secret_version.license_key.secret_string
   environment = "production"
   email       = var.alert_email
@@ -111,7 +111,7 @@ module "runs_on_fleet" {
   }
 
   fleets = {
-    ibm-linux-standard = {
+    ibm-hibernate-linux-standard = {
       runner       = "standard-x64"
       runner_group = github_actions_runner_group.runs_on.name
     }
