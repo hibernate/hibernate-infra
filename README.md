@@ -152,8 +152,8 @@ Once deployed, use the fleets in GitHub Actions workflows:
 ```yaml
 jobs:
   build:
-    runs-on: runs-on/fleet=commonhaus-hibernate-linux-standard/env=production
-    # or: runs-on/fleet=ibm-hibernate-linux-standard/env=production
+    runs-on: runs-on/fleet=linux-standard/env=commonhaus
+    # or: runs-on/fleet=linux-standard/env=ibm
     steps:
       - uses: runs-on/action@v2
       - uses: actions/checkout@v7

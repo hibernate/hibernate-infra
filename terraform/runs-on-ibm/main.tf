@@ -92,7 +92,7 @@ module "runs_on_fleet" {
 
   stack_name  = "runs-on-ibm-hibernate"
   license_key = data.aws_secretsmanager_secret_version.license_key.secret_string
-  environment = "production"
+  environment = "ibm"
   email       = var.alert_email
 
   github_app_id          = var.github_app_id
@@ -111,7 +111,7 @@ module "runs_on_fleet" {
   }
 
   fleets = {
-    ibm-hibernate-linux-standard = {
+    linux-standard = {
       runner       = "standard-x64"
       runner_group = github_actions_runner_group.runs_on.name
     }
