@@ -46,7 +46,7 @@ Set it as `GITHUB_TOKEN` before running `terraform apply`.
 ### Terraform state backend (one-time setup)
 
 Terraform state is stored remotely in S3 so that multiple people can work on the same
-configuration without conflicts. Each AWS account needs a state bucket and a lock table
+configuration without conflicts. Each AWS account needs a state bucket
 created once before the first `terraform init`.
 
 For each account, run (with the appropriate AWS profile):
@@ -60,17 +60,12 @@ aws s3api create-bucket \
 aws s3api put-bucket-versioning \
   --bucket hibernate-terraform-state-commonhaus \
   --versioning-configuration Status=Enabled
-
-aws dynamodb create-table \
-  --table-name hibernate-terraform-locks \
-  --attribute-definitions AttributeName=LockID,AttributeType=S \
-  --key-schema AttributeName=LockID,KeyType=HASH \
-  --billing-mode PAY_PER_REQUEST \
-  --region us-east-2
 ```
 
 Repeat for the IBM account with bucket `hibernate-terraform-state-ibm` in `us-east-1`
 (omit `--create-bucket-configuration` for us-east-1).
+
+Locking uses S3-native lock files (`use_lockfile = true`), so no DynamoDB table is needed.
 
 ### AWS credentials
 

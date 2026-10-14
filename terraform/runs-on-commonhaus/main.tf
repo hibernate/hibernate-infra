@@ -5,7 +5,7 @@ terraform {
     bucket         = "hibernate-terraform-state-commonhaus"
     key            = "runs-on/terraform.tfstate"
     region         = "us-east-2"
-    dynamodb_table = "hibernate-terraform-locks"
+    use_lockfile = true
   }
 
   required_providers {
