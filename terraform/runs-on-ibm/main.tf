@@ -103,9 +103,8 @@ module "runs_on_fleet" {
 
   runners = {
     standard-x64 = {
-      cpu    = 2
-      ram    = 7
-      family = ["m7a", "m7i", "m6a", "m6i"]
+      cpu    = 4
+      family = ["m8a", "m8i", "m7a", "m7i", "m6a", "m6i"]
       image  = "ubuntu24-full-x64"
     }
   }
