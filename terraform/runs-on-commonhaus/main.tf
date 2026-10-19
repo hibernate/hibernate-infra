@@ -106,6 +106,7 @@ module "runs_on_fleet" {
       cpu    = 4
       family = ["m8a", "m8i", "m7a", "m7i", "m6a", "m6i"]
       image  = "ubuntu24-full-x64"
+      volume = "80gb"
     }
   }
 
