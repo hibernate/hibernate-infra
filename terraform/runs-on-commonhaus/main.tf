@@ -104,7 +104,8 @@ module "runs_on_fleet" {
   runners = {
     standard-x64 = {
       cpu    = 4
-      family = ["m8a", "m8i", "m7a", "m7i", "m6a", "m6i"]
+      # See "Choosing instance families" in the top-level README
+      family = ["m8i", "m7a", "m6a", "m5a", "r8a"]
       image  = "ubuntu24-full-x64"
       volume = "80gb"
     }
