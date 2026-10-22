@@ -245,11 +245,12 @@ The `ansible/` directory contains an Ansible playbook to set up the Hibernate in
 The Ansible playbook does not make extensive usage of variables as we don't expect to need that: feel free to take inspiration from these but don't expect this to be a general purpose framework to set up a CI environment.
 
 We prefer to make some assumptions and keep this simple;
-among others, we expect to run most machines on Fedora.
+among others, we expect to run CI machines on Fedora and the website on Amazon Linux.
 
-The websites and the Jenkins coordinator node will run on permanent instances on Amazon AWS,
-while most Jenkins worker nodes will run on AWS EC2 instances launched by the Jenkins AWS EC2 plugin,
-and some Jenkins worker nodes will be managed by partners.
+The website node runs on AWS Lightsail (Amazon Linux).
+The Jenkins coordinator node runs on a permanent EC2 instance,
+while most Jenkins worker nodes run on AWS EC2 instances launched by the Jenkins AWS EC2 plugin,
+and some Jenkins worker nodes are managed by partners.
 
 ### Running ansible
 
@@ -266,6 +267,7 @@ You will need to update the inventory file `ansible/hosts` to point to the serve
 Gather the public IP address or public DNS for each server,
 and paste it in the 'hosts' file in the appropriate section:
 
+- The address of the Lightsail website instance in `websites`
 - The address of the AWS Jenkins CI coordinator node in `jenkins-coordinator`
 - The address of the AWS Jenkins CI worker node in `jenkins-worker`
 - The address of the AWS Nexus proxy in `ci-nexus-proxy`
@@ -304,9 +306,21 @@ When only updating the worker nodes (which run on Fedora), it is recommended to 
 
 ### Setup of new nodes
 
-#### Preparations: AWS launch templates
+#### Preparations: SSH keys
 
-If your SSH key was never used to build the servers,
+##### Lightsail (website node)
+
+Lightsail does not support cloud-init user data scripts.
+When creating a Lightsail instance, select an SSH key pair in the Lightsail console
+(this provides initial access for one admin to run Ansible).
+The Ansible playbook then deploys all admin SSH keys from
+`ansible/roles/websites/files/ec2-user-authorized_keys` to the instance.
+To grant additional users SSH access, add their public keys to that file
+and re-run the Ansible playbook.
+
+##### EC2 (CI nodes)
+
+If your SSH key was never used to build the CI servers,
 you will need to add the public key to the `cloud-init` file at the root of this git repository.
 Then update the following launch templates owned by the `hibernate` organization on AWS accordingly,
 by setting the "user data" to the content of the `cloud-init` file:
@@ -320,36 +334,41 @@ You can use a different organization and launch templates of course, but we won'
 #### Boot the servers
 
 You should run:
-- 1 Fedora instance to host the websites:
-  - Start a Fedora instance on EC2.
+- 1 Amazon Linux instance on Lightsail to host the websites:
+  - Create an Amazon Linux instance in the Lightsail console.
+  - Attach a static IP in the Lightsail networking tab.
+  - Open ports 80 and 443 in the Lightsail firewall.
+  - Open port 22 for SSH (restrict to your IP range if possible).
 - 1 Fedora instance to host the Jenkins coordinator:
-  - Start it on AWS and use the `jenkins-ci-coordinator` launch template.
+  - Start it on AWS EC2 and use the `jenkins-ci-coordinator` launch template.
   - Don't forget to assign the `JenkinsCICoordinator` IAM Role to the new EC2 instance.
 - 1 Amazon Linux instance to host the Nexus proxy.
-  - Start it on AWS and use the `ci-nexus-proxy` launch template.
+  - Start it on AWS EC2 and use the `ci-nexus-proxy` launch template.
 - 1 Fedora instance to create an AMI for the various Jenkins worker nodes,
   which will then be used by the Jenkins AWS EC2 plugin to spawn workers on demand.
-  - Start it on AWS and use the `jenkins-ci-worker-ami-building` launch template.
+  - Start it on AWS EC2 and use the `jenkins-ci-worker-ami-building` launch template.
   - Note worker node instances are expected to provide an "instance storage" volume
     that the node will mount as `/mnt/workdir` and use for docker and jenkins data.
     Failing that, you're likely to see errors in your builds, e.g. "no space left on device".
 
-Boot them using the provided 'cloud-init' script.
-When booting machines from the UI, you can paste the content of 'cloud-init' into the "Customisation Script" section on the AWS console.
+Boot EC2 instances using the provided `cloud-init` script.
+When booting machines from the UI, you can paste the content of `cloud-init` into the "Customisation Script" section on the AWS console.
 
 #### Specifics of each node
 
-##### Websites
+##### Websites (Lightsail)
 
 You'll likely want to restore from a previous instance.
 This involves multiple steps, ansible is just one part of it.
 
 - Run the Ansible playbook (will fail in the Certbot step) -- see "Running ansible" above
+- SSH into the new instance with agent forwarding: `ssh -A ec2-user@<new-instance-ip>`
 - Sync with the previous instance using:
   ```
-  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.220:/etc/letsencrypt/ /etc/letsencrypt/`
-  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.220:/var/www/ /var/www/
-- Switchover the elastic IP
+  sudo --preserve-env=SSH_AUTH_SOCK rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh" <old-instance-host>:/etc/letsencrypt/ /etc/letsencrypt/
+  sudo --preserve-env=SSH_AUTH_SOCK rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh" <old-instance-host>:/var/www/ /var/www/
+  ```
+- Point the Lightsail static IP (or update DNS) to the new instance
 - Run the Ansible playbook again (for certbot)
 
 ##### Jenkins coordinator
