@@ -172,6 +172,39 @@ jobs:
       - run: echo "Hello from RunsOn Fleet"
 ```
 
+### Choosing instance families
+
+The `family` list in each runner definition controls which EC2 instance types
+RunsOn may launch as spot instances. When updating this list:
+
+1. **Minimum resources** — every type must meet or exceed GitHub standard runners
+   (4 vCPU, 16 GB RAM for `xlarge`). The `m` (general-purpose) and `r`
+   (memory-optimized) families qualify; `c` (compute-optimized) does not —
+   `c*.xlarge` only has 8 GB RAM. Avoid "flex" variants (`m7i-flex`, `c7i-flex`)
+   for I/O-heavy workloads: their EBS baseline bandwidth is roughly half that of
+   standard instances.
+
+2. **Spot interruption rate** — check the
+   [AWS Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/)
+   or its underlying data at
+   `https://spot-bid-advisor.s3.amazonaws.com/spot-advisor-data.json`
+   (field `r` maps to ranges: 0 = <5%, 1 = 5–10%, 2 = 10–15%, 3 = 15–20%,
+   4 = >20%). Prefer families at ≤10% in the fleet's region. Drop families
+   that climb above 15–20%.
+
+3. **Per-region lists** — interruption rates differ by region, so the family
+   lists for `runs-on-ibm` (us-east-1) and `runs-on-commonhaus` (us-east-2)
+   may diverge. Optimize each for its own region rather than forcing a single
+   shared list.
+
+4. **Pool diversity** — more families means more capacity pools for the spot
+   fleet, which reduces the chance of all pools being interrupted at once.
+   Four to six families is a reasonable target.
+
+The Spot Advisor only provides a rolling 30-day average — no long-term
+historical data is available. Rates shift over time, so re-check quarterly
+or after a spike in spot interruptions.
+
 ## Ansible
 
 The `ansible/` directory contains an Ansible playbook to set up the Hibernate infrastructure.
