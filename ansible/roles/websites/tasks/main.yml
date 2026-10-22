@@ -1,5 +1,12 @@
 ---
 
+# On Lightsail, cloud-init is not available to inject SSH keys at launch time.
+# Manage ec2-user authorized keys through Ansible instead.
+- name: Ensure /home/ec2-user/.ssh exists
+  file: path=/home/ec2-user/.ssh state=directory mode=0700 owner=ec2-user group=ec2-user
+- name: Authorize SSH keys for admin access
+  copy: src=ec2-user-authorized_keys dest=/home/ec2-user/.ssh/authorized_keys mode=0600 owner=ec2-user group=ec2-user
+
 - name: Create jenkins group for CI jobs to publish the website
   group: name=jenkins state=present gid=1001
 - name: Create jenkins user for CI jobs to publish the website
@@ -10,6 +17,11 @@
   copy: src=authorized_keys dest=/home/jenkins/.ssh/authorized_keys mode=0600 owner=jenkins group=jenkins
   tags:
     - jenkins
+
+- name: Enable EPEL repository (needed for certbot-dns-cloudflare on Amazon Linux)
+  dnf:
+    name: 'epel-release'
+    state: present
 
 - name: Install the latest version of Apache HTTPD, certbot using dnf
   dnf:
@@ -27,13 +39,6 @@
   when: not certbot_cloudflare_config.stat.exists
 - name: Fix permissions of the certbot-cloudflare.ini config file
   file: path=/etc/letsencrypt/certbot-cloudflare.ini owner=root group=root mode=0600
-
-  # Necessary for reverse proxies
-- name: Allow HTTPD to open connections
-  ansible.posix.seboolean:
-    name: httpd_can_network_connect
-    state: yes
-    persistent: yes
 
 - name: Make sure the example welcome page from HTTPD is removed
   file: path=/etc/httpd/conf.d/{{ item }} state=absent
