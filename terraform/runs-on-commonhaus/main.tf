@@ -88,7 +88,7 @@ resource "github_actions_runner_group" "runs_on" {
 
 module "runs_on_fleet" {
   source  = "runs-on/runs-on/aws//modules/fleet"
-  version = "v3.4.0"
+  version = "v3.5.0"
 
   stack_name  = "runs-on-commonhaus-hibernate"
   license_key = data.aws_secretsmanager_secret_version.license_key.secret_string
