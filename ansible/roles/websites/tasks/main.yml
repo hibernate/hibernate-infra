@@ -1,5 +1,12 @@
 ---
 
+# On Lightsail, cloud-init is not available to inject SSH keys at launch time.
+# Manage ec2-user authorized keys through Ansible instead.
+- name: Ensure /home/ec2-user/.ssh exists
+  file: path=/home/ec2-user/.ssh state=directory mode=0700 owner=ec2-user group=ec2-user
+- name: Authorize SSH keys for admin access
+  copy: src=ec2-user-authorized_keys dest=/home/ec2-user/.ssh/authorized_keys mode=0600 owner=ec2-user group=ec2-user
+
 - name: Create jenkins group for CI jobs to publish the website
   group: name=jenkins state=present gid=1001
 - name: Create jenkins user for CI jobs to publish the website
@@ -11,9 +18,14 @@
   tags:
     - jenkins
 
-- name: Install the latest version of Apache HTTPD, certbot using dnf
+- name: Install Apache HTTPD, pip, augeas and crontabs using dnf
   dnf:
-    name: ['httpd', 'mod_ssl', 'certbot', 'certbot-apache', 'python3-certbot-dns-cloudflare', 'crontabs']
+    name: ['httpd', 'mod_ssl', 'python3-pip', 'python3-augeas', 'cronie', 'crontabs']
+    state: latest
+
+- name: Install certbot and plugins using pip
+  pip:
+    name: ['certbot', 'certbot-apache', 'certbot-dns-cloudflare']
     state: latest
 
 # https://certbot-dns-cloudflare.readthedocs.io/en/stable/
@@ -27,13 +39,6 @@
   when: not certbot_cloudflare_config.stat.exists
 - name: Fix permissions of the certbot-cloudflare.ini config file
   file: path=/etc/letsencrypt/certbot-cloudflare.ini owner=root group=root mode=0600
-
-  # Necessary for reverse proxies
-- name: Allow HTTPD to open connections
-  ansible.posix.seboolean:
-    name: httpd_can_network_connect
-    state: yes
-    persistent: yes
 
 - name: Make sure the example welcome page from HTTPD is removed
   file: path=/etc/httpd/conf.d/{{ item }} state=absent
@@ -126,7 +131,7 @@
     name: "Renew let's encrypt certificates"
     minute: "0"
     hour: "0,12"
-    job: "python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew"
+    job: "python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew"
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=started

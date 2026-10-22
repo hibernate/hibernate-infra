@@ -11,6 +11,16 @@
   tags:
     - journald
 
+- name: Replace curl-minimal with curl (Amazon Linux ships curl-minimal, which conflicts)
+  shell: dnf swap -y curl-minimal curl
+  args:
+    removes: /usr/bin/curl
+  register: curl_swap
+  changed_when: "'Nothing to do' not in curl_swap.stdout"
+  failed_when: curl_swap.rc != 0 and 'No match for argument' not in curl_swap.stderr
+  tags:
+    - extra-packages
+
 - name: Extra packages for convenience
   dnf:
     name: ['wget', 'jq', 'sed', 'curl', 'unzip', 'vim']

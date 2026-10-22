@@ -32,7 +32,6 @@
   become: yes
   roles:
     - common
-    - aws
     - websites
 
 - hosts: ci-nexus-proxy
