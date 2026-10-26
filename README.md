@@ -157,6 +157,35 @@ After `terraform apply` succeeds, verify the deployment:
    workflow's `runs-on` label matches the fleet name exactly, and that the
    repository is visible to the runner group.
 
+### Troubleshooting queued jobs
+
+When GitHub Actions jobs stay queued instead of starting, check the fleet's
+CloudWatch logs in the fleet's region (`us-east-2` for CommonHaus, `us-east-1`
+for IBM). Filter for `Fleet capacity plan evaluated` and
+`Completed fleet launch batch` events. The key fields to look at:
+
+| Symptom | Where to look | Likely cause |
+|---|---|---|
+| `launch_backoff=true`, `planned_launch_count=0` | `Fleet capacity plan evaluated` log | A previous launch got zero fulfillment from EC2; the fleet is waiting before retrying. Check the preceding `Completed fleet launch batch` for the root cause. |
+| `fleet_unfulfilled_count` > 0 in launch batch | `Completed fleet launch batch` log | EC2 could not place instances. Usually Spot capacity exhaustion in the configured families, or a vCPU quota cap (see below). |
+| Spot vCPU quota at 100% on the [Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ec2/quotas/) | Search for **"All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests"** | The account's Spot vCPU limit is too low. Request an increase (self-service, usually instant). 128 vCPUs (up to 32 concurrent 4-vCPU runners) is a reasonable starting point. |
+| Quota _not_ hit, but launches still unfulfilled | Spot Advisor or `spot-advisor-data.json` | Spot capacity exhausted for the configured instance families. Widen the `family` list with low-interruption alternatives (see "Choosing instance families" below). |
+| `RequestLimitExceeded` in logs | CloudWatch logs | EC2 API rate limit hit. Check the rate-limiter gauges on the CloudWatch dashboard. If RunsOn's internal pacing is the bottleneck, raise `app_size`; if AWS itself is throttling, request higher EC2 API rate limits via an [AWS Support case](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/throttling.html#throttling-increase). |
+| Jobs running on-demand unexpectedly | SNS alerts, CloudWatch logs | Spot circuit breaker tripped after repeated interruptions, or `MaxSpotInstanceCountExceeded`. Check and raise the Spot vCPU quota. |
+
+Two OpenTelemetry metrics help isolate the bottleneck (visible on the
+CloudWatch dashboard created by the RunsOn stack — find it under
+**CloudWatch > Dashboards** and search for the stack name, e.g.
+`runs-on-commonhaus-hibernate`):
+
+- **`runs_on_internal_queue_duration_seconds`** — time until RunsOn starts
+  placing the job. This is the part `app_size` controls (worker concurrency).
+- **`runs_on_overall_queue_duration_seconds`** — time until the job actually
+  runs (includes EC2 launch, boot, runner registration).
+
+If overall duration rises while internal duration stays flat, the bottleneck is
+EC2 capacity or boot/registration — not worker concurrency.
+
 ### Workflow usage
 
 Once deployed, use the fleets in GitHub Actions workflows:
@@ -178,11 +207,15 @@ The `family` list in each runner definition controls which EC2 instance types
 RunsOn may launch as spot instances. When updating this list:
 
 1. **Minimum resources** — every type must meet or exceed GitHub standard runners
-   (4 vCPU, 16 GB RAM for `xlarge`). The `m` (general-purpose) and `r`
-   (memory-optimized) families qualify; `c` (compute-optimized) does not —
-   `c*.xlarge` only has 8 GB RAM. Avoid "flex" variants (`m7i-flex`, `c7i-flex`)
-   for I/O-heavy workloads: their EBS baseline bandwidth is roughly half that of
-   standard instances.
+   (4 vCPU, 16 GB RAM). The `m` (general-purpose) and `r` (memory-optimized)
+   families meet this at `xlarge` (4 vCPU). The `c` (compute-optimized) family
+   only has 8 GB RAM at `xlarge`, but qualifies at `2xlarge` (8 vCPU, 16 GB).
+   To include `c` families, use CPU and RAM ranges in the runner spec (e.g.
+   `cpu = [4, 8]`, `ram = 16`) so RunsOn can select both `m*.xlarge`
+   and `c*.2xlarge`. Check interruption rates for both sizes when adding
+   families — `2xlarge` rates often differ from `xlarge`.
+   Avoid "flex" variants (`m7i-flex`, `c7i-flex`) for I/O-heavy workloads:
+   their EBS baseline bandwidth is roughly half that of standard instances.
 
 2. **Spot interruption rate** — check the
    [AWS Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/)
