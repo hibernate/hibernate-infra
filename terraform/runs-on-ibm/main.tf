@@ -109,11 +109,20 @@ module "runs_on_fleet" {
       image  = "ubuntu24-full-x64"
       volume = "80gb"
     }
+    nvme-x64 = {
+      cpu    = 4
+      family = ["m8id", "m6id"]
+      image  = "ubuntu24-full-x64"
+    }
   }
 
   fleets = {
     linux-standard = {
       runner       = "standard-x64"
+      runner_group = github_actions_runner_group.runs_on.name
+    }
+    linux-nvme = {
+      runner       = "nvme-x64"
       runner_group = github_actions_runner_group.runs_on.name
     }
   }
