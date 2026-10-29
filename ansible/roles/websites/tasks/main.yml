@@ -102,25 +102,17 @@
   notify:
     - Restart Apache HTTPD
 
-- name: Obtain certificates using Let's Encrypt (non-wildcards)
-  shell: sudo certbot certonly -m admin+websites@hibernate.org --agree-tos --apache -d {{ item }}
-  args:
-    creates: /etc/letsencrypt/live/{{ item }}
-  loop:
-    - "relation.to"
-    - "staging.in.relation.to"
-    - "hibernate.org"
-    - "hibernate.asia"
-    - "hibernate.cn"
-  notify:
-    - Restart Apache HTTPD
-
 # https://certbot-dns-cloudflare.readthedocs.io/en/stable/
-- name: Obtain certificates using Let's Encrypt (wildcards)
+- name: Obtain certificates using Let's Encrypt
   shell: sudo certbot certonly -m admin+websites@hibernate.org --agree-tos --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/certbot-cloudflare.ini -d {{ item.name }}
   args:
-    creates: /etc/letsencrypt/live/{{ item.certificate }}
+    creates: /etc/letsencrypt/live/{{ item.certificate | default(item.name) }}
   loop:
+    - { name: "relation.to" }
+    - { name: "staging.in.relation.to" }
+    - { name: "hibernate.org" }
+    - { name: "hibernate.asia" }
+    - { name: "hibernate.cn" }
     - { name: "\\*.relation.to", certificate: "relation.to-0001" }
     - { name: "\\*.hibernate.org", certificate: "hibernate.org-0001" }
   notify:
