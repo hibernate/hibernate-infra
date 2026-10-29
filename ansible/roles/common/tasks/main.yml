@@ -28,6 +28,21 @@
   tags:
     - extra-packages
 
+- name: Check for Amazon Linux release upgrade
+  shell: dnf check-release-update 2>&1
+  register: release_update_check
+  changed_when: false
+  failed_when: false
+
+- name: WARN if an Amazon Linux release upgrade is available
+  fail:
+    msg: >-
+      A newer Amazon Linux release is available!
+      {{ release_update_check.stdout }}
+      Run manually: dnf upgrade --releasever=<version>
+  when: "'newer release' in release_update_check.stdout"
+  ignore_errors: true
+
 # Update and install packages, using dnf
 - name: Install all package upgrades using dnf
   dnf:
