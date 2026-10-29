@@ -5,3 +5,11 @@
 
 - name: Restart journald
   service: name=systemd-journald enabled=yes state=restarted
+
+- name: Warn about Amazon Linux release upgrade
+  pause:
+    prompt: >-
+      WARNING: A newer Amazon Linux release is available!
+      {{ release_update_check.stdout }}
+      Run manually: dnf upgrade --releasever=<version>.
+      Press Enter to continue.
