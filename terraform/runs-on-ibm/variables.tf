@@ -23,3 +23,8 @@ variable "github_app_private_key_secret_name" {
   type    = string
   default = "runs-on/github-app-private-key"
 }
+
+variable "uptycs_tags_secret_name" {
+  type      = string
+  default = "runs-on/uptycs-tags"
+}
