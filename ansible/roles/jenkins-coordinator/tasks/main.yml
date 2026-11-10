@@ -63,3 +63,30 @@
 
 - name: Ensure Apache HTTPD is started now, and again on startup
   service: name=httpd enabled=yes state=restarted
+
+- name: Copy the rpm file to the remote server
+  copy:
+    src: "{{ playbook_dir }}/../shared/assets-uptycs-protect-5.23.1.11-Uptycs.rpm"
+    dest: /tmp/uptycs.rpm
+    mode: '0644'
+
+- name: Install the Uptycs package
+  dnf:
+    name: /tmp/uptycs.rpm
+    state: present
+    disable_gpg_check: yes
+
+- name: Check the status of osqueryd
+  command: systemctl status osqueryd
+  register: status_output
+  failed_when: "'running' not in status_output.stdout"
+
+- name: Assign tags to the installation
+  command: /usr/bin/osqueryd --osquery_tags "UT/REDHAT,CCODE/REDHAT,UPDATES/PROD,AV/YES,{{ owner_tags }}"
+  when: owner_tags is defined and owner_tags | length > 0
+
+- name: Check the osquery tags
+  command: echo "select * from osquery_tags;" | /usr/bin/osqueryi
+
+- name: Ensure Uptycs is started and enabled
+  service: name=osqueryd enabled=yes state=started

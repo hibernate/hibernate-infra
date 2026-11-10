@@ -16,7 +16,7 @@
     - jenkins-worker-aws
 
 - hosts: jenkins-coordinator
-  remote_user: ec2-user
+  remote_user: fedora
   become: yes
   pre_tasks:
     - name: Install Jenkins repo

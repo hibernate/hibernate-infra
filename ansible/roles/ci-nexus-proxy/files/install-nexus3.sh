@@ -1,10 +1,7 @@
 #!/bin/bash -e
 
-NEXUS_DOWNLOAD_URL=https://download.sonatype.com/nexus/3/nexus-3.76.1-01-unix.tar.gz
-NEXUS_DOWNLOAD_SHA256_HASH=e6a68b903a445fc6b923a2ea922accb336e659a838099f2efb08e382332ff8f1
-
-JDK_DOWNLOAD_URL=https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.9%2B9/OpenJDK17U-jdk_x64_linux_hotspot_17.0.9_9.tar.gz
-JDK_DOWNLOAD_SHA256_HASH=7b175dbe0d6e3c9c23b6ed96449b018308d8fc94a5ecd9c0df8b8bc376c3c18a
+NEXUS_DOWNLOAD_URL=https://download.sonatype.com/nexus/3/nexus-3.98.1-01-linux-x86_64.tar.gz
+NEXUS_DOWNLOAD_SHA256_HASH=a8b204c50708729492380697c1d64f342281468ddfd96e1ab199de86a478e768
 
 download_and_unpack() {
   DOWNLOAD_URL=$1
@@ -44,7 +41,7 @@ export SONATYPE_DIR=$1
 export NEXUS_HOME="$SONATYPE_DIR/nexus"
 export NEXUS_DATA="$SONATYPE_DIR/nexus-data"
 export SONATYPE_WORK="$SONATYPE_DIR/sonatype-work/nexus3"
-export INSTALL4J_JAVA_HOME="$SONATYPE_DIR/jdk"
+export INSTALL4J_JAVA_HOME="/usr/lib/jvm/java-21-temurin-jdk"
 
 if [ -d "$NEXUS_HOME" ]; then
   echo "Nexus already installed. Skipping..."
@@ -53,12 +50,6 @@ else
   #  echo "run_as_user=\"fedora\"" > "$NEXUS_HOME/bin/nexus.rc"
   sed -i "s?^# INSTALL4J_JAVA_HOME_OVERRIDE=?INSTALL4J_JAVA_HOME_OVERRIDE=$INSTALL4J_JAVA_HOME?" "$NEXUS_HOME/bin/nexus"
   sed -i 's/^-Xms.*/-Xms4096m/;s/^-Xmx.*/-Xmx4096m/;s/^-XX:MaxDirectMemorySize.*/-XX:MaxDirectMemorySize=4096m/' "$NEXUS_HOME/bin/nexus.vmoptions"
-fi
-
-if [ -d "$INSTALL4J_JAVA_HOME" ]; then
-  echo "JDK already installed. Skipping..."
-else
-  download_and_unpack "$JDK_DOWNLOAD_URL" "jdk.tar.gz" "$JDK_DOWNLOAD_SHA256_HASH" "$INSTALL4J_JAVA_HOME"
 fi
 
 #####################################################################

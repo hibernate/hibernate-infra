@@ -379,14 +379,14 @@ This involves multiple steps, ansible is just one part of it.
 - Run the Ansible playbook (will fail in the Certbot step) -- see "Running ansible" above
 - Sync with the previous instance using:
   ```
-  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/home/jenkins/ /home/jenkins/
-  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/var/lib/jenkins/ /var/lib/jenkins/
-  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/etc/letsencrypt/ /etc/letsencrypt/
+  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" fedora@172.30.1.79:/home/jenkins/ /home/jenkins/
+  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" fedora@172.30.1.79:/var/lib/jenkins/ /var/lib/jenkins/
+  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" fedora@172.30.1.79:/etc/letsencrypt/ /etc/letsencrypt/
   ```
 - On old and new, run ` sudo systemctl stop jenkins`
 - Sync with the previous instance using:
   ```
-  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" ec2-user@172.30.1.65:/var/lib/jenkins/ /var/lib/jenkins/
+  sudo rsync -avz --rsync-path="sudo rsync" --mkpath --delete --progress --verbose -e "ssh -i /home/fedora/.ssh/id_ed25519" fedora@172.30.1.79:/var/lib/jenkins/ /var/lib/jenkins/
   ```
 - Switchover the elastic IP
 - Run `sudo systemctl start jenkins`
@@ -415,6 +415,13 @@ or:
 ```shell
 cd ansible
 ansible-playbook -i hosts site.yml --limit websites
+```
+
+Initially, you might want to run the following command to inject the Uptycs configuration:
+
+```shell
+cd ansible
+ansible-playbook -i hosts site.yml --limit jenkins-coordinator --extra-vars "owner_tags='OWNER/IBM_TALENT_ID1,OWNER/IBM_TALENT_ID2'"
 ```
 
 #### Making changes to the Jenkins worker nodes

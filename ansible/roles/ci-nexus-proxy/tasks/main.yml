@@ -1,5 +1,23 @@
 ---
 
+- name: Add Adoptium GPG key
+  rpm_key:
+    key: https://packages.adoptium.net/artifactory/api/gpg/key/public
+    state: present
+
+- name: Add Adoptium repository
+  yum_repository:
+    name: Adoptium
+    description: Adoptium
+    baseurl: https://packages.adoptium.net/artifactory/rpm/fedora/$releasever/$basearch
+    gpgcheck: yes
+    gpgkey: https://packages.adoptium.net/artifactory/api/gpg/key/public
+
+- name: Install Temurin JDK 21 (Sonatype Nexus only supports Java 21)
+  dnf:
+    name: ['temurin-21-jdk']
+    state: present
+
 - name: Copy the installation script for nexus-proxy
   copy: src=install-nexus3.sh dest=/home/fedora/install-nexus3.sh owner=fedora group=fedora mode=0740
 
@@ -18,3 +36,30 @@
 
 - name: Ensure nexus-proxy is started now, and again on startup
   systemd: name=nexus-proxy enabled=yes state=started
+
+- name: Copy the rpm file to the remote server
+  copy:
+    src: "{{ playbook_dir }}/../shared/assets-uptycs-protect-5.23.1.11-Uptycs.rpm"
+    dest: /tmp/uptycs.rpm
+    mode: '0644'
+
+- name: Install the Uptycs package
+  dnf:
+    name: /tmp/uptycs.rpm
+    state: present
+    disable_gpg_check: yes
+
+- name: Check the status of osqueryd
+  command: systemctl status osqueryd
+  register: status_output
+  failed_when: "'running' not in status_output.stdout"
+
+- name: Assign tags to the installation
+  command: /usr/bin/osqueryd --osquery_tags "UT/REDHAT,CCODE/REDHAT,UPDATES/PROD,AV/YES,{{ owner_tags }}"
+  when: owner_tags is defined and owner_tags | length > 0
+
+- name: Check the osquery tags
+  command: echo "select * from osquery_tags;" | /usr/bin/osqueryi
+
+- name: Ensure Uptycs is started and enabled
+  service: name=osqueryd enabled=yes state=started
