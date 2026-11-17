@@ -1,0 +1,9 @@
+---
+
+# Owner tags assigned to the Uptycs installation, e.g. "OWNER/IBM_TALENT_ID1,OWNER/IBM_TALENT_ID2".
+# When empty, the tags of the existing installation are left untouched.
+owner_tags: ""
+
+# Value of the UPDATES/* Uptycs tag.
+# See https://pages.github.ibm.com/CISO-Platform-Network-Defense/Uptycs-Documentation/Onboarding/Tagging/
+uptycs_updates_tag: "PROD"

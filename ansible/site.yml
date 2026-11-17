@@ -14,6 +14,8 @@
     - jenkins-common
     - jenkins-worker
     - jenkins-worker-aws
+    - role: uptycs
+      uptycs_updates_tag: "NONE"
 
 - hosts: jenkins-coordinator
   remote_user: fedora
@@ -26,6 +28,7 @@
     - aws
     - jenkins-common
     - jenkins-coordinator
+    - uptycs
 
 - hosts: websites
   remote_user: ec2-user
@@ -42,3 +45,4 @@
     - aws
     - instance-storage
     - ci-nexus-proxy
+    - uptycs
