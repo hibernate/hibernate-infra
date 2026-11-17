@@ -1,0 +1,6 @@
+---
+# Where to look, on the Ansible controller, for the Uptycs EDR package,
+# and which filenames to consider. See ../shared/README.md for how to retrieve the package.
+# When no file matches, Uptycs install/upgrade tasks are skipped.
+uptycs_rpm_dir: "{{ playbook_dir }}/../shared"
+uptycs_rpm_pattern: "*uptycs*.rpm"

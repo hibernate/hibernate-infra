@@ -1,0 +1,64 @@
+---
+
+- name: Check whether Uptycs is already installed
+  stat:
+    path: /usr/bin/osqueryd
+  register: uptycs_osqueryd
+
+- name: Look for an Uptycs rpm file on the Ansible controller
+  find:
+    paths: "{{ uptycs_rpm_dir }}"
+    patterns: "{{ uptycs_rpm_pattern }}"
+  delegate_to: localhost
+  become: false
+  register: uptycs_rpm
+
+- name: Fail if several Uptycs rpm files are available
+  fail:
+    msg: >-
+      Several files matching {{ uptycs_rpm_pattern }} were found in {{ uptycs_rpm_dir }}:
+      {{ uptycs_rpm.files | map(attribute='path') | map('basename') | sort | join(', ') }}.
+      Keep only the version you want to install.
+  when: uptycs_rpm.matched > 1
+
+- name: Warn that Uptycs cannot be installed
+  debug:
+    msg: >-
+      Skipping Uptycs: it is not installed on this host, and no file matching
+      {{ uptycs_rpm_pattern }} was found in {{ uptycs_rpm_dir }} on the Ansible controller.
+      See shared/README.md.
+  when: not uptycs_osqueryd.stat.exists and uptycs_rpm.matched == 0
+
+- name: Install and configure Uptycs
+  when: uptycs_osqueryd.stat.exists or uptycs_rpm.matched == 1
+  block:
+    - name: Copy the rpm file to the remote server
+      copy:
+        src: "{{ uptycs_rpm.files[0].path }}"
+        dest: /tmp/uptycs.rpm
+        mode: '0644'
+      when: uptycs_rpm.matched == 1
+
+    - name: Install the Uptycs package
+      dnf:
+        name: /tmp/uptycs.rpm
+        state: present
+        disable_gpg_check: yes
+      when: uptycs_rpm.matched == 1
+
+    - name: Check the status of osqueryd
+      command: systemctl status osqueryd
+      register: status_output
+      failed_when: "'running' not in status_output.stdout"
+
+    - name: Assign tags to the installation
+      command: >-
+        /usr/bin/osqueryd --osquery_tags
+        "UT/REDHAT,CCODE/REDHAT,UPDATES/{{ uptycs_updates_tag }},AV/YES,{{ owner_tags }}"
+      when: owner_tags | length > 0
+
+    - name: Check the osquery tags
+      command: echo "select * from osquery_tags;" | /usr/bin/osqueryi
+
+    - name: Ensure Uptycs is started and enabled
+      service: name=osqueryd enabled=yes state=started
